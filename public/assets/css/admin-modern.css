@@ -2,9 +2,9 @@
 
 /* CSS Variables for Dynamic Theming */
 :root {
-    --primary-color: #3b82f6;
-    --primary-dark: #1e40af;
-    --primary-light: #dbeafe;
+    --primary-color: #6000C0;
+    --primary-dark: #4A0099;
+    --primary-light: #E6D9FF;
     
     --background: #f8fafc;
     --background-card: #ffffff;
@@ -209,7 +209,7 @@
 .form-input:focus {
     outline: none;
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    box-shadow: 0 0 0 3px rgba(96, 0, 192, 0.1);
 }
 
 .form-label {
@@ -302,15 +302,15 @@
 }
 
 .alert-info {
-    background-color: #eff6ff;
-    border-color: #bfdbfe;
-    color: #2563eb;
+    background-color: #F5F0FF;
+    border-color: #D4C5FF;
+    color: #6000C0;
 }
 
 .dark .alert-info {
-    background-color: rgba(59, 130, 246, 0.1);
-    border-color: rgba(59, 130, 246, 0.2);
-    color: #60a5fa;
+    background-color: rgba(96, 0, 192, 0.1);
+    border-color: rgba(96, 0, 192, 0.2);
+    color: #B68AFF;
 }
 
 /* Loading States */

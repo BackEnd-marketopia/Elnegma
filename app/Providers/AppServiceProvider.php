@@ -21,7 +21,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Paginator::useBootstrap();
+        Paginator::useTailwind();
 
         Response::macro('api', function ($message, $statusCode = 200, $status = true, $errorNum = null, $data = null) {
             $responseData = [

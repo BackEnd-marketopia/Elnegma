@@ -1,103 +1,591 @@
 @extends('admin.layouts.app')
 @section('title', 'Add User')
+@section('page-title', __('message.Add User'))
+@section('breadcrumb')
+    <span class="text-primary-600 dark:text-primary-400">{{ __('Admin') }}</span>
+    <span class="mx-2">/</span>
+    <a href="{{ route('admin.users.index') }}" class="text-primary-600 dark:text-primary-400 hover:underline">{{ __('message.Users') }}</a>
+    <span class="mx-2">/</span>
+    <span>{{ __('message.Add User') }}</span>
+@endsection
 
 @section('content')
-    <div class="container">
-        <div class="page-inner">
-            <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
-                <div>
-                    <h3 class="fw-bold mb-3">{{ __('message.Add User') }}</h3>
+<div class="space-y-6 animate-fadeInUp">
+    <!-- Header Section -->
+    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-4 lg:space-y-0">
+        <div>
+            <h1 class="text-2xl font-bold text-gray-900 dark:text-white">
+                {{ __('message.Add User') }}
+            </h1>
+            <p class="text-gray-600 dark:text-gray-400 mt-1">
+                {{ __('Create a new user account') }}
+            </p>
+        </div>
+        <div class="flex items-center gap-3">
+            <button type="button" 
+                    class="btn btn-primary" 
+                    id="addCode"
+                    data-bs-toggle="modal" 
+                    data-bs-target="#addCodeModal">
+                <i class="fas fa-plus mr-2 rtl:ml-2 rtl:mr-0"></i>
+                {{ __('message.Add Code') }}
+            </button>
+        </div>
+    </div>
+
+    <!-- User Form Card -->
+    <div class="card-modern">
+        <div class="p-6 border-b border-gray-200 dark:border-gray-700">
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                {{ __('User Information') }}
+            </h3>
+        </div>
+        
+        <form action="{{ route('admin.users.store') }}" method="POST" enctype="multipart/form-data" class="p-6">
+            @csrf
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Name Field -->
+                <div class="form-group">
+                    <label for="name" class="form-label">{{ __('message.Name') }} <span class="text-red-500">*</span></label>
+                    <input type="text" 
+                           id="name" 
+                           name="name" 
+                           class="form-input {{ $errors->has('name') ? 'border-red-500' : '' }}" 
+                           value="{{ old('name') }}" 
+                           required>
+                    @if ($errors->has('name'))
+                        <p class="text-red-500 text-sm mt-1">{{ $errors->first('name') }}</p>
+                    @endif
+                </div>
+
+                <!-- Email Field -->
+                <div class="form-group">
+                    <label for="email" class="form-label">{{ __('message.Email') }}</label>
+                    <input type="email" 
+                           id="email" 
+                           name="email" 
+                           class="form-input {{ $errors->has('email') ? 'border-red-500' : '' }}" 
+                           value="{{ old('email') }}">
+                    @if ($errors->has('email'))
+                        <p class="text-red-500 text-sm mt-1">{{ $errors->first('email') }}</p>
+                    @endif
+                </div>
+
+                <!-- Phone Field -->
+                <div class="form-group">
+                    <label for="phone" class="form-label">{{ __('message.Phone') }} <span class="text-red-500">*</span></label>
+                    <input type="text" 
+                           id="phone" 
+                           name="phone" 
+                           class="form-input {{ $errors->has('phone') ? 'border-red-500' : '' }}" 
+                           value="{{ old('phone') }}" 
+                           required>
+                    @if ($errors->has('phone'))
+                        <p class="text-red-500 text-sm mt-1">{{ $errors->first('phone') }}</p>
+                    @endif
+                </div>
+
+                <!-- Profile Image Field -->
+                <div class="form-group">
+                    <label for="image" class="form-label">{{ __('message.Profile Image') }}</label>
+                    <input type="file" 
+                           id="image" 
+                           name="image" 
+                           class="form-input {{ $errors->has('image') ? 'border-red-500' : '' }}" 
+                           accept="image/*">
+                    @if ($errors->has('image'))
+                        <p class="text-red-500 text-sm mt-1">{{ $errors->first('image') }}</p>
+                    @endif
+                </div>
+
+                <!-- Password Field -->
+                <div class="form-group">
+                    <label for="password" class="form-label">{{ __('message.Password') }}</label>
+                    <div class="relative">
+                        <input type="password" 
+                               id="password" 
+                               name="password" 
+                               class="form-input pr-10 {{ $errors->has('password') ? 'border-red-500' : '' }}">
+                        <button type="button" 
+                                class="absolute inset-y-0 right-0 pr-3 flex items-center" 
+                                onclick="togglePassword('password')">
+                            <i id="password-eye" class="fas fa-eye text-gray-400 hover:text-primary-600"></i>
+                        </button>
+                    </div>
+                    @if ($errors->has('password'))
+                        <p class="text-red-500 text-sm mt-1">{{ $errors->first('password') }}</p>
+                    @endif
+                </div>
+
+                <!-- Confirm Password Field -->
+                <div class="form-group">
+                    <label for="password_confirmation" class="form-label">{{ __('message.Confirm Password') }}</label>
+                    <div class="relative">
+                        <input type="password" 
+                               id="password_confirmation" 
+                               name="password_confirmation" 
+                               class="form-input pr-10 {{ $errors->has('password_confirmation') ? 'border-red-500' : '' }}">
+                        <button type="button" 
+                                class="absolute inset-y-0 right-0 pr-3 flex items-center" 
+                                onclick="togglePassword('password_confirmation')">
+                            <i id="password_confirmation-eye" class="fas fa-eye text-gray-400 hover:text-primary-600"></i>
+                        </button>
+                    </div>
+                    @if ($errors->has('password_confirmation'))
+                        <p class="text-red-500 text-sm mt-1">{{ $errors->first('password_confirmation') }}</p>
+                    @endif
+                </div>
+
+                <!-- City Field -->
+                <div class="form-group md:col-span-2">
+                    <label for="city_id" class="form-label">{{ __('message.City') }} <span class="text-red-500">*</span></label>
+                    <select id="city_id" 
+                            name="city_id" 
+                            class="form-input {{ $errors->has('city_id') ? 'border-red-500' : '' }}" 
+                            required>
+                        <option value="">{{ __('message.Select City') }}</option>
+                        @foreach($cities as $city)
+                            <option value="{{ $city->id }}" {{ old('city_id') == $city->id ? 'selected' : '' }}>
+                                @if(app()->getLocale() == 'ar')
+                                    {{ $city->name_arabic }}
+                                @else
+                                    {{ $city->name_english }}
+                                @endif
+                            </option>
+                        @endforeach
+                    </select>
+                    @if ($errors->has('city_id'))
+                        <p class="text-red-500 text-sm mt-1">{{ $errors->first('city_id') }}</p>
+                    @endif
                 </div>
             </div>
-            <form action="{{ route('admin.users.store') }}" method="POST" enctype="multipart/form-data">
-                @csrf
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="col-md-12">
-                            <div class="form-group d-flex justify-content-end">
-                                <button type="button" class="btn" id="addCode"
-                                    style="background-color: white; color: #BC3726; border: 1px solid #BC3726;"
-                                    onmouseover="this.style.backgroundColor='#BC3726'; this.style.color='#F5F7FD';"
-                                    onmouseout="this.style.backgroundColor='white'; this.style.color='#BC3726';"
-                                    data-bs-toggle="modal" data-bs-target="#addCodeModal">
-                                    {{ __('message.Add Code') }}
-                                </button>
 
-                            </div>
+            <!-- Form Actions -->
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save mr-2 rtl:ml-2 rtl:mr-0"></i>
+                    {{ __('message.Add') }}
+                </button>
+                <a href="{{ route('admin.users.index') }}" class="btn btn-secondary">
+                    <i class="fas fa-times mr-2 rtl:ml-2 rtl:mr-0"></i>
+                    {{ __('Cancel') }}
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Code Generation Modal -->
+<div class="modal fade" id="addCodeModal" tabindex="-1" aria-labelledby="addCodeModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-gray-900 dark:text-white" id="addCodeModalLabel">
+                    {{ __('message.Add Code') }}
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="space-y-4">
+                    <!-- One Year Checkbox -->
+                    <div class="flex items-center">
+                        <input type="checkbox" 
+                               id="oneYearCheckbox" 
+                               name="one_year" 
+                               value="1"
+                               class="w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                        <label for="oneYearCheckbox" class="ml-2 rtl:mr-2 rtl:ml-0 text-sm font-medium text-gray-900 dark:text-gray-300">
+                            {{ __('message.Valid for 1 Year') }}
+                        </label>
+                    </div>
+
+                    <!-- Date Fields -->
+                    <div id="dateFields" class="space-y-4">
+                        <div>
+                            <label for="start_date" class="form-label">{{ __('message.Start Date') }}</label>
+                            <input type="date" 
+                                   id="start_date" 
+                                   name="start_date" 
+                                   class="form-input">
                         </div>
+                        <div>
+                            <label for="end_date" class="form-label">{{ __('message.End Date') }}</label>
+                            <input type="date" 
+                                   id="end_date" 
+                                   name="end_date" 
+                                   class="form-input">
+                        </div>
+                    </div>
 
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="row">
+                    <!-- Validation Error -->
+                    <div id="validationError" class="alert-error hidden">
+                        {{ __('message.Please select an option') }}
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    {{ __('Cancel') }}
+                </button>
+                <button type="button" class="btn btn-primary" id="checkCodes">
+                    {{ __('message.Add') }}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 
-                                    {{-- <div class="col-md-3">
-                                        <div class="avatar avatar-xl">
-                                            <img src="{{ asset(auth('web')->user()->image ? auth('web')->user()->image : 'assets/img/profile.jpg') }}" alt="..."
-                                                class="avatar-img rounded-circle">
-                                        </div>
-                                    </div> --}}
-                                    <div class="col-md-12">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div
-                                                    class="form-group
-                                                                                                                                                                                                                                                                                                {{ $errors->has('name') ? ' has-danger' : '' }}">
-                                                    <label for="name">{{ __('message.Name') }}</label>
-                                                    <input type="text" class="form-control" id="name" name="name"
-                                                        value="{{ old('name') }}" required>
-                                                </div>
-                                                @if ($errors->has('name'))
-                                                    <span class="invalid-feedback" style="display: block;" role="alert">
-                                                        <strong>{{ $errors->first('name') }}</strong>
-                                                    </span>
-                                                @endif
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group {{ $errors->has('email') ? ' has-danger' : '' }}">
-                                                    <label for="email">{{ __('message.Email') }}</label>
-                                                    <input type="email" class="form-control" id="email" name="email"
-                                                        value="{{ old('email') }}">
-                                                </div>
-                                                @if ($errors->has('email'))
-                                                    <span class="invalid-feedback" style="display: block;" role="alert">
-                                                        <strong>{{ $errors->first('email') }}</strong>
-                                                    </span>
-                                                @endif
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group {{ $errors->has('phone') ? ' has-danger' : '' }}">
-                                                    <label for="phone">{{ __('message.Phone') }}</label>
-                                                    <input type="text" class="form-control" id="phone" name="phone"
-                                                        value="{{ old('phone') }}" required>
-                                                </div>
-                                                @if ($errors->has('phone'))
-                                                    <span class="invalid-feedback" style="display: block;" role="alert">
-                                                        <strong>{{ $errors->first('phone') }}</strong>
-                                                    </span>
-                                                @endif
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group {{ $errors->has('image') ? ' has-danger' : '' }}">
-                                                    <label for="image">{{ __('message.Profile Image') }}</label>
-                                                    <input type="file" class="form-control" id="image" name="image">
-                                                </div>
-                                                @if ($errors->has('image'))
-                                                    <span class="invalid-feedback" style="display: block;" role="alert">
-                                                        <strong>{{ $errors->first('image') }}</strong>
-                                                    </span>
-                                                @endif
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div
-                                                    class="form-group {{ $errors->has('password') ? ' has-danger' : '' }} position-relative">
-                                                    <label for="password">{{ __('message.Password') }}</label>
-                                                    <input type="password"
-                                                        class="form-control {{ $errors->has('password') ? ' is-invalid' : '' }}"
-                                                        id="password" name="password">
-                                                    <i id="eye-icon" class="fa fa-eye position-absolute"
-                                                        style="right: 20px; top: 65%; transform: translateY(-50%); cursor: pointer; z-index: 10;"
-                                                        onclick="togglePassword()"></i>
-                                                </div>
+@push('scripts')
+<script>
+function togglePassword(fieldId) {
+    const passwordField = document.getElementById(fieldId);
+    const eyeIcon = document.getElementById(fieldId + '-eye');
+    
+    if (passwordField.type === 'password') {
+        passwordField.type = 'text';
+        eyeIcon.classList.remove('fa-eye');
+        eyeIcon.classList.add('fa-eye-slash');
+    } else {
+        passwordField.type = 'password';
+        eyeIcon.classList.remove('fa-eye-slash');
+        eyeIcon.classList.add('fa-eye');
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const oneYearCheckbox = document.getElementById('oneYearCheckbox');
+    const dateFields = document.getElementById('dateFields');
+    const validationError = document.getElementById('validationError');
+    const checkCodesBtn = document.getElementById('checkCodes');
+
+    // Toggle date fields based on checkbox
+    oneYearCheckbox.addEventListener('change', function() {
+        if (this.checked) {
+            dateFields.style.display = 'none';
+        } else {
+            dateFields.style.display = 'block';
+        }
+    });
+
+    // Check if any option is selected
+    function isAnyOptionSelected() {
+        return oneYearCheckbox.checked || 
+               document.getElementById('start_date').value || 
+               document.getElementById('end_date').value;
+    }
+
+    // Handle code check
+    checkCodesBtn.addEventListener('click', function() {
+        if (!isAnyOptionSelected()) {
+            validationError.classList.remove('hidden');
+            return;
+        } else {
+            validationError.classList.add('hidden');
+        }
+
+        // AJAX call to check codes
+        fetch("{{ route('admin.check.codes') }}", {
+            method: 'GET',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'Content-Type': 'application/json',
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.has_codes) {
+                document.getElementById('addCode').innerHTML = 
+                    '<i class="fas fa-edit mr-2 rtl:ml-2 rtl:mr-0"></i>{{ __('message.Edit Code') }}';
+                bootstrap.Modal.getInstance(document.getElementById('addCodeModal')).hide();
+            } else {
+                // Show error in modal
+                if (!document.getElementById('codeError')) {
+                    const errorDiv = document.createElement('div');
+                    errorDiv.id = 'codeError';
+                    errorDiv.className = 'alert-error mt-3';
+                    errorDiv.textContent = '{{ __('message.You do not have any codes') }}';
+                    document.querySelector('.modal-body').appendChild(errorDiv);
+                }
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred. Please try again.');
+        });
+    });
+});
+</script>
+@endpush
+@endsection <input
+                           id="name" 
+                           name="name" 
+                           class="form-input {{ $errors->has('name') ? 'border-red-500' : '' }}" 
+                           value="{{ old('name') }}" 
+                           required>
+                    @if ($errors->has('name'))
+                        <p class="text-red-500 text-sm mt-1">{{ $errors->first('name') }}</p>
+                    @endif
+                </div>
+
+                <!-- Email Field -->
+                <div class="form-group">
+                    <label for="email" class="form-label">{{ __('message.Email') }}</label>
+                    <input type="email" 
+                           id="email" 
+                           name="email" 
+                           class="form-input {{ $errors->has('email') ? 'border-red-500' : '' }}" 
+                           value="{{ old('email') }}">
+                    @if ($errors->has('email'))
+                        <p class="text-red-500 text-sm mt-1">{{ $errors->first('email') }}</p>
+                    @endif
+                </div>
+
+                <!-- Phone Field -->
+                <div class="form-group">
+                    <label for="phone" class="form-label">{{ __('message.Phone') }} <span class="text-red-500">*</span></label>
+                    <input type="text" 
+                           id="phone" 
+                           name="phone" 
+                           class="form-input {{ $errors->has('phone') ? 'border-red-500' : '' }}" 
+                           value="{{ old('phone') }}" 
+                           required>
+                    @if ($errors->has('phone'))
+                        <p class="text-red-500 text-sm mt-1">{{ $errors->first('phone') }}</p>
+                    @endif
+                </div>
+
+                <!-- Profile Image Field -->
+                <div class="form-group">
+                    <label for="image" class="form-label">{{ __('message.Profile Image') }}</label>
+                    <input type="file" 
+                           id="image" 
+                           name="image" 
+                           class="form-input {{ $errors->has('image') ? 'border-red-500' : '' }}" 
+                           accept="image/*">
+                    @if ($errors->has('image'))
+                        <p class="text-red-500 text-sm mt-1">{{ $errors->first('image') }}</p>
+                    @endif
+                </div>
+
+                <!-- Password Field -->
+                <div class="form-group">
+                    <label for="password" class="form-label">{{ __('message.Password') }}</label>
+                    <div class="relative">
+                        <input type="password" 
+                               id="password" 
+                               name="password" 
+                               class="form-input pr-10 {{ $errors->has('password') ? 'border-red-500' : '' }}">
+                        <button type="button" 
+                                class="absolute inset-y-0 right-0 pr-3 flex items-center" 
+                                onclick="togglePassword('password')">
+                            <i id="password-eye" class="fas fa-eye text-gray-400 hover:text-primary-600"></i>
+                        </button>
+                    </div>
+                    @if ($errors->has('password'))
+                        <p class="text-red-500 text-sm mt-1">{{ $errors->first('password') }}</p>
+                    @endif
+                </div>
+
+                <!-- Confirm Password Field -->
+                <div class="form-group">
+                    <label for="password_confirmation" class="form-label">{{ __('message.Confirm Password') }}</label>
+                    <div class="relative">
+                        <input type="password" 
+                               id="password_confirmation" 
+                               name="password_confirmation" 
+                               class="form-input pr-10 {{ $errors->has('password_confirmation') ? 'border-red-500' : '' }}">
+                        <button type="button" 
+                                class="absolute inset-y-0 right-0 pr-3 flex items-center" 
+                                onclick="togglePassword('password_confirmation')">
+                            <i id="password_confirmation-eye" class="fas fa-eye text-gray-400 hover:text-primary-600"></i>
+                        </button>
+                    </div>
+                    @if ($errors->has('password_confirmation'))
+                        <p class="text-red-500 text-sm mt-1">{{ $errors->first('password_confirmation') }}</p>
+                    @endif
+                </div>
+
+                <!-- City Field -->
+                <div class="form-group md:col-span-2">
+                    <label for="city_id" class="form-label">{{ __('message.City') }} <span class="text-red-500">*</span></label>
+                    <select id="city_id" 
+                            name="city_id" 
+                            class="form-input {{ $errors->has('city_id') ? 'border-red-500' : '' }}" 
+                            required>
+                        <option value="">{{ __('message.Select City') }}</option>
+                        @foreach($cities as $city)
+                            <option value="{{ $city->id }}" {{ old('city_id') == $city->id ? 'selected' : '' }}>
+                                @if(app()->getLocale() == 'ar')
+                                    {{ $city->name_arabic }}
+                                @else
+                                    {{ $city->name_english }}
+                                @endif
+                            </option>
+                        @endforeach
+                    </select>
+                    @if ($errors->has('city_id'))
+                        <p class="text-red-500 text-sm mt-1">{{ $errors->first('city_id') }}</p>
+                    @endif
+                </div>
+            </div>
+
+            <!-- Form Actions -->
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save mr-2 rtl:ml-2 rtl:mr-0"></i>
+                    {{ __('message.Add') }}
+                </button>
+                <a href="{{ route('admin.users.index') }}" class="btn btn-secondary">
+                    <i class="fas fa-times mr-2 rtl:ml-2 rtl:mr-0"></i>
+                    {{ __('Cancel') }}
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Code Generation Modal -->
+<div class="modal fade" id="addCodeModal" tabindex="-1" aria-labelledby="addCodeModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-gray-900 dark:text-white" id="addCodeModalLabel">
+                    {{ __('message.Add Code') }}
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="space-y-4">
+                    <!-- One Year Checkbox -->
+                    <div class="flex items-center">
+                        <input type="checkbox" 
+                               id="oneYearCheckbox" 
+                               name="one_year" 
+                               value="1"
+                               class="w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                        <label for="oneYearCheckbox" class="ml-2 rtl:mr-2 rtl:ml-0 text-sm font-medium text-gray-900 dark:text-gray-300">
+                            {{ __('message.Valid for 1 Year') }}
+                        </label>
+                    </div>
+
+                    <!-- Date Fields -->
+                    <div id="dateFields" class="space-y-4">
+                        <div>
+                            <label for="start_date" class="form-label">{{ __('message.Start Date') }}</label>
+                            <input type="date" 
+                                   id="start_date" 
+                                   name="start_date" 
+                                   class="form-input">
+                        </div>
+                        <div>
+                            <label for="end_date" class="form-label">{{ __('message.End Date') }}</label>
+                            <input type="date" 
+                                   id="end_date" 
+                                   name="end_date" 
+                                   class="form-input">
+                        </div>
+                    </div>
+
+                    <!-- Validation Error -->
+                    <div id="validationError" class="alert-error hidden">
+                        {{ __('message.Please select an option') }}
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    {{ __('Cancel') }}
+                </button>
+                <button type="button" class="btn btn-primary" id="checkCodes">
+                    {{ __('message.Add') }}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@push('scripts')
+<script>
+function togglePassword(fieldId) {
+    const passwordField = document.getElementById(fieldId);
+    const eyeIcon = document.getElementById(fieldId + '-eye');
+    
+    if (passwordField.type === 'password') {
+        passwordField.type = 'text';
+        eyeIcon.classList.remove('fa-eye');
+        eyeIcon.classList.add('fa-eye-slash');
+    } else {
+        passwordField.type = 'password';
+        eyeIcon.classList.remove('fa-eye-slash');
+        eyeIcon.classList.add('fa-eye');
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const oneYearCheckbox = document.getElementById('oneYearCheckbox');
+    const dateFields = document.getElementById('dateFields');
+    const validationError = document.getElementById('validationError');
+    const checkCodesBtn = document.getElementById('checkCodes');
+
+    // Toggle date fields based on checkbox
+    oneYearCheckbox.addEventListener('change', function() {
+        if (this.checked) {
+            dateFields.style.display = 'none';
+        } else {
+            dateFields.style.display = 'block';
+        }
+    });
+
+    // Check if any option is selected
+    function isAnyOptionSelected() {
+        return oneYearCheckbox.checked || 
+               document.getElementById('start_date').value || 
+               document.getElementById('end_date').value;
+    }
+
+    // Handle code check
+    checkCodesBtn.addEventListener('click', function() {
+        if (!isAnyOptionSelected()) {
+            validationError.classList.remove('hidden');
+            return;
+        } else {
+            validationError.classList.add('hidden');
+        }
+
+        // AJAX call to check codes
+        fetch("{{ route('admin.check.codes') }}", {
+            method: 'GET',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'Content-Type': 'application/json',
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.has_codes) {
+                document.getElementById('addCode').innerHTML = 
+                    '<i class="fas fa-edit mr-2 rtl:ml-2 rtl:mr-0"></i>{{ __('message.Edit Code') }}';
+                bootstrap.Modal.getInstance(document.getElementById('addCodeModal')).hide();
+            } else {
+                // Show error in modal
+                if (!document.getElementById('codeError')) {
+                    const errorDiv = document.createElement('div');
+                    errorDiv.id = 'codeError';
+                    errorDiv.className = 'alert-error mt-3';
+                    errorDiv.textContent = '{{ __('message.You do not have any codes') }}';
+                    document.querySelector('.modal-body').appendChild(errorDiv);
+                }
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred. Please try again.');
+        });
+    });
+});
+</script>
+@endpush
+@endsection
                                                 @if ($errors->has('password'))
                                                     <span class="invalid-feedback" style="display: block;" role="alert">
                                                         <strong>{{ $errors->first('password') }}</strong>

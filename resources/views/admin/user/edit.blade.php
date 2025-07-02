@@ -1,41 +1,61 @@
 @extends('admin.layouts.app')
 @section('title', 'Edit User')
+@section('page-title', __('message.Edit User'))
+@section('breadcrumb')
+    <span class="text-primary-600 dark:text-primary-400">{{ __('Admin') }}</span>
+    <span class="mx-2">/</span>
+    <a href="{{ route('admin.users.index') }}" class="text-primary-600 dark:text-primary-400 hover:underline">{{ __('message.Users') }}</a>
+    <span class="mx-2">/</span>
+    <span>{{ __('message.Edit User') }}</span>
+@endsection
 
 @section('content')
-    <div class="container">
-        <div class="page-inner">
-            <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
+<div class="space-y-6 animate-fadeInUp">
+    <!-- Header Section -->
+    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-4 lg:space-y-0">
+        <div>
+            <h1 class="text-2xl font-bold text-gray-900 dark:text-white">
+                {{ __('message.Edit User') }}
+            </h1>
+            <p class="text-gray-600 dark:text-gray-400 mt-1">
+                {{ __('Update user information') }}
+            </p>
+        </div>
+        @if(!$user->code)
+        <div class="flex items-center gap-3">
+            <button type="button" 
+                    class="btn btn-primary" 
+                    id="addCode"
+                    data-bs-toggle="modal" 
+                    data-bs-target="#addCodeModal">
+                <i class="fas fa-plus mr-2 rtl:ml-2 rtl:mr-0"></i>
+                {{ __('message.Add Code') }}
+            </button>
+        </div>
+        @endif
+    </div>
+
+    <!-- User Form Card -->
+    <div class="card-modern">
+        <div class="p-6 border-b border-gray-200 dark:border-gray-700">
+            <div class="flex items-center gap-4">
+                <div class="w-16 h-16 rounded-full overflow-hidden bg-gray-100 dark:bg-gray-700">
+                    @if($user->image)
+                        <img src="{{ asset($user->image) }}" alt="{{ $user->name }}" class="w-full h-full object-cover">
+                    @else
+                        <div class="w-full h-full flex items-center justify-center">
+                            <i class="fas fa-user text-2xl text-gray-400"></i>
+                        </div>
+                    @endif
+                </div>
                 <div>
-                    <h3 class="fw-bold mb-3">{{ __('message.Edit User') }}</h3>
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                        {{ $user->name }}
+                    </h3>
+                    <p class="text-gray-600 dark:text-gray-400">{{ $user->email }}</p>
                 </div>
             </div>
-            <form action="{{ route('admin.users.update', $user->id) }}" method="POST" enctype="multipart/form-data">
-                @csrf
-                @method('PUT')
-                <div class="row">
-                    <div class="col-md-12">
-                        @if(!$user->code)
-                            <div class="form-group d-flex justify-content-end">
-                                <button type="button" class="btn" id="addCode"
-                                    style="background-color: white; color: #BC3726; border: 1px solid #BC3726;"
-                                    onmouseover="this.style.backgroundColor='#BC3726'; this.style.color='#F5F7FD';"
-                                    onmouseout="this.style.backgroundColor='white'; this.style.color='#BC3726';"
-                                    data-bs-toggle="modal" data-bs-target="#addCodeModal">
-                                    {{ __('message.Add Code') }}
-                                </button>
-                            </div>
-                        @endif
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-3">
-                                        <div class="avatar avatar-xl">
-                                            <img src="{{ asset($user->image) }}" alt="..."
-                                                class="avatar-img rounded-circle">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-9">
-                                        <div class="row">
+        </div>
                                             <div class="col-md-6">
                                                 <div
                                                     class="form-group

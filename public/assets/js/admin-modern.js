@@ -812,47 +812,6 @@ $(document).ready(function () {
     });
 });
 
-// Enhanced SweetAlert for deletions
-document.addEventListener("DOMContentLoaded", function () {
-    document.querySelectorAll(".delete-btn").forEach((button) => {
-        button.addEventListener("click", function (event) {
-            event.preventDefault();
-
-            const form = this.closest("form");
-            const isDark = document.documentElement.classList.contains("dark");
-
-            Swal.fire({
-                title: "هل أنت متأكد؟",
-                text: "لا يمكن التراجع عن هذا الإجراء",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#ef4444",
-                cancelButtonColor: "#6b7280",
-                confirmButtonText: "نعم، احذف!",
-                cancelButtonText: "إلغاء",
-                background: isDark ? "#1f2937" : "#ffffff",
-                color: isDark ? "#f3f4f6" : "#111827",
-                customClass: {
-                    popup: "rounded-xl shadow-2xl",
-                    confirmButton: "rounded-lg px-6 py-3 font-medium",
-                    cancelButton: "rounded-lg px-6 py-3 font-medium",
-                },
-                showClass: {
-                    popup: "animate-fadeIn",
-                },
-                hideClass: {
-                    popup: "animate-fadeOut",
-                },
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    showLoading();
-                    form.submit();
-                }
-            });
-        });
-    });
-});
-
 // Theme change event dispatcher
 const originalToggleTheme = window.toggleTheme;
 window.toggleTheme = function () {
@@ -873,10 +832,6 @@ window.showLoading = showLoading;
 window.hideLoading = hideLoading;
 
 // Additional utility functions for admin panel
-window.confirmDelete = function (message = "هل أنت متأكد من الحذف؟") {
-    return confirm(message);
-};
-
 window.printPage = function () {
     window.print();
 };

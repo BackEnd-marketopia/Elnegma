@@ -22,6 +22,7 @@
     <!-- Custom Admin CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/admin-modern.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/admin-custom.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/admin-tables.css') }}" />
 
     <!-- Tailwind CSS Configuration -->
     <script>
@@ -35,16 +36,16 @@
                     },
                     colors: {
                         primary: {
-                            50: '#eff6ff',
-                            100: '#dbeafe',
-                            200: '#bfdbfe',
-                            300: '#93c5fd',
-                            400: '#60a5fa',
-                            500: '#3b82f6',
-                            600: '#2563eb',
-                            700: '#1d4ed8',
-                            800: '#1e40af',
-                            900: '#1e3a8a'
+                            50: '#F5F0FF',
+                            100: '#E6D9FF',
+                            200: '#D4C5FF',
+                            300: '#B68AFF',
+                            400: '#9F66FF',
+                            500: '#6000C0',
+                            600: '#4A0099',
+                            700: '#330066',
+                            800: '#220044',
+                            900: '#110022'
                         },
                         dark: {
                             50: '#f8fafc',
@@ -130,11 +131,11 @@
     </div>
 
     <!-- Loading Overlay -->
-    <div id="loadingOverlay" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-        <div class="bg-white dark:bg-dark-800 rounded-xl p-8 shadow-2xl">
+    <div id="loadingOverlay" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden opacity-0 transition-opacity duration-300">
+        <div class="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-2xl transform scale-95 transition-transform duration-300">
             <div class="flex flex-col items-center">
-                <div class="animate-spin rounded-full h-12 w-12 border-4 border-primary-200 border-t-primary-600 mb-4"></div>
-                <p class="text-gray-600 dark:text-gray-300 font-medium">{{ __('Loading...') }}</p>
+                <div class="animate-spin rounded-full h-12 w-12 border-4 border-purple-200 border-t-purple-600 mb-4"></div>
+                <p class="text-gray-600 dark:text-gray-300 font-medium">{{ __('message.Loading') }}...</p>
             </div>
         </div>
     </div>
@@ -142,6 +143,97 @@
     <!-- Scripts -->
     <script src="{{ asset('assets/js/admin-modern.js') }}"></script>
     
+    <!-- Global Delete Confirmation Script -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Global delete confirmation for all delete buttons
+        function initializeDeleteConfirmation() {
+            document.querySelectorAll('.delete-btn').forEach(btn => {
+                // Remove existing listeners to avoid duplicates
+                btn.removeEventListener('click', handleDeleteClick);
+                btn.addEventListener('click', handleDeleteClick);
+            });
+        }
+        
+        function handleDeleteClick(e) {
+            e.preventDefault();
+            
+            // Try to get the item name from different possible locations
+            let itemName = '';
+            const row = this.closest('tr');
+            const card = this.closest('.card, .bg-white, .bg-gray-50');
+            
+            if (row) {
+                // For table rows - try to get name from first cell with text
+                const firstCell = row.querySelector('td:nth-child(1) div, td:nth-child(1)');
+                if (firstCell) {
+                    itemName = firstCell.textContent.trim();
+                }
+            } else if (card) {
+                // For cards - try to get name from title or heading
+                const title = card.querySelector('h1, h2, h3, h4, h5, h6, .title, .name');
+                if (title) {
+                    itemName = title.textContent.trim();
+                }
+            }
+            
+            // If we couldn't find a name, try data attributes
+            if (!itemName) {
+                itemName = this.getAttribute('data-name') || 
+                          this.getAttribute('data-title') || 
+                          this.closest('form').getAttribute('data-name') ||
+                          '{{ __("message.this item") }}';
+            }
+            
+            Swal.fire({
+                title: '{{ __("message.Are you sure") }}?',
+                html: `{{ __("message.You will not be able to revert this") }}!<br><strong class="text-red-600">${itemName}</strong>`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#dc2626',
+                cancelButtonColor: '#6b7280',
+                confirmButtonText: '{{ __("message.Yes delete it") }}!',
+                cancelButtonText: '{{ __("message.Cancel") }}',
+                reverseButtons: true,
+                customClass: {
+                    popup: 'animate-zoomIn',
+                    confirmButton: 'hover:bg-red-700 transition-colors',
+                    cancelButton: 'hover:bg-gray-600 transition-colors'
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Show loading state
+                    const submitBtn = this;
+                    const originalText = submitBtn.innerHTML;
+                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>{{ __("message.Deleting") }}...';
+                    submitBtn.disabled = true;
+                    
+                    // Submit the form
+                    this.closest('form').submit();
+                }
+            });
+        }
+        
+        // Initialize on page load
+        initializeDeleteConfirmation();
+        
+        // Re-initialize when new content is loaded (for AJAX updates)
+        const observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                if (mutation.addedNodes.length > 0) {
+                    initializeDeleteConfirmation();
+                }
+            });
+        });
+        
+        observer.observe(document.body, {
+            childList: true,
+            subtree: true
+        });
+    });
+    </script>
+    
     @yield('scripts')
+    @stack('scripts')
 </body>
 </html>

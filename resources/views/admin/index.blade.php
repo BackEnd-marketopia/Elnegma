@@ -54,8 +54,8 @@
                         </span>
                     </div>
                 </div>
-                <div class="bg-blue-100 dark:bg-blue-900/30 p-3 rounded-xl">
-                    <i class="fas fa-users text-2xl text-blue-600 dark:text-blue-400"></i>
+                <div class="bg-primary-100 dark:bg-primary-900/30 p-3 rounded-xl">
+                    <i class="fas fa-users text-2xl text-primary-600 dark:text-primary-400"></i>
                 </div>
             </div>
         </div>
@@ -80,8 +80,8 @@
                         </span>
                     </div>
                 </div>
-                <div class="bg-emerald-100 dark:bg-emerald-900/30 p-3 rounded-xl">
-                    <i class="fas fa-store text-2xl text-emerald-600 dark:text-emerald-400"></i>
+                <div class="bg-primary-100 dark:bg-primary-900/30 p-3 rounded-xl">
+                    <i class="fas fa-store text-2xl text-primary-600 dark:text-primary-400"></i>
                 </div>
             </div>
         </div>
@@ -106,8 +106,8 @@
                         </span>
                     </div>
                 </div>
-                <div class="bg-purple-100 dark:bg-purple-900/30 p-3 rounded-xl">
-                    <i class="fas fa-chalkboard-teacher text-2xl text-purple-600 dark:text-purple-400"></i>
+                <div class="bg-primary-100 dark:bg-primary-900/30 p-3 rounded-xl">
+                    <i class="fas fa-chalkboard-teacher text-2xl text-primary-600 dark:text-primary-400"></i>
                 </div>
             </div>
         </div>
@@ -132,8 +132,8 @@
                         </span>
                     </div>
                 </div>
-                <div class="bg-indigo-100 dark:bg-indigo-900/30 p-3 rounded-xl">
-                    <i class="fas fa-user-check text-2xl text-indigo-600 dark:text-indigo-400"></i>
+                <div class="bg-primary-100 dark:bg-primary-900/30 p-3 rounded-xl">
+                    <i class="fas fa-user-check text-2xl text-primary-600 dark:text-primary-400"></i>
                 </div>
             </div>
         </div>
@@ -267,8 +267,8 @@
             <div class="space-y-4">
                 <!-- Activity Item -->
                 <div class="flex items-start space-x-4 rtl:space-x-reverse">
-                    <div class="bg-blue-100 dark:bg-blue-900/30 p-2 rounded-lg">
-                        <i class="fas fa-user-plus text-blue-600 dark:text-blue-400"></i>
+                    <div class="bg-primary-100 dark:bg-primary-900/30 p-2 rounded-lg">
+                        <i class="fas fa-user-plus text-primary-600 dark:text-primary-400"></i>
                     </div>
                     <div class="flex-1 min-w-0">
                         <p class="text-sm text-gray-900 dark:text-white">
@@ -303,8 +303,8 @@
 
                 <!-- Activity Item -->
                 <div class="flex items-start space-x-4 rtl:space-x-reverse">
-                    <div class="bg-purple-100 dark:bg-purple-900/30 p-2 rounded-lg">
-                        <i class="fas fa-store text-purple-600 dark:text-purple-400"></i>
+                    <div class="bg-primary-100 dark:bg-primary-900/30 p-2 rounded-lg">
+                        <i class="fas fa-store text-primary-600 dark:text-primary-400"></i>
                     </div>
                     <div class="flex-1 min-w-0">
                         <p class="text-sm text-gray-900 dark:text-white">
@@ -345,8 +345,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 datasets: [{
                     label: '{{ __("Users") }}',
                     data: [120, 190, 300, 500, 200, 300, 450, 600, 750, 850, 950, {{ $users }}],
-                    borderColor: '#3b82f6',
-                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                    borderColor: '#6000C0',
+                    backgroundColor: 'rgba(96, 0, 192, 0.1)',
                     borderWidth: 3,
                     fill: true,
                     tension: 0.4
@@ -386,7 +386,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     label: '{{ __("Revenue") }}',
                     data: [12000, 19000, 15000, 25000, 22000, 30000],
                     backgroundColor: [
-                        'rgba(59, 130, 246, 0.8)',
+                        'rgba(96, 0, 192, 0.8)',
                         'rgba(16, 185, 129, 0.8)',
                         'rgba(139, 92, 246, 0.8)',
                         'rgba(245, 158, 11, 0.8)',
