@@ -7,6 +7,9 @@
     <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport" />
     <link rel="icon" href="{{ asset('assets/img/kaiadmin/app_logo.png') }}" type="image/x-icon" />
 
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <script src="{{ asset('assets/js/plugin/webfont/webfont.min.js') }}"></script>
     <script>
         WebFont.load({
@@ -37,29 +40,122 @@
 </head>
 
 <body class="{{ $class ?? '' }}" style="background:#f7f7f7">
-    @if(session('error'))
-        <div class="alert alert-danger alert-dismissible fade show" role="alert" id="errorAlert">
-            {{ session('error') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
+    <!-- Modern notifications with SweetAlert2 -->
+    @if(session('error') || session('success'))
         <script>
-            setTimeout(function () {
-                document.getElementById('errorAlert').remove();
-            }, 5000);
-        </script>
-    @endif
+            document.addEventListener('DOMContentLoaded', function() {
+                @if(session('error'))
+                    Swal.fire({
+                        icon: 'error',
+                        title: "{{ __('message.Error') }}",
+                        text: "{{ session('error') }}",
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        showCloseButton: true,
+                        timer: 4000,
+                        timerProgressBar: true,
+                        background: '#ffffff',
+                        iconColor: '#E53935',
+                        customClass: {
+                            popup: 'animated fadeInRight'
+                        },
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer);
+                            toast.addEventListener('mouseleave', Swal.resumeTimer);
+                        }
+                    });
+                @endif
 
-    @if(session('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert" id="successAlert">
-            {{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        <script>
-            setTimeout(function () {
-                document.getElementById('successAlert').remove();
-            }, 5000);
+                @if(session('success'))
+                    Swal.fire({
+                        icon: 'success',
+                        title: "{{ __('message.Success') }}",
+                        text: "{{ session('success') }}",
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        showCloseButton: true,
+                        timer: 4000,
+                        timerProgressBar: true,
+                        background: '#ffffff',
+                        iconColor: '#6000C1',
+                        customClass: {
+                            popup: 'animated fadeInRight'
+                        },
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer);
+                            toast.addEventListener('mouseleave', Swal.resumeTimer);
+                        }
+                    });
+                @endif
+            });
         </script>
     @endif
+    
+    <style>
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translate3d(100%, 0, 0);
+            }
+            to {
+                opacity: 1;
+                transform: translate3d(0, 0, 0);
+            }
+        }
+        
+        .animated {
+            animation-duration: 0.5s;
+            animation-fill-mode: both;
+        }
+        
+        .fadeInRight {
+            animation-name: fadeInRight;
+        }
+        
+        /* Custom SweetAlert2 Styling */
+        .swal2-popup {
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            padding: 1rem;
+        }
+        
+        .swal2-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-top: 0;
+            padding-top: 0;
+        }
+        
+        .swal2-html-container {
+            font-size: 14px;
+            color: #555;
+            margin-top: 5px;
+        }
+        
+        .swal2-timer-progress-bar {
+            background: #6000C1;
+            height: 3px;
+        }
+        
+        .swal2-icon {
+            margin: 0.5rem auto;
+        }
+        
+        .swal2-close {
+            color: #888;
+            font-size: 1.5rem;
+            top: 10px;
+            right: 10px;
+        }
+        
+        .swal2-close:hover {
+            color: #6000C1;
+            transform: scale(1.1);
+        }
+    </style>
     <div class="container">
         <div class="row d-flex justify-content-center align-items-center vh-100">
             <div class="col-lg-5 col-md-7">
@@ -86,7 +182,6 @@
                             <img src="{{ asset('assets/img/kaiadmin/app_logo.png') }}" alt="Logo" class="logo"
                                 width="100">
                             </br>
-                            <span style="font-weight: bold; font-size: 2em;">4P</span>
                         </div>
                         <form method="POST" action="{{ route('loginStore') }}">
                             @csrf

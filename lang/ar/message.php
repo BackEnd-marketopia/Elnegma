@@ -347,4 +347,6 @@ return [
     'Do you want to change your phone number?' => 'هل تريد تغيير رقم هاتفك؟',
     'Yes' => 'نعم',
     'No' => 'لا',
+    'Online' => 'متصل',
+    'Admin Panel' => 'لوحة التحكم',
 ];

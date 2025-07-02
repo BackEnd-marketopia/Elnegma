@@ -1,246 +1,423 @@
 @extends('admin.layouts.app')
 @section('title', 'Dashboard')
-@section('content')
-  <div class="container">
-    <div class="page-inner">
-    <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
-      <div>
-      <h3 class="fw-bold mb-3">{{ __('message.Dashboard') }}</h3>
-      <h6 class="op-7 mb-2">4P</h6>
-      </div>
-      <div class="ms-md-auto py-2 py-md-0">
-      <a href="{{ route('admin.vendors.create') }}"
-        class="btn btn-secondary btn-round">{{ __('message.Add Vendor') }}</a>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-sm-6 col-md-3">
-      <div class="card card-stats card-round">
-        <div class="card-body">
-        <div class="row align-items-center">
-          <div class="col-icon">
-          <div class="icon-big text-center icon-info bubble-shadow-small">
-            <i class="fas fa-users"></i>
-          </div>
-          </div>
-          <div class="col col-stats ms-3 ms-sm-0">
-          <div class="numbers">
-            <p class="card-category">{{ __('message.Users') }}</p>
-            <h4 class="card-title">{{ $users }}</h4>
-          </div>
-          </div>
-        </div>
-        </div>
-      </div>
-      </div>
-      <div class="col-sm-6 col-md-3">
-      <div class="card card-stats card-round">
-        <div class="card-body">
-        <div class="row align-items-center">
-          <div class="col-icon">
-          <div class="icon-big text-center icon-info bubble-shadow-small">
-            <i class="fas fa-user-check"></i>
-          </div>
-          </div>
-          <div class="col col-stats ms-3 ms-sm-0">
-          <div class="numbers">
-            <p class="card-category">{{ __('message.Vendors') }}</p>
-            <h4 class="card-title">{{ $vendors }}</h4>
-          </div>
-          </div>
-        </div>
-        </div>
-      </div>
-      </div>
-      <div class="col-sm-6 col-md-3">
-      <div class="card card-stats card-round">
-        <div class="card-body">
-        <div class="row align-items-center">
-          <div class="col-icon">
-          <div class="icon-big text-center icon-info bubble-shadow-small">
-            <i class="fas fa-chalkboard-teacher"></i>
-          </div>
-          </div>
-          <div class="col col-stats ms-3 ms-sm-0">
-          <div class="numbers">
-            <p class="card-category">{{ __('message.Providers') }}</p>
-            <h4 class="card-title">{{ $providers }}</h4>
-          </div>
-          </div>
-        </div>
-        </div>
-      </div>
-      </div>
-      <div class="col-sm-6 col-md-3">
-      <div class="card card-stats card-round">
-        <div class="card-body">
-        <div class="row align-items-center">
-          <div class="col-icon">
-          <div class="icon-big text-center icon-info bubble-shadow-small">
-            <i class="fas fa-user-check"></i>
-          </div>
-          </div>
-          <div class="col col-stats ms-3 ms-sm-0">
-          <div class="numbers">
-            <p class="card-category">{{ __('message.Subscribed Users') }}</p>
-            <h4 class="card-title">{{ $codesPaied }}</h4>
-          </div>
-          </div>
-        </div>
-        </div>
-      </div>
-      </div>
-    </div>
-    <div class="row">
+@section('page-title', __('message.Dashboard'))
+@section('breadcrumb')
+    <span class="text-primary-600 dark:text-primary-400">{{ __('Admin') }}</span>
+    <span class="mx-2">/</span>
+    <span>{{ __('message.Dashboard') }}</span>
+@endsection
 
-      <div class="col-sm-6 col-md-3">
-      <div class="card card-stats card-round">
-        <div class="card-body">
-        <div class="row align-items-center">
-          <div class="col-icon">
-          <div class="icon-big text-center icon-success bubble-shadow-small">
-            <i class="fas fa-credit-card"></i>
-          </div>
-          </div>
-          <div class="col col-stats ms-3 ms-sm-0">
-          <div class="numbers">
-            <p class="card-category">{{ __('message.Codes Paied') }}</p>
-            <h4 class="card-title">{{ $codesPaied }}</h4>
-          </div>
-          </div>
+@section('content')
+<div class="space-y-6 animate-fadeInUp">
+    <!-- Header Section -->
+    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-4 lg:space-y-0">
+        <div>
+            <h1 class="text-2xl font-bold text-gray-900 dark:text-white">
+                {{ __('message.Dashboard') }}
+            </h1>
+            <p class="text-gray-600 dark:text-gray-400 mt-1">
+                {{ __('Welcome back! Here\'s what\'s happening with your platform.') }}
+            </p>
         </div>
+        <div class="flex flex-col sm:flex-row gap-3">
+            <a href="{{ route('admin.vendors.create') }}" 
+               class="btn-modern btn-primary">
+                <i class="fas fa-plus mr-2 rtl:ml-2 rtl:mr-0"></i>
+                {{ __('message.Add Vendor') }}
+            </a>
+            <button class="btn-modern btn-secondary">
+                <i class="fas fa-download mr-2 rtl:ml-2 rtl:mr-0"></i>
+                {{ __('Export Report') }}
+            </button>
         </div>
-      </div>
-      </div>
-      <div class="col-sm-6 col-md-3">
-      <div class="card card-stats card-round">
-        <div class="card-body">
-        <div class="row align-items-center">
-          <div class="col-icon">
-          <div class="icon-big text-center icon-secondary bubble-shadow-small">
-            <i class="fas fa-times-circle"></i>
-          </div>
-          </div>
-          <div class="col col-stats ms-3 ms-sm-0">
-          <div class="numbers">
-            <p class="card-category">{{ __('message.Codes Unpaid') }}</p>
-            <h4 class="card-title">{{ $codesUnpaied }}</h4>
-          </div>
-          </div>
-        </div>
-        </div>
-      </div>
-      </div>
     </div>
-    <div class="row">
-      <div class="col-md-12">
-      <div class="card card-round">
-        <div class="card-header">
-        <div class="card-head-row">
-          <div class="card-title">{{ __('message.User Statistics')}}</div>
-          <div class="card-tools">
-          </div>
+
+    <!-- Stats Cards -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Users Card -->
+        <div class="card-modern p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+            <div class="flex items-center justify-between">
+                <div class="flex-1">
+                    <p class="text-sm font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wide">
+                        {{ __('message.Users') }}
+                    </p>
+                    <p class="text-3xl font-bold text-gray-900 dark:text-white mt-2">
+                        {{ number_format($users) }}
+                    </p>
+                    <div class="flex items-center mt-2">
+                        <span class="text-green-500 text-sm font-medium">
+                            <i class="fas fa-arrow-up mr-1"></i>
+                            +12%
+                        </span>
+                        <span class="text-gray-500 dark:text-gray-400 text-xs ml-2 rtl:mr-2 rtl:ml-0">
+                            {{ __('vs last month') }}
+                        </span>
+                    </div>
+                </div>
+                <div class="bg-blue-100 dark:bg-blue-900/30 p-3 rounded-xl">
+                    <i class="fas fa-users text-2xl text-blue-600 dark:text-blue-400"></i>
+                </div>
+            </div>
         </div>
+
+        <!-- Vendors Card -->
+        <div class="card-modern p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+            <div class="flex items-center justify-between">
+                <div class="flex-1">
+                    <p class="text-sm font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wide">
+                        {{ __('message.Vendors') }}
+                    </p>
+                    <p class="text-3xl font-bold text-gray-900 dark:text-white mt-2">
+                        {{ number_format($vendors) }}
+                    </p>
+                    <div class="flex items-center mt-2">
+                        <span class="text-green-500 text-sm font-medium">
+                            <i class="fas fa-arrow-up mr-1"></i>
+                            +8%
+                        </span>
+                        <span class="text-gray-500 dark:text-gray-400 text-xs ml-2 rtl:mr-2 rtl:ml-0">
+                            {{ __('vs last month') }}
+                        </span>
+                    </div>
+                </div>
+                <div class="bg-emerald-100 dark:bg-emerald-900/30 p-3 rounded-xl">
+                    <i class="fas fa-store text-2xl text-emerald-600 dark:text-emerald-400"></i>
+                </div>
+            </div>
         </div>
-        <div class="card-body">
-        <div class="chart-container" style="min-height: 375px">
-          <canvas id="userStatsChart"></canvas>
+
+        <!-- Providers Card -->
+        <div class="card-modern p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+            <div class="flex items-center justify-between">
+                <div class="flex-1">
+                    <p class="text-sm font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wide">
+                        {{ __('message.Providers') }}
+                    </p>
+                    <p class="text-3xl font-bold text-gray-900 dark:text-white mt-2">
+                        {{ number_format($providers) }}
+                    </p>
+                    <div class="flex items-center mt-2">
+                        <span class="text-orange-500 text-sm font-medium">
+                            <i class="fas fa-arrow-down mr-1"></i>
+                            -3%
+                        </span>
+                        <span class="text-gray-500 dark:text-gray-400 text-xs ml-2 rtl:mr-2 rtl:ml-0">
+                            {{ __('vs last month') }}
+                        </span>
+                    </div>
+                </div>
+                <div class="bg-purple-100 dark:bg-purple-900/30 p-3 rounded-xl">
+                    <i class="fas fa-chalkboard-teacher text-2xl text-purple-600 dark:text-purple-400"></i>
+                </div>
+            </div>
         </div>
-        <div id="myChartLegend"></div>
+
+        <!-- Subscribed Users Card -->
+        <div class="card-modern p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+            <div class="flex items-center justify-between">
+                <div class="flex-1">
+                    <p class="text-sm font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wide">
+                        {{ __('message.Subscribed Users') }}
+                    </p>
+                    <p class="text-3xl font-bold text-gray-900 dark:text-white mt-2">
+                        {{ number_format($codesPaied) }}
+                    </p>
+                    <div class="flex items-center mt-2">
+                        <span class="text-green-500 text-sm font-medium">
+                            <i class="fas fa-arrow-up mr-1"></i>
+                            +25%
+                        </span>
+                        <span class="text-gray-500 dark:text-gray-400 text-xs ml-2 rtl:mr-2 rtl:ml-0">
+                            {{ __('vs last month') }}
+                        </span>
+                    </div>
+                </div>
+                <div class="bg-indigo-100 dark:bg-indigo-900/30 p-3 rounded-xl">
+                    <i class="fas fa-user-check text-2xl text-indigo-600 dark:text-indigo-400"></i>
+                </div>
+            </div>
         </div>
-      </div>
+    </div>
+
+    <!-- Secondary Stats -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Paid Codes Card -->
+        <div class="card-modern p-6">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                    {{ __('message.Codes Paied') }}
+                </h3>
+                <div class="bg-green-100 dark:bg-green-900/30 p-2 rounded-lg">
+                    <i class="fas fa-credit-card text-green-600 dark:text-green-400"></i>
+                </div>
+            </div>
+            <div class="flex items-end justify-between">
+                <div>
+                    <p class="text-3xl font-bold text-gray-900 dark:text-white">
+                        {{ number_format($codesPaied) }}
+                    </p>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                        {{ __('Total paid codes') }}
+                    </p>
+                </div>
+                <div class="text-right rtl:text-left">
+                    <span class="text-green-500 text-sm font-medium">
+                        <i class="fas fa-arrow-up mr-1"></i>
+                        +15%
+                    </span>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">
+                        {{ __('This week') }}
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Unpaid Codes Card -->
+        <div class="card-modern p-6">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                    {{ __('message.Codes Unpaid') }}
+                </h3>
+                <div class="bg-red-100 dark:bg-red-900/30 p-2 rounded-lg">
+                    <i class="fas fa-times-circle text-red-600 dark:text-red-400"></i>
+                </div>
+            </div>
+            <div class="flex items-end justify-between">
+                <div>
+                    <p class="text-3xl font-bold text-gray-900 dark:text-white">
+                        {{ number_format($codesUnpaied) }}
+                    </p>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                        {{ __('Total unpaid codes') }}
+                    </p>
+                </div>
+                <div class="text-right rtl:text-left">
+                    <span class="text-red-500 text-sm font-medium">
+                        <i class="fas fa-arrow-down mr-1"></i>
+                        -5%
+                    </span>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">
+                        {{ __('This week') }}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Section -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- User Statistics Chart -->
+        <div class="card-modern p-6">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                    {{ __('message.User Statistics') }}
+                </h3>
+                <div class="flex items-center space-x-2 rtl:space-x-reverse">
+                    <button class="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 px-3 py-1 rounded-lg hover:bg-gray-100 dark:hover:bg-dark-700">
+                        {{ __('7D') }}
+                    </button>
+                    <button class="text-sm bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 px-3 py-1 rounded-lg">
+                        {{ __('30D') }}
+                    </button>
+                    <button class="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 px-3 py-1 rounded-lg hover:bg-gray-100 dark:hover:bg-dark-700">
+                        {{ __('90D') }}
+                    </button>
+                </div>
+            </div>
+            <div class="h-80">
+                <canvas id="userStatsChart" class="w-full h-full"></canvas>
+            </div>
+        </div>
+
+        <!-- Revenue Chart -->
+        <div class="card-modern p-6">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                    {{ __('Revenue Overview') }}
+                </h3>
+                <div class="flex items-center space-x-2 rtl:space-x-reverse">
+                    <span class="text-2xl font-bold text-gray-900 dark:text-white">
+                        ${{ number_format(42580) }}
+                    </span>
+                    <span class="text-green-500 text-sm">
+                        <i class="fas fa-arrow-up"></i>
+                        +18%
+                    </span>
+                </div>
+            </div>
+            <div class="h-80">
+                <canvas id="revenueChart" class="w-full h-full"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Activity -->
+    <div class="card-modern">
+        <div class="p-6 border-b border-gray-200 dark:border-dark-600">
+            <div class="flex items-center justify-between">
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                    {{ __('Recent Activity') }}
+                </h3>
+                <a href="#" class="text-sm text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300">
+                    {{ __('View All') }}
+                </a>
+            </div>
+        </div>
+        <div class="p-6">
+            <div class="space-y-4">
+                <!-- Activity Item -->
+                <div class="flex items-start space-x-4 rtl:space-x-reverse">
+                    <div class="bg-blue-100 dark:bg-blue-900/30 p-2 rounded-lg">
+                        <i class="fas fa-user-plus text-blue-600 dark:text-blue-400"></i>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <p class="text-sm text-gray-900 dark:text-white">
+                            {{ __('New user registered') }}
+                        </p>
+                        <p class="text-xs text-gray-500 dark:text-gray-400">
+                            John Doe joined the platform
+                        </p>
+                        <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">
+                            2 minutes ago
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Activity Item -->
+                <div class="flex items-start space-x-4 rtl:space-x-reverse">
+                    <div class="bg-green-100 dark:bg-green-900/30 p-2 rounded-lg">
+                        <i class="fas fa-credit-card text-green-600 dark:text-green-400"></i>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <p class="text-sm text-gray-900 dark:text-white">
+                            {{ __('Payment received') }}
+                        </p>
+                        <p class="text-xs text-gray-500 dark:text-gray-400">
+                            $150 payment from premium subscription
+                        </p>
+                        <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">
+                            15 minutes ago
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Activity Item -->
+                <div class="flex items-start space-x-4 rtl:space-x-reverse">
+                    <div class="bg-purple-100 dark:bg-purple-900/30 p-2 rounded-lg">
+                        <i class="fas fa-store text-purple-600 dark:text-purple-400"></i>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <p class="text-sm text-gray-900 dark:text-white">
+                            {{ __('New vendor application') }}
+                        </p>
+                        <p class="text-xs text-gray-500 dark:text-gray-400">
+                            Tech Solutions Inc. submitted application
+                        </p>
+                        <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">
+                            1 hour ago
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
       </div>
     </div>
     </div>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-    const ctx = document.getElementById("userStatsChart").getContext("2d");
-
-    function fetchUserStats() {
-      fetch("{{ route('user-stats') }}")
-      .then(response => response.json())
-      .then(data => {
-        data.sort((a, b) => a.month - b.month);
-
-        const labels = data.map(item => getMonthName(item.month));
-        const activeUsers = data.map(item => item.total_active_users);
-        const subscribedUsers = data.map(item => item.total_subscribed_users);
-
-        const userLang = document.documentElement.lang || navigator.language || "en";
-
-        const translations = {
-        en: { active: "Active Users", subscribed: "Subscribed Users", month: "Month", users: "Users" },
-        ar: { active: "المستخدمون النشطون", subscribed: "المستخدمون المشتركون", month: "الشهر", users: "المستخدمون" }
-        };
-
-        const t = translations[userLang.startsWith("ar") ? "ar" : "en"]; // اختيار الترجمة المناسبة
-
-        new Chart(ctx, {
-        type: "line",
-        data: {
-          labels: labels,
-          datasets: [
-          {
-            label: t.active,
-            data: activeUsers,
-            backgroundColor: "rgba(54, 162, 235, 0.2)",
-            borderColor: "rgba(54, 162, 235, 1)",
-            borderWidth: 2,
-            fill: true,
-            tension: 0.4
-          },
-          {
-            label: t.subscribed,
-            data: subscribedUsers,
-            backgroundColor: "rgba(255, 99, 132, 0.2)",
-            borderColor: "rgba(255, 99, 132, 1)",
-            borderWidth: 2,
-            fill: true,
-            tension: 0.4
-          }
-          ]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-          legend: {
-            display: true,
-            position: "top"
-          }
-          },
-          scales: {
-          x: {
-            title: { display: true, text: t.month }
-          },
-          y: {
-            title: { display: true, text: t.users },
-            beginAtZero: true
-          }
-          }
-        }
+  <!-- Chart.js for enhanced charts -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Check if elements exist before creating charts
+    const userStatsElement = document.getElementById('userStatsChart');
+    const revenueElement = document.getElementById('revenueChart');
+    
+    if (userStatsElement) {
+        const userStatsCtx = userStatsElement.getContext('2d');
+        const isDarkMode = document.documentElement.classList.contains('dark');
+        
+        new Chart(userStatsCtx, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                datasets: [{
+                    label: '{{ __("Users") }}',
+                    data: [120, 190, 300, 500, 200, 300, 450, 600, 750, 850, 950, {{ $users }}],
+                    borderColor: '#3b82f6',
+                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: isDarkMode ? '#f1f5f9' : '#374151'
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: { color: isDarkMode ? '#94a3b8' : '#6b7280' }
+                    },
+                    y: {
+                        ticks: { color: isDarkMode ? '#94a3b8' : '#6b7280' }
+                    }
+                }
+            }
         });
-      })
-      .catch(error => console.error("Error fetching user stats:", error));
     }
-
-    function getMonthName(month) {
-      const userLang = document.documentElement.lang || navigator.language || "en";
-
-      const months = {
-      en: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-      ar: ["يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو", "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"]
-      };
-
-      return months[userLang.startsWith("ar") ? "ar" : "en"][month - 1];
+    
+    if (revenueElement) {
+        const revenueCtx = revenueElement.getContext('2d');
+        const isDarkMode = document.documentElement.classList.contains('dark');
+        
+        new Chart(revenueCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                datasets: [{
+                    label: '{{ __("Revenue") }}',
+                    data: [12000, 19000, 15000, 25000, 22000, 30000],
+                    backgroundColor: [
+                        'rgba(59, 130, 246, 0.8)',
+                        'rgba(16, 185, 129, 0.8)',
+                        'rgba(139, 92, 246, 0.8)',
+                        'rgba(245, 158, 11, 0.8)',
+                        'rgba(239, 68, 68, 0.8)',
+                        'rgba(236, 72, 153, 0.8)'
+                    ],
+                    borderRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    x: {
+                        ticks: { color: isDarkMode ? '#94a3b8' : '#6b7280' }
+                    },
+                    y: {
+                        ticks: { 
+                            color: isDarkMode ? '#94a3b8' : '#6b7280',
+                            callback: function(value) {
+                                return '$' + value.toLocaleString();
+                            }
+                        }
+                    }
+                }
+            }
+        });
     }
-
-    fetchUserStats();
-    });
-  </script>
-
-
+});
+</script>
 @endsection

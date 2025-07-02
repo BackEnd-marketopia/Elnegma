@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('name_english');
             $table->string('image')->nullable();
             $table->integer('sort_order')->nullable();
-            $table->boolean('is_sport')->default(0);
             $table->timestamps();
         });
     }

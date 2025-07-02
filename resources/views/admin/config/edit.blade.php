@@ -7,7 +7,6 @@
             <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
                 <div>
                     <h3 class="fw-bold mb-3">{{ __('message.Configurations') }}</h3>
-                    <h6 class="op-7 mb-2">4P</h6>
                 </div>
                 {{-- <div class="ms-md-auto">
                     <a href="{{ route('admin.cities.edit', $config->id) }}" class="btn btn-secondary btn-round">{{
@@ -124,62 +123,6 @@
                                                 @if ($errors->has('privacy_policy'))
                                                     <span class="invalid-feedback" style="display: block;" role="alert">
                                                         <strong>{{ $errors->first('privacy_policy') }}</strong>
-                                                    </span>
-                                                @endif
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div
-                                                    class="form-group {{ $errors->has('image_of_card') ? ' has-danger' : '' }}">
-                                                    <label for="image_of_card">{{ __('message.image_of_card') }}</label>
-                                                    <input type="file" class="form-control" id="image_of_card"
-                                                        name="image_of_card">
-                                                </div>
-                                                @if ($errors->has('image_of_card'))
-                                                    <span class="invalid-feedback" style="display: block;" role="alert">
-                                                        <strong>{{ $errors->first('image_of_card') }}</strong>
-                                                    </span>
-                                                @endif
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div
-                                                    class="form-group {{ $errors->has('price_of_card') ? ' has-danger' : '' }}">
-                                                    <label for="price_of_card">{{ __('message.price_of_card') }}</label>
-                                                    <input type="float" class="form-control" id="price_of_card"
-                                                        value="{{ $config->price_of_card }}" name="price_of_card">
-                                                </div>
-                                                @if ($errors->has('price_of_card'))
-                                                    <span class="invalid-feedback" style="display: block;" role="alert">
-                                                        <strong>{{ $errors->first('price_of_card') }}</strong>
-                                                    </span>
-                                                @endif
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div
-                                                    class="form-group {{ $errors->has('description_of_card_arabic') ? ' has-danger' : '' }}">
-                                                    <label
-                                                        for="description_of_card_arabic">{{ __('message.description_of_card_arabic') }}</label>
-                                                    <textarea type="text" class="form-control"
-                                                        id="description_of_card_arabic" name="description_of_card_arabic"
-                                                        required>{{ $config->description_of_card_arabic }}</textarea>
-                                                </div>
-                                                @if ($errors->has('description_of_card_arabic'))
-                                                    <span class="invalid-feedback" style="display: block;" role="alert">
-                                                        <strong>{{ $errors->first('description_of_card_arabic') }}</strong>
-                                                    </span>
-                                                @endif
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div
-                                                    class="form-group {{ $errors->has('description_of_card_english') ? ' has-danger' : '' }}">
-                                                    <label
-                                                        for="description_of_card_english">{{ __('message.description_of_card_english') }}</label>
-                                                    <textarea type="text" class="form-control"
-                                                        id="description_of_card_english" name="description_of_card_english"
-                                                        required>{{ $config->description_of_card_english }}</textarea>
-                                                </div>
-                                                @if ($errors->has('description_of_card_english'))
-                                                    <span class="invalid-feedback" style="display: block;" role="alert">
-                                                        <strong>{{ $errors->first('description_of_card_english') }}</strong>
                                                     </span>
                                                 @endif
                                             </div>

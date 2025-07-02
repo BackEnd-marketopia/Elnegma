@@ -24,7 +24,7 @@ class StoreCategoryRequest extends FormRequest
         return [
             'name_arabic'  => 'required | string | max:255',
             'name_english' => 'required | string | max:255',
-            'image'        => 'required',
+            'image'        => 'required | mimes:svg',
             'sort_order'   => 'required | min:1'
         ];
     }

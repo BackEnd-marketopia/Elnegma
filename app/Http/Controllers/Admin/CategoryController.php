@@ -41,7 +41,6 @@ class CategoryController extends Controller
             'name_english' => $request->name_english,
             'image'        => $image,
             'sort_order'   => $request->sort_order,
-            'is_sport'     => false,
         ]);
         return redirect()->route('admin.categories.index')->with('success', __('message.Category Added Successfully'));
     }
@@ -62,6 +61,7 @@ class CategoryController extends Controller
     {
         $category = Category::findOrFail($id);
         $image = $request->image ? $request->image : $category->image;
+
         if ($request->image) {
             if (File::exists($category->image)) {
                 File::delete($category->image);
@@ -74,7 +74,6 @@ class CategoryController extends Controller
             'name_english' => $request->name_english,
             'image'        => $image,
             'sort_order'   => $request->sort_order,
-            'is_sport'     => $category->is_sport == true ? true : false,
         ]);
         return redirect()->route('admin.categories.index')->with('success', __('message.Category Edit Successfully'));
     }
@@ -85,9 +84,6 @@ class CategoryController extends Controller
     public function destroy(string $id)
     {
         $category = Category::findOrFail($id);
-
-        if ($category->is_sport)
-            return redirect()->route('admin.categories.index')->with('error', __("message.Can't delete This Category"));
 
         if (File::exists($category->image))
             File::delete($category->image);

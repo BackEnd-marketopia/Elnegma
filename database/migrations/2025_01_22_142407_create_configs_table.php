@@ -20,10 +20,16 @@ return new class extends Migration
             $table->integer('ios_version');
             $table->string('android_url');
             $table->string('ios_url');
-            $table->string('image_of_card');
-            $table->double('price_of_card');
-            $table->text('description_of_card_arabic');
-            $table->text('description_of_card_english');
+            $table->string('facebook_link')->nullable();
+            $table->string('twitter_link')->nullable();
+            $table->string('instagram_link')->nullable();
+            $table->string('youtube_link')->nullable();
+            $table->string('snapchat_link')->nullable();
+            $table->string('tiktok_link')->nullable();
+            $table->string('whatsapp_link')->nullable();
+            $table->string('linkedin_link')->nullable();
+            $table->string('telegram_link')->nullable();
+            $table->string('website_link')->nullable();
             $table->timestamps();
         });
     }

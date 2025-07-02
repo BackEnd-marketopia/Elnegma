@@ -1,178 +1,198 @@
-<div class="sidebar" data-background-color="white">
-    <div class="sidebar-logo">
-        <!-- Logo Header -->
-        <div class="logo-header" data-background-color="white">
-            <a href="{{ route('admin.index') }}" class="logo">
-                <img src="{{ asset('assets/img/kaiadmin/app_logo.png') }}" alt="4P" class="navbar-brand" height="50" />
-                <p>4P</p>
-            </a>
-            <div class="nav-toggle">
-                <button class="btn btn-toggle toggle-sidebar">
-                    <i class="gg-menu-right"></i>
-                </button>
-                <button class="btn btn-toggle sidenav-toggler">
-                    <i class="gg-menu-left"></i>
-                </button>
-            </div>
-            <button class="topbar-toggler more">
-                <i class="gg-more-vertical-alt"></i>
-            </button>
-        </div>
-        <!-- End Logo Header -->
+<div class="h-full flex flex-col bg-white dark:bg-dark-800 transition-colors duration-300">
+    <!-- Logo Section -->
+    <div class="flex items-center justify-between p-6 border-b border-gray-200 dark:border-dark-700">
+        <a href="{{ route('admin.index') }}" class="flex items-center space-x-3 rtl:space-x-reverse">
+            <img src="{{ asset('assets/img/kaiadmin/app_logo.png') }}" alt="Negma" class="h-10 w-auto" />
+            <span class="text-xl font-bold text-gray-800 dark:text-white">{{ __('message.Admin Panel') }}</span>
+        </a>
+        
+        <!-- Mobile Sidebar Close Button -->
+        <button 
+            class="lg:hidden p-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-700 rounded-lg transition-colors z-50 relative"
+            onclick="window.toggleSidebar()"
+            id="sidebarCloseBtn"
+            style="z-index: 9999;"
+        >
+            <i class="fas fa-times text-lg"></i>
+        </button>
     </div>
-    <div class="sidebar-wrapper scrollbar scrollbar-inner">
-        <div class="sidebar-content">
-            <ul class="nav nav-secondary">
-                <li class="nav-item {{ Route::currentRouteName() == 'admin.index' ? 'active' : '' }}">
-                    <a href="{{ route('admin.index') }}">
-                        <i class="fas fa-home"></i>
-                        <p>{{ __('message.Dashboard') }}</p>
-                    </a>
-                </li>
-                <li class="nav-item {{ Route::currentRouteName() == 'admin.player_forms.index' ? 'active' : '' }}">
-                    <a href="{{ route('admin.player_forms.index') }}">
-                        <i class="fas fa-file-alt"></i>
-                        <p>{{ __('message.Player Forms') }}</p>
-                    </a>
-                </li>
-                <li
-                    class="nav-item {{ Route::currentRouteName() == 'admin.categories.index' || Route::currentRouteName() == 'admin.categories.create' ? 'active' : '' }}">
-                    <a data-bs-toggle="collapse" href="#Categories" class="collapsed" aria-expanded="false">
-                        <i class="fas fa-tags"></i>
-                        <p>{{ __('message.Categories') }}</p>
-                        <span class="caret"></span>
-                    </a>
-                    <div class="collapse" id="Categories">
-                        <ul class="nav nav-collapse">
-                            <li>
-                                <a href="{{ route('admin.categories.create') }}">
-                                    <span class="sub-item">{{ __('message.Add') }}</span>
-                                </a>
-                                <a href="{{ route('admin.categories.index') }}">
-                                    <span class="sub-item">{{ __('message.List') }}</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-                <li
-                    class="nav-item {{ Route::currentRouteName() == 'admin.banners.index' || Route::currentRouteName() == 'admin.banners.create' ? 'active' : '' }}">
-                    <a data-bs-toggle="collapse" href="#Banners" class="collapsed" aria-expanded="false">
-                        <i class="fas fa-image"></i>
-                        <p>{{ __('message.Banners') }}</p>
-                        <span class="caret"></span>
-                    </a>
-                    <div class="collapse" id="Banners">
-                        <ul class="nav nav-collapse">
-                            <li>
-                                <a href="{{ route('admin.banners.create') }}">
-                                    <span class="sub-item">{{ __('message.Add') }}</span>
-                                </a>
-                                <a href="{{ route('admin.banners.index') }}">
-                                    <span class="sub-item">{{ __('message.List') }}</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
 
-                <li
-                    class="nav-item {{ Route::currentRouteName() == 'admin.feeds.index' || Route::currentRouteName() == 'admin.feeds.create' ? 'active' : '' }}">
-                    <a data-bs-toggle="collapse" href="#Feeds" class="collapsed" aria-expanded="false">
-                        <i class="fas fa-newspaper"></i>
-                        <p>{{ __('message.Feeds') }}</p>
-                        <span class="caret"></span>
-                    </a>
-                    <div class="collapse" id="Feeds">
-                        <ul class="nav nav-collapse">
-                            <li>
-                                <a href="{{ route('admin.feeds.create') }}">
-                                    <span class="sub-item">{{ __('message.Add') }}</span>
-                                </a>
-                                <a href="{{ route('admin.feeds.index') }}">
-                                    <span class="sub-item">{{ __('message.List') }}</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-                <li
-                    class="nav-item {{ Route::currentRouteName() == 'admin.users.index' || Route::currentRouteName() == 'admin.users.create' || Route::currentRouteName() == 'admin.admins.index' || Route::currentRouteName() == 'admin.admins.create' || Route::currentRouteName() == 'admin.providers.index' || Route::currentRouteName() == 'admin.providers.create' || Route::currentRouteName() == 'admin.vendors.index' || Route::currentRouteName() == 'admin.vendors.create' ? 'active' : '' }}">
-                    <a data-bs-toggle="collapse" href="#user_types" class="collapsed" aria-expanded="false">
-                        <i class="fas fa-users"></i>
-                        <p>{{ __('message.User Types') }}</p>
-                        <span class="caret"></span>
-                    </a>
-                    <div class="collapse" id="user_types">
-                        <ul class="nav nav-collapse">
-                            <li>
-                                <a href="{{ route('admin.admins.index') }}">
-                                    <span class="sub-item">{{ __('message.Admins') }}</span>
-                                </a>
-                                <a href="{{ route('admin.providers.index') }}">
-                                    <span class="sub-item">{{ __('message.Providers') }}</span>
-                                </a>
-                                <a href="{{ route('admin.vendors.index') }}">
-                                    <span class="sub-item">{{ __('message.Vendos') }}</span>
-                                </a>
-                                <a href="{{ route('admin.users.index') }}">
-                                    <span class="sub-item">{{ __('message.Users') }}</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-                <li class="nav-item {{ Route::currentRouteName() == 'admin.codes.index' ? 'active' : '' }}">
-                    <a href="{{ route('admin.codes.index') }}">
-                        <i class="fas fa-key"></i>
-                        <p>{{ __('message.Codes') }}</p>
-                    </a>
-                </li>
-                <li
-                    class="nav-item {{ Route::currentRouteName() == 'admin.notifications.index' || Route::currentRouteName() == 'admin.notifications.create' ? 'active' : '' }}">
-                    <a data-bs-toggle="collapse" href="#Notifications" class="collapsed" aria-expanded="false">
-                        <i class="fas fa-bell"></i>
-                        <p>{{ __('message.Notifications') }}</p>
-                        <span class="caret"></span>
-                    </a>
-                    <div class="collapse" id="Notifications">
-                        <ul class="nav nav-collapse">
-                            <li>
-                                <a href="{{ route('admin.notifications.create') }}">
-                                    <span class="sub-item">{{ __('message.Add') }}</span>
-                                </a>
-                                <a href="{{ route('admin.notifications.index') }}">
-                                    <span class="sub-item">{{ __('message.List') }}</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-                <li class="nav-item {{ Route::currentRouteName() == 'admin.ads.index' ? 'active' : '' }}">
-                    <a href="{{ route('admin.ads.index') }}">
-                        <i class="fas fa-bullhorn"></i>
-                        <p>{{ __('message.Advertisements') }}</p>
-                    </a>
-                </li>
-                <li class="nav-item {{ Route::currentRouteName() == 'admin.cities.index' ? 'active' : '' }}">
-                    <a href="{{ route('admin.cities.index') }}">
-                        <i class="fas fa-globe"></i>
-                        <p>{{ __('message.Cities') }}</p>
-                    </a>
-                </li>
-                <li class="nav-item {{ Route::currentRouteName() == 'admin.payments.index' ? 'active' : '' }}">
-                    <a href="{{ route('admin.payments.index') }}">
-                        <i class="fas fa-hand-holding-usd"></i>
-                        <p>{{ __('message.Payments') }}</p>
-                    </a>
-                </li>
-                <li class="nav-item {{ Route::currentRouteName() == 'admin.config' ? 'active' : '' }}">
-                    <a href="{{ route('admin.config') }}">
-                        <i class="fas fa-cog"></i>
-                        <p>{{ __('message.Configurations') }}</p>
-                    </a>
-                </li>
-            </ul>
+    <!-- Navigation -->
+    <nav class="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
+        <!-- Dashboard -->
+        <a href="{{ route('admin.index') }}" 
+           class="flex items-center px-4 py-3 text-gray-700 dark:text-gray-200 rounded-xl hover:bg-primary-50 dark:hover:bg-primary-900/20 hover:text-primary-600 dark:hover:text-primary-400 transition-all duration-200 group {{ Route::currentRouteName() == 'admin.index' ? 'bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 shadow-sm' : '' }}">
+            <i class="fas fa-home text-lg mr-3 rtl:ml-3 rtl:mr-0 group-hover:scale-110 transition-transform"></i>
+            <span class="font-medium">{{ __('message.Dashboard') }}</span>
+        </a>
+
+        <!-- Categories -->
+        <div class="nav-group">
+            <button onclick="toggleNavGroup('Categories')" 
+                    class="w-full flex items-center justify-between px-4 py-3 text-gray-700 dark:text-gray-200 rounded-xl hover:bg-primary-50 dark:hover:bg-primary-900/20 hover:text-primary-600 dark:hover:text-primary-400 transition-all duration-200 group {{ in_array(Route::currentRouteName(), ['admin.categories.index', 'admin.categories.create']) ? 'bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400' : '' }}">
+                <div class="flex items-center">
+                    <i class="fas fa-tags text-lg mr-3 rtl:ml-3 rtl:mr-0 group-hover:scale-110 transition-transform"></i>
+                    <span class="font-medium">{{ __('message.Categories') }}</span>
+                </div>
+                <i class="fas fa-chevron-down text-sm transition-transform duration-200 group-hover:rotate-180" id="Categories-icon"></i>
+            </button>
+            <div class="mt-2 ml-7 rtl:mr-7 rtl:ml-0 space-y-1 hidden" id="Categories-menu">
+                <a href="{{ route('admin.categories.create') }}" 
+                   class="block px-4 py-2 text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-primary-50 dark:hover:bg-primary-900/10 rounded-lg transition-all duration-200">
+                    <i class="fas fa-plus text-xs mr-2 rtl:ml-2 rtl:mr-0"></i>
+                    {{ __('message.Add') }}
+                </a>
+                <a href="{{ route('admin.categories.index') }}" 
+                   class="block px-4 py-2 text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-primary-50 dark:hover:bg-primary-900/10 rounded-lg transition-all duration-200">
+                    <i class="fas fa-list text-xs mr-2 rtl:ml-2 rtl:mr-0"></i>
+                    {{ __('message.List') }}
+                </a>
+            </div>
         </div>
-    </div>
+
+        <!-- Banners -->
+        <div class="nav-group">
+            <button onclick="toggleNavGroup('Banners')" 
+                    class="w-full flex items-center justify-between px-4 py-3 text-gray-700 dark:text-gray-200 rounded-xl hover:bg-primary-50 dark:hover:bg-primary-900/20 hover:text-primary-600 dark:hover:text-primary-400 transition-all duration-200 group {{ in_array(Route::currentRouteName(), ['admin.banners.index', 'admin.banners.create']) ? 'bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400' : '' }}">
+                <div class="flex items-center">
+                    <i class="fas fa-image text-lg mr-3 rtl:ml-3 rtl:mr-0 group-hover:scale-110 transition-transform"></i>
+                    <span class="font-medium">{{ __('message.Banners') }}</span>
+                </div>
+                <i class="fas fa-chevron-down text-sm transition-transform duration-200 group-hover:rotate-180" id="Banners-icon"></i>
+            </button>
+            <div class="mt-2 ml-7 rtl:mr-7 rtl:ml-0 space-y-1 hidden" id="Banners-menu">
+                <a href="{{ route('admin.banners.create') }}" 
+                   class="block px-4 py-2 text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-primary-50 dark:hover:bg-primary-900/10 rounded-lg transition-all duration-200">
+                    <i class="fas fa-plus text-xs mr-2 rtl:ml-2 rtl:mr-0"></i>
+                    {{ __('message.Add') }}
+                </a>
+                <a href="{{ route('admin.banners.index') }}" 
+                   class="block px-4 py-2 text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-primary-50 dark:hover:bg-primary-900/10 rounded-lg transition-all duration-200">
+                    <i class="fas fa-list text-xs mr-2 rtl:ml-2 rtl:mr-0"></i>
+                    {{ __('message.List') }}
+                </a>
+            </div>
+        </div>
+
+        <!-- User Types -->
+        <div class="nav-group">
+            <button onclick="toggleNavGroup('UserTypes')" 
+                    class="w-full flex items-center justify-between px-4 py-3 text-gray-700 dark:text-gray-200 rounded-xl hover:bg-primary-50 dark:hover:bg-primary-900/20 hover:text-primary-600 dark:hover:text-primary-400 transition-all duration-200 group {{ in_array(Route::currentRouteName(), ['admin.users.index', 'admin.users.create', 'admin.admins.index', 'admin.admins.create', 'admin.providers.index', 'admin.providers.create', 'admin.vendors.index', 'admin.vendors.create']) ? 'bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400' : '' }}">
+                <div class="flex items-center">
+                    <i class="fas fa-users text-lg mr-3 rtl:ml-3 rtl:mr-0 group-hover:scale-110 transition-transform"></i>
+                    <span class="font-medium">{{ __('message.User Types') }}</span>
+                </div>
+                <i class="fas fa-chevron-down text-sm transition-transform duration-200 group-hover:rotate-180" id="UserTypes-icon"></i>
+            </button>
+            <div class="mt-2 ml-7 rtl:mr-7 rtl:ml-0 space-y-1 hidden" id="UserTypes-menu">
+                <a href="{{ route('admin.admins.index') }}" 
+                   class="block px-4 py-2 text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-primary-50 dark:hover:bg-primary-900/10 rounded-lg transition-all duration-200">
+                    <i class="fas fa-user-shield text-xs mr-2 rtl:ml-2 rtl:mr-0"></i>
+                    {{ __('message.Admins') }}
+                </a>
+                <a href="{{ route('admin.vendors.index') }}" 
+                   class="block px-4 py-2 text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-primary-50 dark:hover:bg-primary-900/10 rounded-lg transition-all duration-200">
+                    <i class="fas fa-store text-xs mr-2 rtl:ml-2 rtl:mr-0"></i>
+                    {{ __('message.Vendos') }}
+                </a>
+                <a href="{{ route('admin.users.index') }}" 
+                   class="block px-4 py-2 text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-primary-50 dark:hover:bg-primary-900/10 rounded-lg transition-all duration-200">
+                    <i class="fas fa-user text-xs mr-2 rtl:ml-2 rtl:mr-0"></i>
+                    {{ __('message.Users') }}
+                </a>
+            </div>
+        </div>
+
+        <!-- Notifications -->
+        <div class="nav-group">
+            <button onclick="toggleNavGroup('Notifications')" 
+                    class="w-full flex items-center justify-between px-4 py-3 text-gray-700 dark:text-gray-200 rounded-xl hover:bg-primary-50 dark:hover:bg-primary-900/20 hover:text-primary-600 dark:hover:text-primary-400 transition-all duration-200 group {{ in_array(Route::currentRouteName(), ['admin.notifications.index', 'admin.notifications.create']) ? 'bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400' : '' }}">
+                <div class="flex items-center">
+                    <i class="fas fa-bell text-lg mr-3 rtl:ml-3 rtl:mr-0 group-hover:scale-110 transition-transform"></i>
+                    <span class="font-medium">{{ __('message.Notifications') }}</span>
+                </div>
+                <i class="fas fa-chevron-down text-sm transition-transform duration-200 group-hover:rotate-180" id="Notifications-icon"></i>
+            </button>
+            <div class="mt-2 ml-7 rtl:mr-7 rtl:ml-0 space-y-1 hidden" id="Notifications-menu">
+                <a href="{{ route('admin.notifications.create') }}" 
+                   class="block px-4 py-2 text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-primary-50 dark:hover:bg-primary-900/10 rounded-lg transition-all duration-200">
+                    <i class="fas fa-plus text-xs mr-2 rtl:ml-2 rtl:mr-0"></i>
+                    {{ __('message.Add') }}
+                </a>
+                <a href="{{ route('admin.notifications.index') }}" 
+                   class="block px-4 py-2 text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-primary-50 dark:hover:bg-primary-900/10 rounded-lg transition-all duration-200">
+                    <i class="fas fa-list text-xs mr-2 rtl:ml-2 rtl:mr-0"></i>
+                    {{ __('message.List') }}
+                </a>
+            </div>
+        </div>
+
+        <!-- Single Menu Items -->
+        <a href="{{ route('admin.ads.index') }}" 
+           class="flex items-center px-4 py-3 text-gray-700 dark:text-gray-200 rounded-xl hover:bg-primary-50 dark:hover:bg-primary-900/20 hover:text-primary-600 dark:hover:text-primary-400 transition-all duration-200 group {{ Route::currentRouteName() == 'admin.ads.index' ? 'bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 shadow-sm' : '' }}">
+            <i class="fas fa-bullhorn text-lg mr-3 rtl:ml-3 rtl:mr-0 group-hover:scale-110 transition-transform"></i>
+            <span class="font-medium">{{ __('message.Advertisements') }}</span>
+        </a>
+
+        <a href="{{ route('admin.cities.index') }}" 
+           class="flex items-center px-4 py-3 text-gray-700 dark:text-gray-200 rounded-xl hover:bg-primary-50 dark:hover:bg-primary-900/20 hover:text-primary-600 dark:hover:text-primary-400 transition-all duration-200 group {{ Route::currentRouteName() == 'admin.cities.index' ? 'bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 shadow-sm' : '' }}">
+            <i class="fas fa-globe text-lg mr-3 rtl:ml-3 rtl:mr-0 group-hover:scale-110 transition-transform"></i>
+            <span class="font-medium">{{ __('message.Cities') }}</span>
+        </a>
+
+        <a href="{{ route('admin.payments.index') }}" 
+           class="flex items-center px-4 py-3 text-gray-700 dark:text-gray-200 rounded-xl hover:bg-primary-50 dark:hover:bg-primary-900/20 hover:text-primary-600 dark:hover:text-primary-400 transition-all duration-200 group {{ Route::currentRouteName() == 'admin.payments.index' ? 'bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 shadow-sm' : '' }}">
+            <i class="fas fa-hand-holding-usd text-lg mr-3 rtl:ml-3 rtl:mr-0 group-hover:scale-110 transition-transform"></i>
+            <span class="font-medium">{{ __('message.Payments') }}</span>
+        </a>
+
+        <a href="{{ route('admin.config') }}" 
+           class="flex items-center px-4 py-3 text-gray-700 dark:text-gray-200 rounded-xl hover:bg-primary-50 dark:hover:bg-primary-900/20 hover:text-primary-600 dark:hover:text-primary-400 transition-all duration-200 group {{ Route::currentRouteName() == 'admin.config' ? 'bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 shadow-sm' : '' }}">
+            <i class="fas fa-cog text-lg mr-3 rtl:ml-3 rtl:mr-0 group-hover:scale-110 transition-transform"></i>
+            <span class="font-medium">{{ __('message.Configurations') }}</span>
+        </a>
+    </nav>
 </div>
+
+<script>
+    function toggleNavGroup(groupName) {
+        const menu = document.getElementById(groupName + '-menu');
+        const icon = document.getElementById(groupName + '-icon');
+        
+        if (menu.classList.contains('hidden')) {
+            // Close all other menus
+            document.querySelectorAll('[id$="-menu"]').forEach(m => {
+                if (m !== menu) {
+                    m.classList.add('hidden');
+                }
+            });
+            document.querySelectorAll('[id$="-icon"]').forEach(i => {
+                if (i !== icon) {
+                    i.classList.remove('rotate-180');
+                }
+            });
+            
+            // Open this menu
+            menu.classList.remove('hidden');
+            icon.classList.add('rotate-180');
+        } else {
+            menu.classList.add('hidden');
+            icon.classList.remove('rotate-180');
+        }
+    }
+
+    // Auto-expand active menu on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        // Check if any submenu item is active
+        const activeSubmenuItems = document.querySelectorAll('[id$="-menu"] a');
+        activeSubmenuItems.forEach(item => {
+            if (item.href === window.location.href) {
+                const menu = item.closest('[id$="-menu"]');
+                const groupName = menu.id.replace('-menu', '');
+                const icon = document.getElementById(groupName + '-icon');
+                menu.classList.remove('hidden');
+                icon.classList.add('rotate-180');
+            }
+        });
+    });
+</script>

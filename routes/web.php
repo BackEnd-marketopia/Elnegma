@@ -43,28 +43,20 @@ Route::group(['middleware' => 'WebLang'], function () {
             Route::post('/update', [HomeController::class, 'profileMeSotre'])->name('profileMeSotre');
         });
         Route::resources([
-            'player_forms'  => PlayerFormController::class,
             'cities'        => CityController::class,
             'banners'       => BannerController::class,
-            'feeds'         => FeedController::class,
             'categories'    => CategoryController::class,
             'users'         => UserController::class,
             'vendors'       => VendorController::class,
             'admins'        => AdminController::class,
-            'providers'     => ProviderController::class,
             'ads'           => Advertisement::class,
             'notifications' => NotificationController::class,
-            'codes'         => CodeController::class,
         ]);
         Route::get('/check-codes', function () {
             $hasCodes = \App\Models\Code::whereNull('user_id')->exists();
             return response()->json(['has_codes' => $hasCodes]);
         })->name('check.codes');
 
-        Route::post('/codes/destroy-ajax/{id}', [CodeController::class, 'destroyAjax'])->name('destroyAjax');
-        Route::get('/admin/codes/export', [CodeController::class, 'exportCodes'])->name('codes.export');
-
-        Route::get('/feed/notification/{id}', [FeedController::class, 'notification'])->name('feed.notification');
         Route::group(['prefix' => 'config'], function () {
             Route::get('/', [ConfigController::class, 'config'])->name('config');
             Route::put('/update/{id}', [ConfigController::class, 'configStore'])->name('configStore');

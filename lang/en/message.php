@@ -347,4 +347,6 @@ return [
     'Do you want to change your phone number?' => 'Do you want to change your phone number?',
     'Yes' => 'Yes',
     'No' => 'No',
+    'Online' => 'Online',
+    'Admin Panel' => 'Admin',
 ];

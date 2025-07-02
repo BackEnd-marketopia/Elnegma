@@ -19,7 +19,6 @@ class CategoryTableSeeder extends Seeder
                 'name_english' => 'Sports',
                 'image' => 'https://via.placeholder.com/150',
                 'sort_order' => 1,
-                'is_sport' => 1,
             ]
         ];
         Category::insert($sportCategory);

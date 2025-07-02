@@ -6,7 +6,6 @@
             <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
                 <div>
                     <h3 class="fw-bold mb-3">{{ __('message.Edit Vendor') }}</h3>
-                    <h6 class="op-7 mb-2">4P</h6>
                 </div>
             </div>
             <form action="{{ route('admin.vendors.update', $user->id) }}" method="POST" enctype="multipart/form-data">
@@ -15,15 +14,22 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">{{ __('message.Edit Vendor') }} - {{ $user->name }}</div>
+                            </div>
                             <div class="card-body">
                                 <div class="row">
-                                    {{-- <div class="col-md-3">
-                                        <div class="avatar avatar-xl">
-                                            <img src="{{ asset(auth('web')->user()->image) }}" alt="..."
-                                                class="avatar-img rounded-circle">
+                                    <div class="col-md-3 text-center">
+                                        <div class="avatar avatar-xl mb-3">
+                                            @include('components.user-avatar', ['user' => $user, 'size' => 'lg'])
                                         </div>
-                                    </div> --}}
-                                    <div class="col-md-12">
+                                        <p class="text-muted">صورة الملف الشخصي الحالية</p>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="form-section">
+                                            <h5 class="text-primary mb-3">
+                                                <i class="fas fa-user me-2"></i>{{ __('message.Personal Information') }}
+                                            </h5>
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div
@@ -65,8 +71,11 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group {{ $errors->has('image') ? ' has-danger' : '' }}">
-                                                    <label for="image">{{ __('message.Profile Image') }}</label>
-                                                    <input type="file" class="form-control" id="image" name="image">
+                                                    <label for="image" class="form-label">{{ __('message.Profile Image') }}</label>
+                                                    <div class="custom-file-upload">
+                                                        <input type="file" class="form-control" id="image" name="image" accept="image/*">
+                                                        <small class="form-text text-muted">يُنصح بصورة بحجم 200x200 بكسل</small>
+                                                    </div>
                                                 </div>
                                                 @if ($errors->has('image'))
                                                     <span class="invalid-feedback" style="display: block;" role="alert">
@@ -121,8 +130,11 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group {{ $errors->has('cover') ? ' has-danger' : '' }}">
-                                                    <label for="cover">{{ __('message.Cover') }}</label>
-                                                    <input type="file" class="form-control" id="cover" name="cover">
+                                                    <label for="cover" class="form-label">{{ __('message.Cover') }}</label>
+                                                    <div class="custom-file-upload">
+                                                        <input type="file" class="form-control" id="cover" name="cover" accept="image/*">
+                                                        <small class="form-text text-muted">صورة الغلاف - يُنصح بحجم 1200x400 بكسل</small>
+                                                    </div>
                                                 </div>
                                                 @if ($errors->has('cover'))
                                                     <span class="invalid-feedback" style="display: block;" role="alert">
@@ -132,8 +144,11 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group {{ $errors->has('logo') ? ' has-danger' : '' }}">
-                                                    <label for="logo">{{ __('message.Logo') }}</label>
-                                                    <input type="file" class="form-control" id="logo" name="logo">
+                                                    <label for="logo" class="form-label">{{ __('message.Logo') }}</label>
+                                                    <div class="custom-file-upload">
+                                                        <input type="file" class="form-control" id="logo" name="logo" accept="image/*">
+                                                        <small class="form-text text-muted">شعار العلامة التجارية - يُنصح بحجم 300x300 بكسل</small>
+                                                    </div>
                                                 </div>
                                                 @if ($errors->has('logo'))
                                                     <span class="invalid-feedback" style="display: block;" role="alert">
@@ -298,10 +313,14 @@
                                                     </span>
                                                 @endif
                                             </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <button class="btn btn-secondary"
-                                                        type="submit">{{ __('message.Edit') }}</button>
+                                            <div class="col-md-12 mt-4">
+                                                <div class="form-group text-center">
+                                                    <button class="btn btn-success me-3" type="submit">
+                                                        <i class="fas fa-save me-2"></i>{{ __('message.Edit') }}
+                                                    </button>
+                                                    <a href="{{ route('admin.vendors.index') }}" class="btn btn-secondary">
+                                                        <i class="fas fa-times me-2"></i>{{ __('message.Cancel') }}
+                                                    </a>
                                                 </div>
                                             </div>
                                         </div>

@@ -1,211 +1,147 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="{{ app()->getLocale() == 'ar' ? 'rtl' : 'ltr' }}" class="scroll-smooth">
 
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>@yield('title')</title>
-    <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no, user-scalable=yes" />
     <link rel="icon" href="{{ asset('assets/img/kaiadmin/app_logo.png') }}" type="image/x-icon" />
 
+    <!-- External Libraries -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js" defer></script>
-    <!-- Fonts and icons -->
-    <script src="{{ asset('assets/js/plugin/webfont/webfont.min.js') }}"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome for icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom Admin CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/css/admin-modern.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/admin-custom.css') }}" />
+
+    <!-- Tailwind CSS Configuration -->
     <script>
-        WebFont.load({
-            google: { families: ["Public Sans:300,400,500,600,700"] },
-            custom: {
-                families: [
-                    "Font Awesome 5 Solid",
-                    "Font Awesome 5 Regular",
-                    "Font Awesome 5 Brands",
-                    "simple-line-icons",
-                ],
-                urls: ["{{ asset('assets/css/fonts.min.css') }}"],
-            },
-            active: function () {
-                sessionStorage.fonts = true;
-            },
-        });
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'sans': ['Inter', 'Tajawal', 'system-ui', 'sans-serif'],
+                        'arabic': ['Tajawal', 'system-ui', 'sans-serif']
+                    },
+                    colors: {
+                        primary: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            200: '#bfdbfe',
+                            300: '#93c5fd',
+                            400: '#60a5fa',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a'
+                        },
+                        dark: {
+                            50: '#f8fafc',
+                            100: '#f1f5f9',
+                            200: '#e2e8f0',
+                            300: '#cbd5e1',
+                            400: '#94a3b8',
+                            500: '#64748b',
+                            600: '#475569',
+                            700: '#334155',
+                            800: '#1e293b',
+                            900: '#0f172a'
+                        }
+                    }
+                }
+            }
+        }
     </script>
 
-    <!-- CSS Files -->
-    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}" />
-    <link rel="stylesheet" href="{{ asset('assets/css/plugins.min.css') }}" />
-    <link rel="stylesheet" href="{{ asset('assets/css/kaiadmin.min.css') }}" />
-
-    <!-- CSS Just for demo purpose, don't include it in your project -->
-    <link rel="stylesheet" href="{{ asset('assets/css/demo.css') }}" />
+    <!-- Custom CSS moved to separate files -->
+    @yield('styles')
 </head>
 
-<body>
-    <div class="wrapper">
-        @include('admin.layouts.sidebar')
+<body class="bg-gray-50 dark:bg-dark-900 font-sans antialiased transition-colors duration-300" id="body">
 
-        <div class="main-panel">
-            @include('admin.layouts.header')
+    <div class="min-h-screen flex">
+        <!-- Sidebar -->
+        <aside class="fixed inset-y-0 w-64 bg-white dark:bg-dark-800 shadow-xl transition-transform duration-300 z-50 lg:static lg:inset-0" id="sidebar" style="{{ app()->getLocale() == 'ar' ? 'right: 0; transform: translateX(100%);' : 'left: 0; transform: translateX(-100%);' }}">
+            @include('admin.layouts.sidebar')
+        </aside>
+
+        <!-- Sidebar Overlay for Mobile -->
+        <div class="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden hidden" id="sidebarOverlay"></div>
+
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col min-w-0 lg:ml-0">
+            <!-- Header -->
+            <header class="bg-white dark:bg-dark-800 shadow-sm border-b border-gray-200 dark:border-dark-700 transition-colors duration-300 relative z-20">
+                @include('admin.layouts.header')
+            </header>
+
+            <!-- Alert Messages -->
             @if(session()->has('success'))
-                <br><br><br><br>
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    {{ session()->get('success') }}
+                <div class="alert-slide-down mx-2 md:mx-4 mt-4 p-3 md:p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl" role="alert">
+                    <div class="flex items-center">
+                        <i class="fas fa-check-circle text-green-500 dark:text-green-400 mr-3 rtl:ml-3 rtl:mr-0 flex-shrink-0"></i>
+                        <div class="text-green-800 dark:text-green-200 font-medium text-sm md:text-base flex-1 min-w-0">
+                            {{ session()->get('success') }}
+                        </div>
+                        <button class="ml-2 rtl:mr-2 rtl:ml-0 text-green-500 hover:text-green-700 dark:text-green-400 dark:hover:text-green-300 flex-shrink-0" onclick="this.parentElement.parentElement.remove()">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
                 </div>
             @endif
 
             @if(session()->has('error'))
-                <br><br><br><br>
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    {{ session()->get('error') }}
+                <div class="alert-slide-down mx-2 md:mx-4 mt-4 p-3 md:p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl" role="alert">
+                    <div class="flex items-center">
+                        <i class="fas fa-exclamation-circle text-red-500 dark:text-red-400 mr-3 rtl:ml-3 rtl:mr-0 flex-shrink-0"></i>
+                        <div class="text-red-800 dark:text-red-200 font-medium text-sm md:text-base flex-1 min-w-0">
+                            {{ session()->get('error') }}
+                        </div>
+                        <button class="ml-2 rtl:mr-2 rtl:ml-0 text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 flex-shrink-0" onclick="this.parentElement.parentElement.remove()">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
                 </div>
             @endif
-            @yield('content')
-            @include('admin.layouts.footer')
+
+            <!-- Main Content Area -->
+            <main class="flex-1 p-4 md:p-6 bg-gray-50 dark:bg-dark-900 transition-colors duration-300 fade-in overflow-x-auto">
+                <div class="max-w-7xl mx-auto">
+                    @yield('content')
+                </div>
+            </main>
+
+            <!-- Footer -->
+            <footer class="bg-white dark:bg-dark-800 border-t border-gray-200 dark:border-dark-700 transition-colors duration-300">
+                @include('admin.layouts.footer')
+            </footer>
         </div>
     </div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white dark:bg-dark-800 rounded-xl p-8 shadow-2xl">
+            <div class="flex flex-col items-center">
+                <div class="animate-spin rounded-full h-12 w-12 border-4 border-primary-200 border-t-primary-600 mb-4"></div>
+                <p class="text-gray-600 dark:text-gray-300 font-medium">{{ __('Loading...') }}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="{{ asset('assets/js/admin-modern.js') }}"></script>
+    
+    @yield('scripts')
 </body>
-<script src="{{ asset('assets/js/core/jquery-3.7.1.min.js') }}"></script>
-<script src="{{ asset('assets/js/core/popper.min.js') }}"></script>
-<script src="{{ asset('assets/js/core/bootstrap.min.js') }}"></script>
-
-<script src="{{ asset('assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js') }}"></script>
-
-<script src="{{ asset('assets/js/plugin/chart.js/chart.min.js') }}"></script>
-
-<script src="{{ asset('assets/js/plugin/jquery.sparkline/jquery.sparkline.min.js') }}"></script>
-
-<script src="{{ asset('assets/js/plugin/chart-circle/circles.min.js') }}"></script>
-
-<script src="{{ asset('assets/js/plugin/datatables/datatables.min.js') }}"></script>
-
-<script src="{{ asset('assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js') }}"></script>
-
-<script src="{{ asset('assets/js/plugin/jsvectormap/jsvectormap.min.js') }}"></script>
-<script src="{{ asset('assets/js/plugin/jsvectormap/world.js') }}"></script>
-
-<script src="{{ asset('assets/js/plugin/sweetalert/sweetalert.min.js') }}"></script>
-
-<script src="{{ asset('assets/js/kaiadmin.min.js') }}"></script>
-
-<script src="{{ asset('assets/js/setting-demo.js') }}"></script>
-<script src="{{ asset('assets/js/demo.js') }}"></script>
-<script>
-    $("#lineChart").sparkline([102, 109, 120, 99, 110, 105, 115], {
-        type: "line",
-        height: "70",
-        width: "100%",
-        lineWidth: "2",
-        lineColor: "#177dff",
-        fillColor: "rgba(23, 125, 255, 0.14)",
-    });
-
-    $("#lineChart2").sparkline([99, 125, 122, 105, 110, 124, 115], {
-        type: "line",
-        height: "70",
-        width: "100%",
-        lineWidth: "2",
-        lineColor: "#f3545d",
-        fillColor: "rgba(243, 84, 93, .14)",
-    });
-
-    $("#lineChart3").sparkline([105, 103, 123, 100, 95, 105, 115], {
-        type: "line",
-        height: "70",
-        width: "100%",
-        lineWidth: "2",
-        lineColor: "#ffa534",
-        fillColor: "rgba(255, 165, 52, .14)",
-    });
-</script>
-<script>
-    $(document).ready(function () {
-        $("#basic-datatables").DataTable({
-            searching: true, // Enables search
-            paging: false, // Disable pagination if not needed
-            info: false, // Hide table info (optional)
-        });
-
-        $("#multi-filter-select").DataTable({
-            searching: true, // Enables search
-            paging: false,
-            info: false,
-        });
-
-        $("#add-row").DataTable({
-            searching: true, // Enables search
-            paging: false,
-            info: false,
-        });
-    });
-</script>
-<script>
-    $(document).ready(function () {
-        $('#city_ids').select2({
-            placeholder: "{{ __('message.Cities') }}",
-            allowClear: true,
-            tags: true,
-            closeOnSelect: false
-        });
-    });
-</script>
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        document.querySelectorAll('.delete-btn').forEach(button => {
-            button.addEventListener('click', function (event) {
-                event.preventDefault(); // Prevent form submission
-
-                let form = this.closest('form'); // Get the closest delete form
-
-                Swal.fire({
-                    title: "{{ __('message.Are You Sure') }}",
-                    text: "{{ __('message.This action cannot be undone') }}",
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#d33",
-                    cancelButtonColor: "#3085d6",
-                    confirmButtonText: "{{ __('message.Yes, delete it!') }}",
-                    cancelButtonText: "{{ __('message.Cancel') }}"
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        form.submit();
-                    }
-                });
-            });
-        });
-    });
-</script>
-<script>
-    let passwordInput = document.getElementById("password");
-    function togglePassword() {
-        let eyeIcon = document.getElementById("eye-icon");
-        console.log(passwordInput);
-        if (passwordInput.type === "password") {
-            passwordInput.type = "text";
-            eyeIcon.classList.remove("fa-eye");
-            eyeIcon.classList.add("fa-eye-slash");
-        } else {
-            passwordInput.type = "password";
-            eyeIcon.classList.remove("fa-eye-slash");
-            eyeIcon.classList.add("fa-eye");
-        }
-    }
-</script>
-<script>
-    // Wait for the page to load
-    document.addEventListener("DOMContentLoaded", function () {
-        // Select all alert messages
-        let alerts = document.querySelectorAll('.alert');
-
-        // Set timeout to fade out and remove alerts after 3 seconds (3000ms)
-        setTimeout(() => {
-            alerts.forEach(alert => {
-                alert.style.transition = "opacity 0.5s ease";
-                alert.style.opacity = "0";
-                setTimeout(() => alert.remove(), 500); // Remove from DOM after fade-out
-            });
-        }, 3000);
-    });
-</script>
-</body>
-
 </html>

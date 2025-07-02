@@ -11,6 +11,5 @@ class Category extends Model
         'name_english',
         'image',
         'sort_order',
-        'is_sport'
     ];
 }

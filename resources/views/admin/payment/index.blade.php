@@ -7,7 +7,7 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            <div class="d-flex align-items-center">
+                            <div class="d-flex align-items-center" id="cardHeader">
                                 <h4 class="card-title">{{ __('message.Payments') }}</h4>
                             </div>
                         </div>

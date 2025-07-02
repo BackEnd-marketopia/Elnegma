@@ -22,7 +22,7 @@ return new class extends Migration
             $table->enum('user_type', ['admin', 'user', 'vendor'])->default('user');
             $table->string('card_image')->nullable();
             $table->text('fcm_token')->nullable();
-            $table->string('status')->default('active');
+            $table->enum('status', ['pending', 'active', 'inactive'])->default('pending');
             $table->rememberToken();
             $table->timestamps();
         });

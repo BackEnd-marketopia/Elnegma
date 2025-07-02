@@ -8,7 +8,6 @@
             <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
                 <div>
                     <h3 class="fw-bold mb-3">{{ __('message.Add Notification') }}</h3>
-                    <h6 class="op-7 mb-2">4P</h6>
                 </div>
             </div>
             <form action="{{ route('admin.notifications.store') }}" method="POST" enctype="multipart/form-data">

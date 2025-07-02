@@ -28,9 +28,6 @@ class ConfigController extends Controller
             'ios_version',
             'android_url',
             'ios_url',
-            'image_of_card',
-            'price_of_card',
-            app()->getLocale() == 'ar' ? 'description_of_card_arabic as description_of_card' : 'description_of_card_english as description_of_card',
             'facebook_link',
             'twitter_link',
             'instagram_link',
@@ -69,29 +66,24 @@ class ConfigController extends Controller
         $banners = Banner::select('id', app()->getLocale() == 'ar' ? 'name_arabic as name' : 'name_english as name', 'image')
             ->get();
 
-        $feeds = Feed::orderByDesc('created_at')
-            ->take(5)
-            ->get();
-
-        $categories = Category::select('id', app()->getLocale() == 'ar' ? 'name_arabic as name' : 'name_english as name', 'image', 'is_sport')
+        $categories = Category::select('id', app()->getLocale() == 'ar' ? 'name_arabic as name' : 'name_english as name', 'image')
             ->orderBy('sort_order', 'asc')
             ->take(20)
             ->get();
 
-        $vendors = Vendor::select('id', 'name', 'description', 'cover', 'category_id')
-            ->with(['category' => function ($query) {
-                $query->select(
-                    'id',
-                    app()->getLocale() == 'ar' ? 'name_arabic as name' : 'name_english as name'
-                );
-            }])
+        $vendors = Vendor::with(['category' => function ($query) {
+            $query->select(
+                'id',
+                app()->getLocale() == 'ar' ? 'name_arabic as name' : 'name_english as name'
+            );
+        }])
             ->where('status', 'accepted')
             ->orderBy('created_at', 'desc')
             ->take(6)
             ->get();
 
 
-        return Response::api(__('message.Success'), 200, true, null, ['banners' => $banners, 'feeds' => $feeds, 'categories' => $categories, 'vendors' => $vendors]);
+        return Response::api(__('message.Success'), 200, true, null, ['banners' => $banners, 'categories' => $categories, 'vendors' => $vendors]);
     }
 
     public function clickedAds($id)

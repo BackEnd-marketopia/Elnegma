@@ -57,7 +57,7 @@ class PaymobService
                 'billing_data' => [
                     "first_name" => $user->name,
                     "last_name" => $user->name,
-                    "email" => $user->email ?? $userName . '@4p.com',
+                    "email" => $user->email ?? $userName . '@negma.com',
                     "phone_number" => $user->phone ?? "",
                     "city" => $user->city->name_arabic ?? "",
                     "country" => "EG",

@@ -24,7 +24,7 @@ class UpdateCategoryRequest extends FormRequest
         return [
             'name_arabic'  => 'required | string | max:255',
             'name_english' => 'required | string | max:255',
-            'image'        => 'nullable',
+            'image'        => 'nullable | mimes:svg',
             'sort_order'   => 'required | min:1 | integer'
         ];
     }

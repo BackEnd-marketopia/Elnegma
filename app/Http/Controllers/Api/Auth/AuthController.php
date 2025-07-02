@@ -45,7 +45,7 @@ class AuthController extends Controller
             'fcm_token' => $request->fcmToken ?? null,
         ]);
         $token = JWTAuth::fromUser($user);
-        $user->load(['code']);
+        $user->load(['code', 'city']);
         $otp = $this->otpService->generateAndSend($user->phone);
 
         if (!$otp['success'])
@@ -84,7 +84,7 @@ class AuthController extends Controller
         $user->update([
             'fcm_token' => $request->fcmToken ?? null,
         ]);
-
+        $user->load(['code', 'city']);
         return Response::api(__('message.login_success'), 200, true, null, [
             'user' => $user,
             'token' => $token,
@@ -104,7 +104,7 @@ class AuthController extends Controller
     public function profile()
     {
         $user = User::findOrFail(auth('api')->user()->id);
-        $user->load(['code']);
+        $user->load(['code', 'city']);
         return Response::api(__('message.Success'), 200, true, null, $user);
     }
 
@@ -135,6 +135,8 @@ class AuthController extends Controller
             'image'    => $image,
             'city_id'  => $request->city_id,
         ]);
+
+        $user->load(['code', 'city']);
         return Response::api(__('message.Profile Updated Successfully'), 200, true, null, $user);
     }
 

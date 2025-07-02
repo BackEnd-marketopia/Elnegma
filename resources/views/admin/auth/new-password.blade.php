@@ -85,7 +85,6 @@
                             <img src="{{ asset('assets/img/kaiadmin/app_logo.png') }}" alt="Logo" class="logo"
                                 width="100">
                             </br>
-                            <span style="font-weight: bold; font-size: 2em;">4P</span>
                             <h3>{{ __('message.Set New Password') }}</h3>
                         </div>
 
