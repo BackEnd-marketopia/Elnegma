@@ -16,6 +16,30 @@ use Illuminate\Support\Facades\Hash;
 class VendorController extends Controller
 {
     /**
+     * Search for vendors based on the provided search term.
+     */
+    public function search(Request $request)
+    {
+        $search = $request->input('search');
+        $users = User::where('user_type', 'vendor')
+            ->where(function ($query) use ($search) {
+                $query->where('name', 'LIKE', "%{$search}%")
+                    ->orWhere('email', 'LIKE', "%{$search}%")
+                    ->orWhere('phone', 'LIKE', "%{$search}%");
+            })
+            ->orWhereRelation('vendor', function ($query) use ($search) {
+                $query->where('name', 'LIKE', "%{$search}%")
+                    ->orWhere('description', 'LIKE', "%{$search}%")
+                    ->orWhere('whatsapp', 'LIKE', "%{$search}%")
+                    ->orWhere('facebook', 'LIKE', "%{$search}%")
+                    ->orWhere('instagram', 'LIKE', "%{$search}%")
+                    ->orWhere('address', 'LIKE', "%{$search}%")
+                    ->orWhere('status', 'LIKE', "%{$search}%");
+            })
+            ->paginate(10);
+        return view('admin.vendor.index', compact('users'));
+    }
+    /**
      * Display a listing of the resource.
      */
     public function index()

@@ -41,22 +41,24 @@
                             {{ __('message.Categories List') }}
                         </h3>
                     </div>
-                    <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-                        <div class="relative">
-                            <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                    <form action="{{ route('admin.categories.search') }}" method="GET">
+                        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                            <div class="relative">
+                                <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                </div>
+                                <input type="text" id="citySearch" name="search" value="{{ request('search') }}"
+                                    class="block w-full pr-10 pl-3 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent shadow-sm hover:shadow-md transition-all duration-200"
+                                    placeholder="{{ __('message.Search in cities') }}...">
                             </div>
-                            <input type="text" 
-                                   id="categorySearch" 
-                                   class="block w-full pr-10 pl-3 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent shadow-sm hover:shadow-md transition-all duration-200" 
-                                   placeholder="{{ __('message.Search in categories') }}...">
+                            <div class="flex items-center space-x-2 rtl:space-x-reverse">
+                                <button id="testSearchBtn" type="submit"
+                                    class="px-4 py-3 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all duration-200 shadow-sm hover:shadow-md">
+                                    <i class="fas fa-search mr-2 rtl:ml-2 rtl:mr-0"></i>
+                                    {{ __('message.Search') }}
+                                </button>
+                            </div>
                         </div>
-                        <div class="flex items-center space-x-2 rtl:space-x-reverse">
-                            <button id="testSearchBtn" class="px-4 py-3 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all duration-200 shadow-sm hover:shadow-md">
-                                <i class="fas fa-search mr-2 rtl:ml-2 rtl:mr-0"></i>
-                            {{ __('message.Search') }}
-                            </button>
-                        </div>
-                    </div>
+                    </form>
                 </div>
             </div>
 

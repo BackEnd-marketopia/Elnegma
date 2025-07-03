@@ -52,10 +52,15 @@ Route::group(['middleware' => 'WebLang'], function () {
             'ads'           => Advertisement::class,
             'notifications' => NotificationController::class,
         ]);
-        Route::get('/check-codes', function () {
-            $hasCodes = \App\Models\Code::whereNull('user_id')->exists();
-            return response()->json(['has_codes' => $hasCodes]);
-        })->name('check.codes');
+        Route::group(['prefix' => 'search'], function () {
+            Route::get('/cities', [CityController::class, 'search'])->name('cities.search');
+            Route::get('/categories', [CategoryController::class, 'search'])->name('categories.search');
+            Route::get('/banners', [BannerController::class, 'search'])->name('banners.search');
+            Route::get('/ads', [Advertisement::class, 'search'])->name('ads.search');
+            Route::get('/admins', [AdminController::class, 'search'])->name('admins.search');
+            Route::get('/users', [UserController::class, 'search'])->name('users.search');
+            Route::get('/vendors', [VendorController::class, 'search'])->name('vendors.search');
+        });
 
         Route::group(['prefix' => 'config'], function () {
             Route::get('/', [ConfigController::class, 'config'])->name('config');

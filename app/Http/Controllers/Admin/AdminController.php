@@ -14,6 +14,21 @@ use Illuminate\Support\Facades\Hash;
 class AdminController extends Controller
 {
     /**
+     * Search for admins based on the provided search term.
+     */
+    public function search(Request $request)
+    {
+        $search = $request->input('search');
+        $users = User::where('user_type', 'admin')
+            ->where(function ($query) use ($search) {
+                $query->where('name', 'LIKE', "%{$search}%")
+                    ->orWhere('email', 'LIKE', "%{$search}%")
+                    ->orWhere('phone', 'LIKE', "%{$search}%");
+            })
+            ->paginate(10);
+        return view('admin.admin.index', compact('users'));
+    }
+    /**
      * Display a listing of the resource.
      */
     public function index()

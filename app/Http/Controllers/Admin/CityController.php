@@ -10,6 +10,16 @@ use Illuminate\Support\Facades\Validator;
 
 class CityController extends Controller
 {
+    public function search(Request $request)
+    {
+        $search = $request->input('search');
+
+        $cities = City::where('name_arabic', 'LIKE', "%{$search}%")
+            ->orWhere('name_english', 'LIKE', "%{$search}%")
+            ->get();
+
+        return view('admin.city.index', compact('cities'));
+    }
     /**
      * Display a listing of the resource.
      */

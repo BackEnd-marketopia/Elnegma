@@ -10,6 +10,7 @@ use App\Models\City;
 use App\Models\Code;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -19,7 +20,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::with(['code'])->where('user_type', 'user')->paginate(10);
+        $users = User::where('user_type', 'user')->paginate(10);
         return view('admin.user.index', compact('users'));
     }
 
@@ -38,8 +39,7 @@ class UserController extends Controller
     public function store(StoreUserRequest $request)
     {
         $image = $request->image ? Helpers::addImage($request->image, 'user') : null;
-
-        $user = User::create([
+        User::create([
             'name' => $request->name,
             'email' => $request->email ?? null,
             'phone' => $request->phone,
@@ -48,26 +48,9 @@ class UserController extends Controller
             'user_type' => 'user',
             'status' => 'active',
             'city_id' => $request->city_id,
+            'card_image' => Helpers::addImage($request->card_image, 'card'),
         ]);
-        if ($request->one_year) {
-            $code = Code::where('user_id',  null)->first();
-            if ($code) {
-                $code->update([
-                    'user_id' => $user->id,
-                    'start_date' => now(),
-                    'end_date' => now()->addYear(),
-                ]);
-            }
-        } elseif ($request->start_date != null && $request->end_date != null) {
-            $code = Code::where('user_id', null)->first();
-            if ($code) {
-                $code->update([
-                    'user_id' => $user->id,
-                    'start_date' => $request->start_date,
-                    'end_date' => $request->end_date,
-                ]);
-            }
-        }
+
         return redirect()->route('admin.users.index')->with('success', __('message.User Added Successfully'));
     }
 
@@ -88,6 +71,13 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
         $image = $request->image ? Helpers::addImage($request->image, 'user') : $user->image;
+        $cardImage = $request->card_image ? Helpers::addImage($request->card_image, 'card') : $user->card_image;
+
+        if ($request->image && File::exists($user->image))
+            File::delete($user->image);
+
+        if ($request->card_image && File::exists($user->card_image))
+            File::delete($user->card_image);
 
         $user->update([
             'name' => $request->name,
@@ -98,27 +88,9 @@ class UserController extends Controller
             'user_type' => 'user',
             'status' => $request->status,
             'city_id' => $request->city_id,
+            'card_image' => $cardImage,
         ]);
 
-        if ($request->one_year) {
-            $code = Code::where('user_id',  null)->first();
-            if ($code) {
-                $code->update([
-                    'user_id' => $user->id,
-                    'start_date' => now(),
-                    'end_date' => now()->addYear(),
-                ]);
-            }
-        } elseif ($request->start_date != null && $request->end_date != null) {
-            $code = Code::where('user_id', null)->first();
-            if ($code) {
-                $code->update([
-                    'user_id' => $user->id,
-                    'start_date' => $request->start_date,
-                    'end_date' => $request->end_date,
-                ]);
-            }
-        }
         return redirect()->route('admin.users.index')->with('success', __('message.User Edit Successfully'));
     }
 
@@ -128,6 +100,10 @@ class UserController extends Controller
     public function destroy(string $id)
     {
         $user = User::findOrFail($id);
+
+        if (File::exists($user->image))
+            File::delete($user->image);
+
         $user->delete();
         return redirect()->route('admin.users.index')->with('success', __('message.User Deleted Successfully'));
     }

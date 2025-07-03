@@ -15,6 +15,19 @@ use Illuminate\Support\Facades\File;
 class Advertisement extends Controller
 {
     /**
+     * Search for advertisements based on the provided search term.
+     */
+    public function search(Request $request)
+    {
+        $search = $request->input('search');
+        $ads = Ads::where('name', 'LIKE', "%{$search}%")
+            ->orWhere('url', 'LIKE', "%{$search}%")
+            ->orWhereDate('start_date', 'LIKE', "%{$search}%")
+            ->orWhereDate('end_date', 'LIKE', "%{$search}%")
+            ->paginate(10);
+        return view('admin.ads.index', compact('ads'));
+    }
+    /**
      * Display a listing of the resource.
      */
     public function index()

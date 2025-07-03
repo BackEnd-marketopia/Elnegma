@@ -1,0 +1,199 @@
+/* Form Styles */
+.form-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.input-group {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+.input-group label {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    transition: color 0.2s ease;
+}
+
+.input-group label i {
+    margin-right: 0.5rem;
+}
+
+.input-group input,
+.input-group textarea,
+.input-group select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border-radius: 0.75rem;
+    border: 1px solid #e2e8f0;
+    background-color: #fff;
+    transition: all 0.3s ease;
+    font-size: 0.875rem;
+}
+
+.dark .input-group input,
+.dark .input-group textarea,
+.dark .input-group select {
+    background-color: #1f2937;
+    border-color: #4b5563;
+    color: #e5e7eb;
+}
+
+.input-group input:focus,
+.input-group textarea:focus,
+.input-group select:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.2);
+    border-color: #8b5cf6;
+}
+
+.input-group.error input,
+.input-group.error textarea,
+.input-group.error select {
+    border-color: #ef4444;
+}
+
+.input-group.error label {
+    color: #ef4444;
+}
+
+.input-group.error .error-message {
+    color: #ef4444;
+    font-size: 0.75rem;
+    margin-top: 0.25rem;
+}
+
+.file-upload {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1.5rem;
+    border: 2px dashed #e2e8f0;
+    border-radius: 0.75rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.dark .file-upload {
+    border-color: #4b5563;
+}
+
+.file-upload:hover {
+    border-color: #8b5cf6;
+    background-color: rgba(139, 92, 246, 0.05);
+}
+
+.file-upload input[type="file"] {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.file-upload-icon {
+    font-size: 2rem;
+    color: #8b5cf6;
+    margin-bottom: 1rem;
+}
+
+.dark .file-upload-icon {
+    color: #a78bfa;
+}
+
+.file-upload-text {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #6b7280;
+}
+
+.dark .file-upload-text {
+    color: #9ca3af;
+}
+
+.file-upload-hint {
+    font-size: 0.75rem;
+    color: #9ca3af;
+    margin-top: 0.5rem;
+}
+
+.dark .file-upload-hint {
+    color: #6b7280;
+}
+
+.image-preview {
+    width: 6rem;
+    height: 6rem;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    transition: all 0.3s ease;
+}
+
+.image-preview:hover {
+    transform: scale(1.05);
+}
+
+.image-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.submit-button {
+    padding: 0.75rem 1.5rem;
+    background: linear-gradient(to right, #8b5cf6, #7c3aed);
+    color: white;
+    font-weight: 600;
+    border-radius: 0.75rem;
+    border: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px -1px rgba(124, 58, 237, 0.5);
+}
+
+.submit-button:hover {
+    background: linear-gradient(to right, #7c3aed, #6d28d9);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(124, 58, 237, 0.3);
+}
+
+.submit-button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fadeIn {
+    animation: fadeIn 0.5s ease forwards;
+}
+
+/* RTL Support */
+[dir="rtl"] .input-group label i {
+    margin-right: 0;
+    margin-left: 0.5rem;
+}
+
+[dir="rtl"] .submit-button i {
+    margin-right: 0;
+    margin-left: 0.5rem;
+}

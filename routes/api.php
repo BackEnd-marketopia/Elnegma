@@ -1,7 +1,5 @@
 <?php
 
-use App\Http\Controllers\Admin\HomeController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\ConfigController;
@@ -10,8 +8,6 @@ use App\Http\Controllers\Api\EducationController;
 use App\Http\Controllers\Api\HomeController as ApiHomeController;
 use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\PaymobController;
-use App\Models\Code;
-use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
 Route::group(['middleware' => 'lang'], function () {

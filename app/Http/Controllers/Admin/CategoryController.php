@@ -14,6 +14,18 @@ use Illuminate\Support\Facades\File;
 class CategoryController extends Controller
 {
     /**
+     * Search for categories based on the provided search term.
+     */
+    public function search(Request $request)
+    {
+        $search = $request->input('search');
+        $categories = Category::where('name_arabic', 'LIKE', "%{$search}%")
+            ->orWhere('name_english', 'LIKE', "%{$search}%")
+            ->orWhere('sort_order', 'LIKE', "%{$search}%")
+            ->paginate(10);
+        return view('admin.category.index', compact('categories'));
+    }
+    /**
      * Display a listing of the resource.
      */
     public function index()

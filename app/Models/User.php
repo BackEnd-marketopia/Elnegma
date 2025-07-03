@@ -30,6 +30,7 @@ class User extends Authenticatable implements JWTSubject
         'fcm_token',
         'status',
         'email_verified_at',
+        'card_image',
     ];
 
     /**
@@ -68,21 +69,6 @@ class User extends Authenticatable implements JWTSubject
     public function vendor()
     {
         return $this->hasOne(Vendor::class);
-    }
-
-    public function provider()
-    {
-        return $this->hasOne(Provider::class);
-    }
-
-    public function playerForm()
-    {
-        return $this->hasOne(PlayerForm::class);
-    }
-
-    public function code()
-    {
-        return $this->hasOne(Code::class);
     }
 
     public function city()

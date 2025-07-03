@@ -13,6 +13,17 @@ use Illuminate\Support\Facades\File;
 class BannerController extends Controller
 {
     /**
+     * Search for banners based on the provided search term.
+     */
+    public function search(Request $request)
+    {
+        $search = $request->input('search');
+        $banners = Banner::where('name_arabic', 'LIKE', "%{$search}%")
+            ->orWhere('name_english', 'LIKE', "%{$search}%")
+            ->paginate(10);
+        return view('admin.banner.index', compact('banners'));
+    }
+    /**
      * Display a listing of the resource.
      */
     public function index()
