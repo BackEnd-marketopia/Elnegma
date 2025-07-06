@@ -25,9 +25,6 @@
                 <h1 class="text-2xl font-bold text-gray-900 dark:text-white">
                     {{ __('message.Edit User') }}
                 </h1>
-                <p class="text-gray-600 dark:text-gray-400 mt-1">
-                    {{ __('message.Edit Informantion of User:') }} <span class="font-semibold text-purple-600 dark:text-purple-400">{{ $user->name }}</span>
-                </p>
             </div>
             <div class="flex gap-3">
                 <a href="{{ route('admin.users.index') }}" 
@@ -202,29 +199,6 @@
                             </div>
                         @endif
                     </div>
-
-                    <!-- Current Card Image Preview -->
-                    @if($user->card_image)
-                    <div class="col-span-2 mt-4">
-                        <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-3">
-                            <i class="fas fa-id-card mr-2"></i>
-                            {{ __('message.Current Card Image') }}
-                        </label>
-                        <div class="flex justify-center">
-                            <div class="relative group">
-                                <div class="w-64 h-40 rounded-lg overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-600 shadow-lg ring-4 ring-purple-200 dark:ring-purple-800">
-                                    <img src="{{ asset($user->card_image) }}" 
-                                         alt="{{ $user->name }} Card" 
-                                         class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
-                                </div>
-                                <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 rounded-lg transition-all duration-300 flex items-center justify-center">
-                                    <i class="fas fa-search-plus text-white opacity-0 group-hover:opacity-100 text-2xl transition-opacity duration-300"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    @endif
-
                     <!-- City Field -->
                     <div class="form-group {{ $errors->has('city_id') ? 'has-error' : '' }}">
                         <label for="city_id" class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
@@ -232,9 +206,7 @@
                             {{ __('message.City') }}
                             <span class="text-red-500">*</span>
                         </label>
-                        <select 
-                            id="city_id" 
-                            name="city_id" 
+                        <select id="city_id" name="city_id"
                             class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 {{ $errors->has('city_id') ? 'border-red-500 ring-2 ring-red-200' : '' }}"
                             required>
                             <option value="">{{ __('message.Select City') }}</option>
@@ -255,6 +227,27 @@
                             </div>
                         @endif
                     </div>
+                    <!-- Current Card Image Preview -->
+                    @if($user->card_image)
+                        <div class="col-span-2 mt-4">
+                            <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-3">
+                                <i class="fas fa-id-card mr-2"></i>
+                                {{ __('message.Current Card Image') }}
+                            </label>
+                            <div class="flex justify-center">
+                                <div class="relative group">
+                                    <div class="w-64 h-40 rounded-lg overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-600 shadow-lg ring-4 ring-purple-200 dark:ring-purple-800">
+                                        <img src="{{ asset($user->card_image) }}" 
+                                             alt="{{ $user->name }} Card" 
+                                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+                                    </div>
+                                    <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 rounded-lg transition-all duration-300 flex items-center justify-center">
+                                        <i class="fas fa-search-plus text-white opacity-0 group-hover:opacity-100 text-2xl transition-opacity duration-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
 
                     <!-- Password Field -->
                     <div class="form-group {{ $errors->has('password') ? 'has-error' : '' }}">
@@ -263,20 +256,15 @@
                             {{ __('message.Password') }}
                         </label>
                         <div class="relative">
-                            <input type="password" 
-                                   id="password" 
-                                   name="password" 
-                                   class="w-full px-4 py-3 pr-12 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 {{ $errors->has('password') ? 'border-red-500 ring-2 ring-red-200' : '' }}"
-                                   placeholder="{{ __('message.Leave empty to keep current password') }}">
-                            <div class="absolute inset-y-0 right-3 flex items-center">
-                                <button type="button" id="togglePassword" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 focus:outline-none">
-                                    <i id="eye-icon" class="fas fa-eye"></i>
-                                </button>
-                            </div>
+                            <input type="password" id="password" name="password"
+                                class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 {{ $errors->has('password') ? 'border-red-500 ring-2 ring-red-200' : '' }}"
+                                placeholder="{{ __('message.Leave blank to keep current password') }}">
+                            <button type="button"
+                                class="absolute inset-y-0 {{ app()->getLocale() === 'ar' ? 'left-0 pl-3' : 'right-0 pr-3' }} flex items-center toggle-password"
+                                data-target="password">
+                                <i class="fas fa-eye text-purple-500 hover:text-purple-700 transition-colors text-lg"></i>
+                            </button>
                         </div>
-                        <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                            {{ __('message.Leave empty to keep current password') }}
-                        </p>
                         @if ($errors->has('password'))
                             <div class="mt-2 flex items-center text-red-600 text-sm">
                                 <i class="fas fa-exclamation-circle mr-2"></i>
@@ -285,23 +273,21 @@
                         @endif
                     </div>
 
-                    <!-- Password Confirmation Field -->
+                    <!-- Confirm Password Field -->
                     <div class="form-group {{ $errors->has('password_confirmation') ? 'has-error' : '' }}">
                         <label for="password_confirmation" class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
-                            <i class="fas fa-lock mr-2 text-purple-600"></i>
+                            <i class="fas fa-shield-alt mr-2 text-purple-600"></i>
                             {{ __('message.Confirm Password') }}
                         </label>
                         <div class="relative">
-                            <input type="password" 
-                                   id="password_confirmation" 
-                                   name="password_confirmation" 
-                                   class="w-full px-4 py-3 pr-12 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 {{ $errors->has('password_confirmation') ? 'border-red-500 ring-2 ring-red-200' : '' }}"
-                                   placeholder="{{ __('message.Confirm new password') }}">
-                            <div class="absolute inset-y-0 right-3 flex items-center">
-                                <button type="button" id="toggleConfirmPassword" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 focus:outline-none">
-                                    <i id="confirm-eye-icon" class="fas fa-eye"></i>
-                                </button>
-                            </div>
+                            <input type="password" id="password_confirmation" name="password_confirmation"
+                                class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 {{ $errors->has('password_confirmation') ? 'border-red-500 ring-2 ring-red-200' : '' }}"
+                                placeholder="{{ __('message.Confirm password') }}">
+                            <button type="button"
+                                class="absolute inset-y-0 {{ app()->getLocale() === 'ar' ? 'left-0 pl-3' : 'right-0 pr-3' }} flex items-center toggle-password"
+                                data-target="password_confirmation">
+                                <i class="fas fa-eye text-purple-500 hover:text-purple-700 transition-colors text-lg"></i>
+                            </button>
                         </div>
                         @if ($errors->has('password_confirmation'))
                             <div class="mt-2 flex items-center text-red-600 text-sm">
@@ -321,6 +307,7 @@
                             class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 {{ $errors->has('status') ? 'border-red-500 ring-2 ring-red-200' : '' }}"
                             required>
                             <option value="">{{ __('message.Select Status') }}</option>
+                            <option value="pending" {{ $user->status == 'pending' ? 'selected' : '' }}>{{ __('message.Pending') }}</option>
                             <option value="active" {{ $user->status == 'active' ? 'selected' : '' }}>{{ __('message.Active') }}</option>
                             <option value="inactive" {{ $user->status == 'inactive' ? 'selected' : '' }}>{{ __('message.Inactive') }}</option>
                         </select>
@@ -335,6 +322,11 @@
 
                 <!-- Submit Button -->
                 <div class="flex justify-end space-x-4 rtl:space-x-reverse pt-6 border-t border-gray-200 dark:border-gray-700">
+                    <button type="button" class="btn btn-danger flex-1 sm:flex-none delete-btn" data-user-id="{{ $user->id }}"
+                        data-user-name="{{ $user->name }}">
+                        <i class="fas fa-trash mr-2 rtl:ml-2 rtl:mr-0"></i>
+                        {{ __('message.Delete User') }}
+                    </button>
                     <a href="{{ route('admin.users.index') }}" class="btn btn-secondary">
                         <i class="fas fa-times mr-2 rtl:ml-2 rtl:mr-0"></i>
                         {{ __('message.Cancel') }}
@@ -349,38 +341,63 @@
     </div>
 
     @push('scripts')
-    <script>
-        // Toggle password visibility
-        document.getElementById('togglePassword').addEventListener('click', function() {
-            const passwordInput = document.getElementById('password');
-            const eyeIcon = document.getElementById('eye-icon');
+        <script>
+              document.querySelectorAll('.toggle-password').forEach(button => {
+                    button.addEventListener('click', function () {
+                        const targetId = this.getAttribute('data-target');
+                        const passwordInput = document.getElementById(targetId);
+                        const icon = this.querySelector('i');
 
-            if (passwordInput.type === 'password') {
-                passwordInput.type = 'text';
-                eyeIcon.classList.remove('fa-eye');
-                eyeIcon.classList.add('fa-eye-slash');
-            } else {
-                passwordInput.type = 'password';
-                eyeIcon.classList.remove('fa-eye-slash');
-                eyeIcon.classList.add('fa-eye');
-            }
-        });
+                        if (passwordInput.type === 'password') {
+                            passwordInput.type = 'text';
+                            icon.classList.remove('fa-eye');
+                            icon.classList.add('fa-eye-slash');
+                        } else {
+                            passwordInput.type = 'password';
+                            icon.classList.remove('fa-eye-slash');
+                            icon.classList.add('fa-eye');
+                        }
+                    });
+                });
 
-        // Toggle confirm password visibility
-        document.getElementById('toggleConfirmPassword').addEventListener('click', function() {
-            const confirmPasswordInput = document.getElementById('password_confirmation');
-            const confirmEyeIcon = document.getElementById('confirm-eye-icon');
+              // Delete user functionality
+              const deleteBtn = document.querySelector('.delete-btn');
+              if (deleteBtn) {
+                  deleteBtn.addEventListener('click', function() {
+                      const userId = this.dataset.userId;
+                      const userName = this.dataset.userName;
 
-            if (confirmPasswordInput.type === 'password') {
-                confirmPasswordInput.type = 'text';
-                confirmEyeIcon.classList.remove('fa-eye');
-                confirmEyeIcon.classList.add('fa-eye-slash');
-            } else {
-                confirmPasswordInput.type = 'password';
-                confirmEyeIcon.classList.remove('fa-eye-slash');
-                confirmEyeIcon.classList.add('fa-eye');
-            }
-        });
-    </script>
+                      Swal.fire({
+                          title: '{{ __("message.Are you sure") }}?',
+                          html: `{{ __("message.You will not be able to revert this") }}!<br><strong class="text-red-600">${userName}</strong>`,
+                          icon: 'warning',
+                          showCancelButton: true,
+                          confirmButtonColor: '#dc2626',
+                          cancelButtonColor: '#6b7280',
+                          confirmButtonText: '{{ __("message.Yes delete it") }}!',
+                          cancelButtonText: '{{ __("message.Cancel") }}',
+                          reverseButtons: true,
+                          customClass: {
+                              popup: 'animate-zoomIn',
+                              confirmButton: 'hover:bg-red-700 transition-colors',
+                              cancelButton: 'hover:bg-gray-600 transition-colors'
+                          }
+                      }).then((result) => {
+                          if (result.isConfirmed) {
+                              // Create and submit delete form
+                              const form = document.createElement('form');
+                              form.method = 'POST';
+                              form.action = `{{ url('admin/users') }}/${userId}`;
+                              form.innerHTML = `
+                                  @csrf
+                                  @method('DELETE')
+                              `;
+                              document.body.appendChild(form);
+                              form.submit();
+                          }
+                      });
+                  });
+              }
+        </script>
     @endpush
 @endsection

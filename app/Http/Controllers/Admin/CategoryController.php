@@ -96,7 +96,9 @@ class CategoryController extends Controller
     public function destroy(string $id)
     {
         $category = Category::findOrFail($id);
-
+        if ($category->vendors()->count() > 0) {
+            return redirect()->route('admin.categories.index')->with('error', __('message.Category Cannot Be Deleted Because It Has Vendors'));
+        }
         if (File::exists($category->image))
             File::delete($category->image);
 

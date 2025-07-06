@@ -19,9 +19,6 @@
             <h1 class="text-2xl font-bold text-gray-900 dark:text-white">
                 {{ __('message.Advertisements') }}
             </h1>
-            <p class="text-gray-600 dark:text-gray-400 mt-1">
-                {{ __('message.Manage advertisements and campaigns') }}
-            </p>
         </div>
         <div class="flex flex-col sm:flex-row gap-3">
             <a href="{{ route('admin.ads.create') }}" 
@@ -102,7 +99,7 @@
                     </tr>
                 </thead>
                 <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                    @forelse ($ads as $ad)
+                    @foreach ($ads as $ad)
                     <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200">
                         <td class="px-6 py-4 whitespace-nowrap text-center">
                             <div class="text-lg font-bold text-gray-900 dark:text-white">
@@ -167,26 +164,7 @@
                             </div>
                         </td>
                     </tr>
-                    @empty
-                    <tr>
-                        <td colspan="7" class="px-6 py-12 text-center">
-                            <div class="flex flex-col items-center">
-                                <i class="fas fa-ad text-gray-400 text-4xl mb-4"></i>
-                                <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
-                                    {{ __('message.No advertisements found') }}
-                                </h3>
-                                <p class="text-gray-500 dark:text-gray-400 mb-4">
-                                    {{ __('message.Start by creating your first advertisement') }}
-                                </p>
-                                <a href="{{ route('admin.ads.create') }}" 
-                                   class="inline-flex items-center px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-lg shadow-lg transition-all duration-200 transform hover:scale-105">
-                                    <i class="fas fa-plus mr-2 rtl:ml-2 rtl:mr-0"></i>
-                                    {{ __('message.Add Advertisement') }}
-                                </a>
-                            </div>
-                        </td>
-                    </tr>
-                    @endforelse
+                    @endforeach
                 </tbody>
             </table>
         </div>

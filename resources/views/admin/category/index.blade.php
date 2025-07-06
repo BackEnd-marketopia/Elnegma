@@ -21,8 +21,8 @@
                 </h1>
             </div>
             <div class="flex flex-col sm:flex-row gap-3">
-                <a href="{{ route('admin.categories.create') }}" 
-                   class="btn btn-primary">
+                <a href="{{ route('admin.categories.create') }}"
+                    class="inline-flex items-center px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-lg shadow-lg transition-all duration-200 transform hover:scale-105">
                     <i class="fas fa-plus mr-2 rtl:ml-2 rtl:mr-0"></i>
                     {{ __('message.Add Category') }}
                 </a>
@@ -48,7 +48,7 @@
                                 </div>
                                 <input type="text" id="citySearch" name="search" value="{{ request('search') }}"
                                     class="block w-full pr-10 pl-3 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent shadow-sm hover:shadow-md transition-all duration-200"
-                                    placeholder="{{ __('message.Search in cities') }}...">
+                                    placeholder="{{ __('message.Search in categories') }}...">
                             </div>
                             <div class="flex items-center space-x-2 rtl:space-x-reverse">
                                 <button id="testSearchBtn" type="submit"

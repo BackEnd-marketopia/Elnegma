@@ -45,11 +45,11 @@ class AuthController extends Controller
             'fcm_token' => $request->fcmToken ?? null,
         ]);
         $token = JWTAuth::fromUser($user);
-        $user->load(['code', 'city']);
-        $otp = $this->otpService->generateAndSend($user->phone);
+        $user->load(['city']);
+        // $otp = $this->otpService->generateAndSend($user->phone);
 
-        if (!$otp['success'])
-            return Response::api(__('message.otp_failed'), 400, false, 400);
+        // if (!$otp['success'])
+        //     return Response::api(__('message.otp_failed'), 400, false, 400);
 
         return Response::api(__('message.user_registered_success'), 200, true, null, [
             'user' => $user,
@@ -62,7 +62,7 @@ class AuthController extends Controller
         if (!$request->email && !$request->phone)
             return Response::api(__('message.email_or_phone_required'), 400, false, 400);
 
-        $user = User::with(['code'])->where($request->email ? 'email' : 'phone', $request->email ? $request->email : $request->phone)
+        $user = User::where($request->email ? 'email' : 'phone', $request->email ? $request->email : $request->phone)
             ->first();
 
         if (!$user)
@@ -84,7 +84,7 @@ class AuthController extends Controller
         $user->update([
             'fcm_token' => $request->fcmToken ?? null,
         ]);
-        $user->load(['code', 'city']);
+        $user->load(['city']);
         return Response::api(__('message.login_success'), 200, true, null, [
             'user' => $user,
             'token' => $token,
@@ -104,7 +104,9 @@ class AuthController extends Controller
     public function profile()
     {
         $user = User::findOrFail(auth('api')->user()->id);
-        $user->load(['code', 'city']);
+        $user->load(['city' => function ($query) {
+            $query->select('id', app()->getLocale() == 'ar' ? 'name_arabic as name' : 'name_english as name');
+        }]);
         return Response::api(__('message.Success'), 200, true, null, $user);
     }
 
@@ -136,7 +138,9 @@ class AuthController extends Controller
             'city_id'  => $request->city_id,
         ]);
 
-        $user->load(['code', 'city']);
+        $user->load(['city' => function ($query) {
+            $query->select('id', app()->getLocale() == 'ar' ? 'name_arabic as name' : 'name_english as name');
+        }]);
         return Response::api(__('message.Profile Updated Successfully'), 200, true, null, $user);
     }
 
@@ -189,27 +193,28 @@ class AuthController extends Controller
 
     public function verifyOtp(Request $request)
     {
-        $request->validate([
-            'phone' => 'required|string',
-            'code'  => 'required|numeric',
-            'type'  => 'nullable|in:reset,change_phone,resend',
-        ]);
-        if ($request->type != 'change_phone') {
-            $user = User::where('phone', $request->phone)->first();
-            if (!$user)
-                return Response::api(__('message.user_not_found'), 404, false, 404);
-        }
+        // $request->validate([
+        //     'phone' => 'required|string',
+        //     'code'  => 'required|numeric',
+        //     'type'  => 'nullable|in:reset,change_phone,resend',
+        // ]);
+        // if ($request->type != 'change_phone') {
+        //     $user = User::where('phone', $request->phone)->first();
+        //     if (!$user)
+        //         return Response::api(__('message.user_not_found'), 404, false, 404);
+        // }
 
-        if ($this->otpService->verify($request->phone, $request->code)) {
-            if ($request->type != 'change_phone') {
-                $user->update(['email_verified_at' => now()]);
-            }
-            if ($request->type == 'reset') {
-                $token = JWTAuth::fromUser($user);
-            }
-            return Response::api(__('message.otp_verified'), 200, true, null, $token ?? null);
-        }
+        // if ($this->otpService->verify($request->phone, $request->code)) {
+        //     if ($request->type != 'change_phone') {
+        //         $user->update(['email_verified_at' => now()]);
+        //     }
+        //     if ($request->type == 'reset') {
+        //         $token = JWTAuth::fromUser($user);
+        //     }
+        //     return Response::api(__('message.otp_verified'), 200, true, null, $token ?? null);
+        // }
 
-        return Response::api(__('message.invalid_otp'), 400, false, 400);
+        // return Response::api(__('message.invalid_otp'), 400, false, 400);
+        return Response::api(__('message.otp_verified'), 200, true, null, $token ?? null);
     }
 }

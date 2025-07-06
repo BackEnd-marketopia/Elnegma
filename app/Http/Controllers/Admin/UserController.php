@@ -15,6 +15,20 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+    public function search(Request $request)
+    {
+        $search = $request->input('search');
+        $users = User::where('user_type', 'user')
+            ->where(function ($query) use ($search) {
+                $query->where('name', 'LIKE', "%{$search}%")
+                    ->orWhere('email', 'LIKE', "%{$search}%")
+                    ->orWhere('phone', 'LIKE', "%{$search}%")
+                    ->orWhere('status', 'LIKE', "%{$search}%");
+            })
+            ->paginate(10);
+
+        return view('admin.user.index', compact('users'));
+    }
     /**
      * Display a listing of the resource.
      */

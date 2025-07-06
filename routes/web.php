@@ -70,72 +70,8 @@ Route::group(['middleware' => 'WebLang'], function () {
             Route::get('/', [PaymentController::class, 'index'])->name('payments.index');
         });
     });
-    Route::group(['prefix' => 'vendor', 'as' => 'vendor.', 'middleware' => 'checkVendor'], function () {
-        Route::get('/', [VendorHomeController::class, 'home'])->name('home');
-        Route::get('/pending', [VendorHomeController::class, 'pending'])->name('pending');
-        Route::get('/rejected', [VendorHomeController::class, 'rejected'])->name('rejected');
-        Route::resources([
-            'discounts' => DiscountController::class,
-        ]);
-
-        Route::group(['prefix' => 'account'], function () {
-            Route::get('/', [VendorHomeController::class, 'account'])->name('account');
-            Route::post('/update', [VendorHomeController::class, 'accountSotre'])->name('accountSotre');
-        });
-
-        Route::group(['prefix' => 'profile'], function () {
-            Route::get('/', [VendorHomeController::class, 'profile'])->name('profile');
-            Route::post('/update', [VendorHomeController::class, 'profileSotre'])->name('profileSotre');
-        });
-        Route::get('/discount-checked/{id}', [VendorUserController::class, 'index'])->name('discount-checked');
-    });
+ 
     Route::get('/', [AuthController::class, 'login'])->name('login');
     Route::post('/login', [AuthController::class, 'loginStore'])->name('loginStore');
-    Route::get('/register_vendor', [AuthController::class, 'registerVendor'])->name('register.vendor');
-    Route::post('/registerVendorStore', [AuthController::class, 'registerVendorStore'])->name('registerVendorStore');
-    Route::get('/register/provider', [AuthController::class, 'registerProvider'])->name('register.provider');
-    Route::post('/register/providerStore', [AuthController::class, 'registerProviderStore'])->name('register.providerStore');
-
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-
-    Route::group(['prefix' => 'provider', 'as' => 'provider.', 'middleware' => 'checkProvider'], function () {
-        Route::get('/', [ProviderHomeController::class, 'index'])->name('index');
-        Route::get('/pending', [VendorHomeController::class, 'pending'])->name('pending');
-        Route::get('/rejected', [VendorHomeController::class, 'rejected'])->name('rejected');
-
-        Route::group(['prefix' => 'account'], function () {
-            Route::get('/', [ProviderHomeController::class, 'account'])->name('account');
-            Route::post('/store', [ProviderHomeController::class, 'accountStore'])->name('accountStore');
-        });
-
-        Route::group(['prefix' => 'profile'], function () {
-            Route::get('/', [ProviderHomeController::class, 'profile'])->name('profile');
-            Route::post('/store', [ProviderHomeController::class, 'profileStore'])->name('profileStore');
-        });
-        Route::resources([
-            'class-rooms' => ClassRoomController::class,
-            'units'       => UnitController::class,
-            'lessons'     => LessonController::class,
-            'attachments' => AttachmentController::class,
-        ]);
-    });
-    Route::get('/verify', [AuthController::class, 'verifyView'])->name('verifyView');
-    Route::post('/verify', [AuthController::class, 'verifyVendorStore'])->name('verifyVendorStore');
-    Route::post('/verify-provider-store', [AuthController::class, 'verifyProviderStore'])->name('verifyProviderStore');
-    Route::post('/resend-code', [AuthController::class, 'resendVerificationCode'])->name('resendVerificationCode');
-    Route::post('/provider-resend-code', [AuthController::class, 'providerResendVerificationCode'])->name('providerResendVerificationCode');
-    Route::get('/reset-password', [AuthController::class, 'resetPassword'])->name('resetPassword');
-    Route::post('/reset-password', [AuthController::class, 'resetPasswordCode'])->name('resetPasswordCode');
-    Route::get('/verify-reset-password', [AuthController::class, 'verifyChangePassword'])->name('verifyChangePassword');
-    Route::get('/new-password', [AuthController::class, 'newPassword'])->name('newPassword');
-    Route::post('/verify-reset-password', [AuthController::class, 'verifyChangePasswordStore'])->name('verifyChangePasswordStore');
-    Route::post('/password-resend-code', [AuthController::class, 'passwordResendCode'])->name('passwordResendCode');
-    Route::post('/new-password', [AuthController::class, 'newPasswordStore'])->name('newPasswordStore');
-    Route::group(['prefix' => 'profile', 'as' => 'profile.'], function () {
-        Route::get('/change-phone', [ChangePhone::class, 'index'])->name("newPhone")->middleware('auth:web');
-        Route::post('/change-phone', [ChangePhone::class, 'getNewPhone'])->name('getNewPhone')->middleware('auth:web');
-        Route::get('/verify', [ChangePhone::class, 'verify'])->name('verify')->middleware('auth:web');
-        Route::post('/verify', [ChangePhone::class, 'verifyCode'])->name('verifyCode')->middleware('auth:web');
-        Route::post('/resend-code', [ChangePhone::class, 'resendCode'])->name('resendCode')->middleware('auth:web');
-    });
 });

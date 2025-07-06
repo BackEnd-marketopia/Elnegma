@@ -19,9 +19,6 @@
                 <h1 class="text-2xl font-bold text-gray-900 dark:text-white">
                     {{ __('message.Cities') }}
                 </h1>
-                <p class="text-gray-600 dark:text-gray-400 mt-1">
-                    {{ __('message.Manage cities and locations') }}
-                </p>
             </div>
             <div class="flex flex-col sm:flex-row gap-3">
                 <button id="addCityBtn" 

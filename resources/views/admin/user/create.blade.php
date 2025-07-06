@@ -25,9 +25,6 @@
                 <h1 class="text-2xl font-bold text-gray-900 dark:text-white">
                     {{ __('message.Add User') }}
                 </h1>
-                <p class="text-gray-600 dark:text-gray-400 mt-1">
-                    {{ __('message.Create a new user account') }}
-                </p>
             </div>
             <div class="flex gap-3">
                 <a href="{{ route('admin.users.index') }}" 
@@ -175,6 +172,7 @@
                             <label for="card_image" class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
                                 <i class="fas fa-id-card mr-2 text-purple-600"></i>
                                 {{ __('message.Card Image') }}
+                                <span class="text-red-500">*</span>
                             </label>
                             <div class="relative">
                                 <input type="file" id="card_image" name="card_image" accept="image/*"
@@ -204,7 +202,7 @@
                         <div class="relative">
                             <input type="password" id="password" name="password"
                                 class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 {{ $errors->has('password') ? 'border-red-500 ring-2 ring-red-200' : '' }}"
-                                placeholder="{{ __('Enter password') }}" required>
+                                placeholder="{{ __('message.Enter password') }}" required>
                             <button type="button"
                                 class="absolute inset-y-0 {{ app()->getLocale() === 'ar' ? 'left-0 pl-3' : 'right-0 pr-3' }} flex items-center toggle-password"
                                 data-target="password">
@@ -229,7 +227,7 @@
                         <div class="relative">
                             <input type="password" id="password_confirmation" name="password_confirmation"
                                 class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 {{ $errors->has('password_confirmation') ? 'border-red-500 ring-2 ring-red-200' : '' }}"
-                                placeholder="{{ __('Confirm your password') }}" required>
+                                placeholder="{{ __('message.Confirm password') }}" required>
                             <button type="button"
                                 class="absolute inset-y-0 {{ app()->getLocale() === 'ar' ? 'left-0 pl-3' : 'right-0 pr-3' }} flex items-center toggle-password"
                                 data-target="password_confirmation">
@@ -250,67 +248,90 @@
                 <div class="form-actions">
                     <button type="submit" class="btn btn-primary">
                         <i class="fas fa-save mr-2 rtl:ml-2 rtl:mr-0"></i>
-                        {{ __('message.Add') }}
+                        {{ __('message.Create User') }}
                     </button>
                     <a href="{{ route('admin.users.index') }}" class="btn btn-secondary">
                         <i class="fas fa-times mr-2 rtl:ml-2 rtl:mr-0"></i>
-                        {{ __('Cancel') }}
+                        {{ __('message.Cancel') }}
                     </a>
+                    <button type="reset" class="btn btn-info flex-1 sm:flex-none">
+                        <i class="fas fa-undo mr-2 rtl:ml-2 rtl:mr-0"></i>
+                        {{ __('message.Reset Form') }}
+                    </button>
                 </div>
             </form>
         </div>
     </div>
 
     @push('scripts')
-    <script>
-    function togglePassword(fieldId) {
-        const passwordField = document.getElementById(fieldId);
-        const eyeIcon = document.getElementById(fieldId + '-eye');
+        <script>
 
-        if (passwordField.type === 'password') {
-            passwordField.type = 'text';
-            eyeIcon.classList.remove('fa-eye');
-            eyeIcon.classList.add('fa-eye-slash');
-        } else {
-            passwordField.type = 'password';
-            eyeIcon.classList.remove('fa-eye-slash');
-            eyeIcon.classList.add('fa-eye');
-        }
-    }
+            function togglePassword(fieldId) {
+                const passwordField = document.getElementById(fieldId);
+                const eyeIcon = document.getElementById(fieldId + '-eye');
 
-    document.addEventListener('DOMContentLoaded', function() {
-        const oneYearCheckbox = document.getElementById('oneYearCheckbox');
-        const dateFields = document.getElementById('dateFields');
-        const validationError = document.getElementById('validationError');
-        const checkCodesBtn = document.getElementById('checkCodes');
-
-        // Toggle date fields based on checkbox
-        oneYearCheckbox.addEventListener('change', function() {
-            if (this.checked) {
-                dateFields.style.display = 'none';
-            } else {
-                dateFields.style.display = 'block';
+                if (passwordField.type === 'password') {
+                    passwordField.type = 'text';
+                    eyeIcon.classList.remove('fa-eye');
+                    eyeIcon.classList.add('fa-eye-slash');
+                } else {
+                    passwordField.type = 'password';
+                    eyeIcon.classList.remove('fa-eye-slash');
+                    eyeIcon.classList.add('fa-eye');
+                }
             }
-        });
+        document.addEventListener('DOMContentLoaded', function() {
+             // Toggle password visibility
+            document.querySelectorAll('.toggle-password').forEach(button => {
+                button.addEventListener('click', function () {
+                    const targetId = this.getAttribute('data-target');
+                    const passwordInput = document.getElementById(targetId);
+                    const icon = this.querySelector('i');
 
-        // Check if any option is selected
-        function isAnyOptionSelected() {
-            return oneYearCheckbox.checked || 
-                   document.getElementById('start_date').value || 
-                   document.getElementById('end_date').value;
-        }
+                    if (passwordInput.type === 'password') {
+                        passwordInput.type = 'text';
+                        icon.classList.remove('fa-eye');
+                        icon.classList.add('fa-eye-slash');
+                    } else {
+                        passwordInput.type = 'password';
+                        icon.classList.remove('fa-eye-slash');
+                        icon.classList.add('fa-eye');
+                    }
+                });
+            });
 
-        // Handle code check
-        checkCodesBtn.addEventListener('click', function() {
-            if (!isAnyOptionSelected()) {
-                validationError.classList.remove('hidden');
-                return;
-            } else {
-                validationError.classList.add('hidden');
+            const oneYearCheckbox = document.getElementById('oneYearCheckbox');
+            const dateFields = document.getElementById('dateFields');
+            const validationError = document.getElementById('validationError');
+            const checkCodesBtn = document.getElementById('checkCodes');
+
+            // Toggle date fields based on checkbox
+            oneYearCheckbox.addEventListener('change', function() {
+                if (this.checked) {
+                    dateFields.style.display = 'none';
+                } else {
+                    dateFields.style.display = 'block';
+                }
+            });
+
+            // Check if any option is selected
+            function isAnyOptionSelected() {
+                return oneYearCheckbox.checked || 
+                       document.getElementById('start_date').value || 
+                       document.getElementById('end_date').value;
             }
 
+            // Handle code check
+            checkCodesBtn.addEventListener('click', function() {
+                if (!isAnyOptionSelected()) {
+                    validationError.classList.remove('hidden');
+                    return;
+                } else {
+                    validationError.classList.add('hidden');
+                }
+
+            });
         });
-    });
-    </script>
+        </script>
     @endpush
 @endsection

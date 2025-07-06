@@ -19,9 +19,6 @@
             <h1 class="text-2xl font-bold text-gray-900 dark:text-white">
                 {{ __('message.Configurations') }}
             </h1>
-            <p class="text-gray-600 dark:text-gray-400 mt-1">
-                {{ __('message.Manage system configurations and settings') }}
-            </p>
         </div>
     </div>
     <!-- Configuration Form Card -->

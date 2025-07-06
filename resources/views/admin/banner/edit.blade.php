@@ -26,9 +26,6 @@
                 <h1 class="text-2xl font-bold text-gray-900 dark:text-white">
                     {{ __('message.Edit Banner') }}
                 </h1>
-                <p class="text-gray-600 dark:text-gray-400 mt-1">
-                    {{ __('message.Edit Informantion of Banner:') }} <span class="font-semibold text-purple-600 dark:text-purple-400">{{ $banner->name_arabic }}</span>
-                </p>
             </div>
             <div class="flex gap-3">
                 <a href="{{ route('admin.banners.index') }}" 

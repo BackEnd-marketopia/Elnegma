@@ -19,9 +19,6 @@
                 <h1 class="text-2xl font-bold text-gray-900 dark:text-white">
                     {{ __('message.Banners') }}
                 </h1>
-                <p class="text-gray-600 dark:text-gray-400 mt-1">
-                    {{ __('message.Manage banners and advertisements') }}
-                </p>
             </div>
             <div class="flex flex-col sm:flex-row gap-3">
                 <a href="{{ route('admin.banners.create') }}" 
@@ -51,7 +48,7 @@
                                 </div>
                                 <input type="text" id="citySearch" name="search" value="{{ request('search') }}"
                                     class="block w-full pr-10 pl-3 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent shadow-sm hover:shadow-md transition-all duration-200"
-                                    placeholder="{{ __('message.Search in cities') }}...">
+                                    placeholder="{{ __('message.Search in banners') }}...">
                             </div>
                             <div class="flex items-center space-x-2 rtl:space-x-reverse">
                                 <button id="testSearchBtn" type="submit"

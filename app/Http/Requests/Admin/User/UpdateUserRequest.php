@@ -31,7 +31,7 @@ class UpdateUserRequest extends FormRequest
             'image'      => 'nullable',
             'password'   => 'nullable | confirmed | min:8 | regex:/[A-Za-z]/ | regex:/[0-9]/',
             'city_id'    => 'required | exists:cities,id',
-            'status'     => 'required |in:active,inactive',
+            'status'     => 'required |in:pending,active,inactive',
             'card_image' => 'nullable',
         ];
     }

@@ -26,9 +26,6 @@
                 <h1 class="text-2xl font-bold text-gray-900 dark:text-white">
                     {{ __('message.Edit Advertisement') }}
                 </h1>
-                <p class="text-gray-600 dark:text-gray-400 mt-1">
-                    تعديل معلومات الإعلان: <span class="font-semibold text-blue-600 dark:text-blue-400">{{ $ads->name }}</span>
-                </p>
             </div>
             <div class="flex gap-3">
                 <a href="{{ route('admin.ads.index') }}" 

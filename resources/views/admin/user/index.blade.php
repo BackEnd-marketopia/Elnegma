@@ -19,17 +19,14 @@
                     <h1 class="text-2xl font-bold text-gray-900 dark:text-white">
                         {{ __('message.Users') }}
                     </h1>
-                    <p class="text-gray-600 dark:text-gray-400 mt-1">
-                        {{ __('message.Manage platform users') }}
-                    </p>
                 </div>
                 <div class="flex flex-col sm:flex-row gap-3">
-                    <a href="{{ route('admin.users.create') }}" 
-                       class="btn btn-primary">
+                    <a href="{{ route('admin.users.create') }}"
+                        class="inline-flex items-center px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-lg shadow-lg transition-all duration-200 transform hover:scale-105">
                         <i class="fas fa-plus mr-2 rtl:ml-2 rtl:mr-0"></i>
                         {{ __('message.Add User') }}
                     </a>
-                </div>
+                    </div>
             </div>
 
         <!-- Users Table Card -->
@@ -211,7 +208,7 @@
                     <i class="fas fa-times text-xl"></i>
                     <span class="sr-only">{{ __('message.Close') }}</span>
                 </button>
-                
+
                 <!-- Image container -->
                 <div class="p-4 text-center">
                     <img id="modalImage" src="" alt="{{ __('message.Card Image') }}" class="max-h-[80vh] max-w-full mx-auto rounded-lg shadow-lg">
@@ -237,11 +234,11 @@
                 img.addEventListener('click', function() {
                     const imageSrc = this.getAttribute('src');
                     const userName = this.getAttribute('alt').replace(' Card Image', '');
-                    
+
                     // Set modal content
                     modalImage.src = imageSrc;
                     modalImageTitle.textContent = userName;
-                    
+
                     // Show modal
                     imageModal.classList.remove('hidden');
                     document.body.classList.add('overflow-hidden');

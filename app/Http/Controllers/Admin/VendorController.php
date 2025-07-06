@@ -36,6 +36,10 @@ class VendorController extends Controller
                     ->orWhere('address', 'LIKE', "%{$search}%")
                     ->orWhere('status', 'LIKE', "%{$search}%");
             })
+            ->orWhereRelation('vendor.category', function ($query) use ($search) {
+                $query->where('name_arabic', 'LIKE', "%{$search}%")
+                    ->orWhere('name_english', 'LIKE', "%{$search}%");
+            })
             ->paginate(10);
         return view('admin.vendor.index', compact('users'));
     }

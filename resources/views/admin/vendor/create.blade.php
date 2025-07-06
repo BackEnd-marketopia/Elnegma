@@ -25,9 +25,6 @@
                 <h1 class="text-2xl font-bold text-gray-900 dark:text-white">
                     {{ __('message.Add Vendor') }}
                 </h1>
-                <p class="text-gray-600 dark:text-gray-400 mt-1">
-                    {{ __('message.Create a new vendor account') }}
-                </p>
             </div>
             <div class="flex gap-3">
                 <a href="{{ route('admin.vendors.index') }}" 
@@ -75,7 +72,7 @@
                                class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 {{ $errors->has('name') ? 'border-red-500 ring-2 ring-red-200' : '' }}" 
                                value="{{ old('name') }}" 
                                required
-                               placeholder="{{ __('Enter vendor name') }}">
+                               placeholder="{{ __('message.Enter vendor name') }}">
                         @if ($errors->has('name'))
                             <div class="mt-2 flex items-center text-red-600 text-sm">
                                 <i class="fas fa-exclamation-circle mr-2"></i>
@@ -97,7 +94,7 @@
                                class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 {{ $errors->has('email') ? 'border-red-500 ring-2 ring-red-200' : '' }}" 
                                value="{{ old('email') }}"
                                required
-                               placeholder="{{ __('Enter email address') }}">
+                               placeholder="{{ __('message.Enter email address') }}">
                         @if ($errors->has('email'))
                             <div class="mt-2 flex items-center text-red-600 text-sm">
                                 <i class="fas fa-exclamation-circle mr-2"></i>
@@ -119,7 +116,7 @@
                                class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 {{ $errors->has('phone') ? 'border-red-500 ring-2 ring-red-200' : '' }}" 
                                value="{{ old('phone') }}" 
                                required
-                               placeholder="{{ __('Enter phone number') }}">
+                               placeholder="{{ __('message.Enter phone number') }}">
                         @if ($errors->has('phone'))
                             <div class="mt-2 flex items-center text-red-600 text-sm">
                                 <i class="fas fa-exclamation-circle mr-2"></i>
@@ -168,7 +165,7 @@
                                id="password_confirmation" 
                                name="password_confirmation" 
                                class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 {{ $errors->has('password_confirmation') ? 'border-red-500 ring-2 ring-red-200' : '' }}"
-                               placeholder="{{ __('message.Confirm your password') }}"
+                               placeholder="{{ __('message.Confirm password') }}"
                                required>
                         <button type="button" 
                                 class="absolute inset-y-0 {{ app()->getLocale() === 'ar' ? 'left-0 pl-3' : 'right-0 pr-3' }} flex items-center toggle-password"
@@ -191,7 +188,7 @@
                         <i class="fas fa-store mr-2 text-purple-600"></i>
                         {{ __('message.Brand Information') }}
                     </h3>
-                    
+
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                         <!-- Brand Name -->
                         <div class="form-group {{ $errors->has('name_of_brand') ? 'has-error' : '' }}">
@@ -244,7 +241,7 @@
                                 </div>
                             @endif
                         </div>
-                        
+
                         <!-- Cities Multi-select -->
                         <div class="form-group {{ $errors->has('city_ids') ? 'has-error' : '' }}">
                             <label for="city_ids" class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
@@ -336,7 +333,7 @@
                         <i class="fas fa-address-book mr-2 text-purple-600"></i>
                         {{ __('message.Contact Information') }}
                     </h3>
-                    
+
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                         <!-- Address -->
                         <div class="form-group {{ $errors->has('address') ? 'has-error' : '' }}">
@@ -379,7 +376,7 @@
                                 </div>
                             @endif
                         </div>
-                        
+
                         <!-- WhatsApp -->
                         <div class="form-group {{ $errors->has('whatsapp') ? 'has-error' : '' }}">
                             <label for="whatsapp" class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
@@ -439,6 +436,25 @@
                                 </div>
                             @endif
                         </div>
+                            <!-- Status -->
+                            <div class="form-group {{ $errors->has('status') ? 'has-error' : '' }}">
+                                <label for="status" class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
+                                    <i class="fas fa-toggle-on mr-2 text-purple-600"></i>
+                                    {{ __('message.Status') }}
+                                </label>
+                                <select id="status" name="status"
+                                    class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 {{ $errors->has('status') ? 'border-red-500 ring-2 ring-red-200' : '' }}">
+                                    <option value="pending" {{ old('status') == 'pending' ? 'selected' : '' }}>{{ __('message.Pending') }}</option>
+                                    <option value="accepted" {{ old('status') == 'accepted' ? 'selected' : '' }}>{{ __('message.Accepted') }}</option>
+                                    <option value="rejected" {{ old('status') == 'rejected' ? 'selected' : '' }}>{{ __('message.Rejected') }}</option>
+                                </select>
+                                @if ($errors->has('status'))
+                                    <div class="mt-2 flex items-center text-red-600 text-sm">
+                                        <i class="fas fa-exclamation-circle mr-2"></i>
+                                        {{ $errors->first('status') }}
+                                    </div>
+                                @endif
+                            </div>
                     </div>
                 </div>
 
@@ -507,79 +523,21 @@
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
-                    <!-- City -->
-                    <div class="form-group {{ $errors->has('city_id') ? 'has-error' : '' }}">
-                        <label for="city_id" class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
-                            <i class="fas fa-map-marker-alt mr-2 text-purple-600"></i>
-                            {{ __('message.City') }}
-                        </label>
-                        <select id="city_id" 
-                                name="city_id" 
-                                class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 {{ $errors->has('city_id') ? 'border-red-500 ring-2 ring-red-200' : '' }}">
-                            <option value="">{{ __('message.Select City') }}</option>
-                            @foreach ($cities as $city)
-                                <option value="{{ $city->id }}" {{ old('city_id') == $city->id ? 'selected' : '' }}>
-                                    {{ $city->name_arabic }} ({{ $city->name_english }})
-                                </option>
-                            @endforeach
-                        </select>
-                        @if ($errors->has('city_id'))
-                            <div class="mt-2 flex items-center text-red-600 text-sm">
-                                <i class="fas fa-exclamation-circle mr-2"></i>
-                                {{ $errors->first('city_id') }}
-                            </div>
-                        @endif
-                    </div>
-
-                    <!-- Status -->
-                    <div class="form-group {{ $errors->has('status') ? 'has-error' : '' }}">
-                        <label for="status" class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
-                            <i class="fas fa-toggle-on mr-2 text-purple-600"></i>
-                            {{ __('message.Status') }}
-                        </label>
-                        <select id="status" 
-                                name="status" 
-                                class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 {{ $errors->has('status') ? 'border-red-500 ring-2 ring-red-200' : '' }}">
-                            <option value="pending" {{ old('status') == 'pending' ? 'selected' : '' }}>{{ __('message.Pending') }}</option>
-                            <option value="accepted" {{ old('status') == 'accepted' ? 'selected' : '' }}>{{ __('message.Accepted') }}</option>
-                            <option value="rejected" {{ old('status') == 'rejected' ? 'selected' : '' }}>{{ __('message.Rejected') }}</option>
-                        </select>
-                        @if ($errors->has('status'))
-                            <div class="mt-2 flex items-center text-red-600 text-sm">
-                                <i class="fas fa-exclamation-circle mr-2"></i>
-                                {{ $errors->first('status') }}
-                            </div>
-                        @endif
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
-                    <!-- Address -->
-                    <div class="form-group col-span-1 lg:col-span-2 {{ $errors->has('address') ? 'has-error' : '' }}">
-                        <label for="address" class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
-                            <i class="fas fa-map-marked-alt mr-2 text-purple-600"></i>
-                            {{ __('message.Address') }}
-                        </label>
-                        <textarea id="address" 
-                                  name="address" 
-                                  rows="3" 
-                                  class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 {{ $errors->has('address') ? 'border-red-500 ring-2 ring-red-200' : '' }}"
-                                  placeholder="{{ __('Enter vendor address') }}">{{ old('address') }}</textarea>
-                        @if ($errors->has('address'))
-                            <div class="mt-2 flex items-center text-red-600 text-sm">
-                                <i class="fas fa-exclamation-circle mr-2"></i>
-                                {{ $errors->first('address') }}
-                            </div>
-                        @endif
-                    </div>
-                </div>
-
                 <!-- Submit Button -->
-                <div class="mt-8 flex justify-end">
-                    <button type="submit" class="px-6 py-3 bg-gradient-to-r from-purple-600 to-purple-700 text-white font-medium rounded-xl shadow-lg hover:from-purple-700 hover:to-purple-800 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition-all duration-200 flex items-center">
-                        <i class="fas fa-save mr-2"></i>
+                <div class="flex flex-col sm:flex-row gap-4 pt-6 border-t border-gray-200 dark:border-gray-700 lg:col-span-2">
+                    <button type="submit" class="btn btn-primary flex-1 sm:flex-none">
+                        <i class="fas fa-save mr-2 rtl:ml-2 rtl:mr-0"></i>
                         {{ __('message.Create Vendor') }}
+                    </button>
+
+                    <a href="{{ route('admin.vendors.index') }}" class="btn btn-secondary flex-1 sm:flex-none">
+                        <i class="fas fa-times mr-2 rtl:ml-2 rtl:mr-0"></i>
+                        {{ __('message.Cancel') }}
+                    </a>
+
+                    <button type="reset" class="btn btn-info flex-1 sm:flex-none">
+                        <i class="fas fa-undo mr-2 rtl:ml-2 rtl:mr-0"></i>
+                        {{ __('message.Reset Form') }}
                     </button>
                 </div>
             </form>
@@ -645,7 +603,7 @@
                 }
             });
         }
-        
+
         // Cover image preview
         const coverInput = document.getElementById('cover');
         const coverPreview = document.getElementById('cover-preview');

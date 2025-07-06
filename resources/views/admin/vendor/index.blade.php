@@ -19,16 +19,13 @@
                     <h1 class="text-2xl font-bold text-gray-900 dark:text-white">
                         {{ __('message.Vendors') }}
                     </h1>
-                    <p class="text-gray-600 dark:text-gray-400 mt-1">
-                        {{ __('message.Manage platform vendors and their status') }}
-                    </p>
                 </div>
                 <div class="flex flex-col sm:flex-row gap-3">
-                    <a href="{{ route('admin.vendors.create') }}" 
-                       class="btn btn-primary">
+                    <a href="{{ route('admin.vendors.create') }}"
+                        class="inline-flex items-center px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-lg shadow-lg transition-all duration-200 transform hover:scale-105">
                         <i class="fas fa-plus mr-2 rtl:ml-2 rtl:mr-0"></i>
                         {{ __('message.Add Vendor') }}
-                    </a>
+                    </a>  
                 </div>
             </div>
 
@@ -82,6 +79,10 @@
                                     {{ __('message.Phone') }}
                                 </th>
                                 <th scope="col" class="px-6 py-4 text-center text-sm font-bold text-white uppercase tracking-wider border-r border-purple-500">
+                                    <i class="fas fa-tags mr-2"></i>
+                                    {{ __('message.Category') }}
+                                </th>
+                                <th scope="col" class="px-6 py-4 text-center text-sm font-bold text-white uppercase tracking-wider border-r border-purple-500">
                                     <i class="fas fa-toggle-on mr-2"></i>
                                     {{ __('message.Status') }}
                                 </th>
@@ -97,9 +98,10 @@
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="flex items-center">
                                             <div class="w-12 h-12 rounded-lg overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-600 shadow-lg ring-2 ring-gray-200 dark:ring-gray-600 mr-3 rtl:ml-3 rtl:mr-0">
-                                                @if($user->vendor->logo)
+                                                @if($user->vendor?->logo)
                                                     <img src="{{ asset($user->vendor->logo) }}" 
-                                                         alt="{{ $user->vendor->name }}" 
+                                                         alt="{{ $user->vendor?->name }}" 
+                                                         title="{{ __('message.Logo') }}"
                                                          class="w-full h-full hover:scale-105 transition-transform duration-200">
                                                 @else
                                                     <div class="w-full h-full flex items-center justify-center">
@@ -109,7 +111,7 @@
                                             </div>
                                             <div>
                                                 <p class="text-lg font-bold text-gray-900 dark:text-white">
-                                                    {{ Str::limit($user->vendor->name, 30) }}
+                                                    {{ Str::limit($user->vendor?->name, 30) }}
                                                 </p>
                                             </div>
                                         </div>
@@ -125,12 +127,25 @@
                                         </div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-center">
-                                        @if($user->vendor->status == 'accepted')
+                                        @if($user->vendor?->category)
+                                            <div class="inline-flex items-center px-3 py-1 rounded-full bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 text-sm font-medium">
+                                                <i class="fas fa-tag mr-1.5 rtl:ml-1.5 rtl:mr-0"></i>
+                                                {{ app()->getLocale() == 'ar' ? $user->vendor?->category?->name_arabic : $user->vendor?->category?->name_english }}
+                                            </div>
+                                        @else
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 text-xs">
+                                                <i class="fas fa-exclamation-circle mr-1"></i>
+                                                {{ __('message.No Category') }}
+                                            </span>
+                                        @endif
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-center">
+                                        @if($user->vendor?->status == 'accepted')
                                             <span class="px-3 py-1 inline-flex items-center justify-center rounded-full bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 text-sm font-medium">
                                                 <i class="fas fa-check-circle mr-1"></i>
                                                 {{ __('message.Accepted') }}
                                             </span>
-                                        @elseif($user->vendor->status == 'pending')
+                                        @elseif($user->vendor?->status == 'pending')
                                             <span class="px-3 py-1 inline-flex items-center justify-center rounded-full bg-yellow-100 dark:bg-yellow-900/30 text-yellow-600 dark:text-yellow-400 text-sm font-medium">
                                                 <i class="fas fa-clock mr-1"></i>
                                                 {{ __('message.Pending') }}

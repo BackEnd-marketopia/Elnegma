@@ -12,4 +12,9 @@ class Category extends Model
         'image',
         'sort_order',
     ];
+
+    public function vendors()
+    {
+        return $this->hasMany(Vendor::class);
+    }
 }

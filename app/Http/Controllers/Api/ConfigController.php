@@ -79,7 +79,7 @@ class ConfigController extends Controller
         }])
             ->where('status', 'accepted')
             ->orderBy('created_at', 'desc')
-            ->take(6)
+            ->take(20)
             ->get();
 
 

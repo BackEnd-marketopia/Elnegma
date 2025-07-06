@@ -1,45 +1,169 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="{{ app()->getLocale() == 'ar' ? 'rtl' : 'ltr' }}" class="scroll-smooth">
 
 <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Login</title>
-    <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport" />
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no, user-scalable=yes">
+    <title>{{ __('message.Sign in') }} | {{ config('app.name', 'Elnegma') }}</title>
     <link rel="icon" href="{{ asset('assets/img/kaiadmin/app_logo.png') }}" type="image/x-icon" />
 
+    <!-- External Libraries -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome for icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Flag Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@6.6.6/css/flag-icons.min.css"/>
 
-    <script src="{{ asset('assets/js/plugin/webfont/webfont.min.js') }}"></script>
+    <!-- Tailwind CSS Configuration -->
     <script>
-        WebFont.load({
-            google: { families: ["Public Sans:300,400,500,600,700"] },
-            custom: {
-                families: [
-                    "Font Awesome 5 Solid",
-                    "Font Awesome 5 Regular",
-                    "Font Awesome 5 Brands",
-                    "simple-line-icons",
-                ],
-                urls: ["assets/css/fonts.min.css"],
-            },
-            active: function () {
-                sessionStorage.fonts = true;
-            },
-        });
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'sans': ['Inter', 'Tajawal', 'system-ui', 'sans-serif'],
+                        'arabic': ['Tajawal', 'system-ui', 'sans-serif']
+                    },
+                    colors: {
+                        primary: {
+                            50: '#F5F0FF',
+                            100: '#E6D9FF',
+                            200: '#D4C5FF',
+                            300: '#B68AFF',
+                            400: '#9F66FF',
+                            500: '#6000C0',
+                            600: '#4A0099',
+                            700: '#330066',
+                            800: '#220044',
+                            900: '#110022'
+                        },
+                        purple: {
+                            50: '#F5F0FF',
+                            100: '#E6D9FF',
+                            200: '#D4C5FF',
+                            300: '#B68AFF',
+                            400: '#9F66FF',
+                            500: '#6000C0',
+                            600: '#4A0099',
+                            700: '#330066',
+                            800: '#220044',
+                            900: '#110022'
+                        },
+                        red: {
+                            500: '#BD3628'
+                        }
+                    },
+                    animation: {
+                        'fadeInUp': 'fadeInUp 0.5s ease-out',
+                        'zoomIn': 'zoomIn 0.3s ease-out',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' }
+                        },
+                        zoomIn: {
+                            '0%': { opacity: '0', transform: 'scale(0.95)' },
+                            '100%': { opacity: '1', transform: 'scale(1)' }
+                        }
+                    }
+                }
+            }
+        };
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- CSS Files -->
-    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}" />
-    <link rel="stylesheet" href="{{ asset('assets/css/plugins.min.css') }}" />
-    <link rel="stylesheet" href="{{ asset('assets/css/kaiadmin.min.css') }}" />
-
-    <!-- CSS Just for demo purpose, don't include it in your project -->
-    <link rel="stylesheet" href="{{ asset('assets/css/demo.css') }}" />
+    <style>
+        body {
+            font-family: 'Inter', 'Tajawal', sans-serif;
+            background-color: #f3f4f6;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%236000c0' fill-opacity='0.05'%3E%3Cpath opacity='.5' d='M96 95h4v1h-4v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9zm-1 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        
+        .rtl {
+            direction: rtl;
+            text-align: right;
+        }
+        
+        .form-input:focus {
+            box-shadow: 0 0 0 3px rgba(96, 0, 192, 0.2);
+        }
+        
+        .bg-gradient {
+            background: linear-gradient(135deg, #6000C0 0%, #9F66FF 100%);
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .float-animation {
+            animation: float 5s ease-in-out infinite;
+        }
+        
+        /* Custom password toggle button styles */
+        .position-relative {
+            position: relative;
+        }
+        
+        html[dir="rtl"] .position-relative .absolute.inset-y-0.right-3 {
+            right: auto;
+            left: 3px;
+        }
+        
+        .password-toggle-btn {
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .password-toggle-btn:hover {
+            background-color: rgba(124, 58, 237, 0.1);
+            border-radius: 50%;
+        }
+        
+        /* Dropdown improvements */
+        [x-cloak] { 
+            display: none !important; 
+        }
+        
+        .dropdown-shadow {
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        /* Loading spinner animation */
+        .spinner {
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        
+        /* Button loading state */
+        .btn-loading {
+            position: relative;
+            pointer-events: none;
+            opacity: 0.8;
+        }
+    </style>
 </head>
 
-<body class="{{ $class ?? '' }}" style="background:#f7f7f7">
+<body class="bg-gray-100 dark:bg-gray-900 min-h-screen font-sans">
     <!-- Modern notifications with SweetAlert2 -->
     @if(session('error') || session('success'))
         <script>
@@ -56,13 +180,9 @@
                         timer: 4000,
                         timerProgressBar: true,
                         background: '#ffffff',
-                        iconColor: '#E53935',
+                        iconColor: '#BD3628',
                         customClass: {
-                            popup: 'animated fadeInRight'
-                        },
-                        didOpen: (toast) => {
-                            toast.addEventListener('mouseenter', Swal.stopTimer);
-                            toast.addEventListener('mouseleave', Swal.resumeTimer);
+                            popup: 'rounded-lg shadow-md'
                         }
                     });
                 @endif
@@ -81,175 +201,194 @@
                         background: '#ffffff',
                         iconColor: '#6000C1',
                         customClass: {
-                            popup: 'animated fadeInRight'
-                        },
-                        didOpen: (toast) => {
-                            toast.addEventListener('mouseenter', Swal.stopTimer);
-                            toast.addEventListener('mouseleave', Swal.resumeTimer);
+                            popup: 'rounded-lg shadow-md'
                         }
                     });
                 @endif
             });
         </script>
     @endif
-    
-    <style>
-        @keyframes fadeInRight {
-            from {
-                opacity: 0;
-                transform: translate3d(100%, 0, 0);
-            }
-            to {
-                opacity: 1;
-                transform: translate3d(0, 0, 0);
-            }
-        }
-        
-        .animated {
-            animation-duration: 0.5s;
-            animation-fill-mode: both;
-        }
-        
-        .fadeInRight {
-            animation-name: fadeInRight;
-        }
-        
-        /* Custom SweetAlert2 Styling */
-        .swal2-popup {
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            padding: 1rem;
-        }
-        
-        .swal2-title {
-            font-size: 18px;
-            font-weight: 600;
-            color: #333;
-            margin-top: 0;
-            padding-top: 0;
-        }
-        
-        .swal2-html-container {
-            font-size: 14px;
-            color: #555;
-            margin-top: 5px;
-        }
-        
-        .swal2-timer-progress-bar {
-            background: #6000C1;
-            height: 3px;
-        }
-        
-        .swal2-icon {
-            margin: 0.5rem auto;
-        }
-        
-        .swal2-close {
-            color: #888;
-            font-size: 1.5rem;
-            top: 10px;
-            right: 10px;
-        }
-        
-        .swal2-close:hover {
-            color: #6000C1;
-            transform: scale(1.1);
-        }
-    </style>
-    <div class="container">
-        <div class="row d-flex justify-content-center align-items-center vh-100">
-            <div class="col-lg-5 col-md-7">
-                <div class="card bg-white shadow border-0">
-                    <div class="card-body px-lg-5 py-lg-5">
-                        <li class="nav-item dropdown hidden-caret" style="list-style: none;">
-                            <a class="dropdown-toggle" href="#" id="languageDropdown" role="button"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                                {{ __('message.Language') }}
+
+    <div class="min-h-screen flex items-center justify-center py-8 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-md w-full space-y-6 animate-fadeInUp">
+            <!-- Language Selector -->
+            <div class="flex justify-end mb-4">
+                <div class="relative inline-block text-left" x-data="{ open: false }">
+                    <button @click="open = !open" type="button" class="inline-flex justify-center items-center px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-xl shadow-sm hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-all duration-200">
+                        <i class="fas fa-globe mr-2 text-purple-600"></i>
+                        {{ __('message.Language') }}
+                        &nbsp;
+                        <i class="fas fa-chevron-down ml-2 transition-transform duration-200" :class="{ 'rotate-180': open }"></i>
+                    </button>
+                    <div x-show="open" 
+                         x-transition:enter="transition ease-out duration-200"
+                         x-transition:enter-start="opacity-0 scale-95"
+                         x-transition:enter-end="opacity-1 scale-100"
+                         x-transition:leave="transition ease-in duration-150"
+                         x-transition:leave-start="opacity-1 scale-100"
+                         x-transition:leave-end="opacity-0 scale-95"
+                         @click.away="open = false" 
+                         class="origin-top-right absolute {{ app()->getLocale() === 'ar' ? 'left-0' : 'right-0' }} mt-2 w-48 rounded-xl shadow-xl bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5 dark:ring-gray-600 focus:outline-none z-50 border border-gray-200 dark:border-gray-600"
+                         style="display: none;"
+                         x-cloak>
+                        <div class="py-2">
+                            <a href="{{ route('setLocale', ['locale' => 'en']) }}" class="flex items-center px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-purple-50 dark:hover:bg-purple-900/20 hover:text-purple-700 dark:hover:text-purple-300 transition-all duration-200 {{ app()->getLocale() === 'en' ? 'bg-purple-50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-300' : '' }}">
+                                {{ __('message.English') }}
+                                @if(app()->getLocale() === 'en')
+                                    <i class="fas fa-check ml-auto text-purple-600"></i>
+                                @endif
                             </a>
-                            <ul class="dropdown-menu animated fadeIn" aria-labelledby="languageDropdown">
-                                <li>
-                                    <a class="dropdown-item"
-                                        href="{{ route('setLocale', 'en') }}">{{ __('message.English') }}</a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item"
-                                        href="{{ route('setLocale', 'ar') }}">{{ __('message.Arabic') }}</a>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <div class="text-center text-muted mb-4">
-                            <img src="{{ asset('assets/img/kaiadmin/app_logo.png') }}" alt="Logo" class="logo"
-                                width="100">
-                            </br>
-                        </div>
-                        <form method="POST" action="{{ route('loginStore') }}">
-                            @csrf
-                            <div class="form-group{{ $errors->has('email') ? ' has-danger' : '' }} mb-3">
-                                <div class="input-group input-group-alternative">
-                                    <input class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}"
-                                        placeholder="{{ __('message.Email') }}" type="email" name="email"
-                                        value="{{ old('email') }}" required autofocus>
-                                </div>
-                                @if ($errors->has('email'))
-                                    <span class="invalid-feedback" style="display: block;" role="alert">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
+                            <a href="{{ route('setLocale', ['locale' => 'ar']) }}" class="flex items-center px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-purple-50 dark:hover:bg-purple-900/20 hover:text-purple-700 dark:hover:text-purple-300 transition-all duration-200 {{ app()->getLocale() === 'ar' ? 'bg-purple-50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-300' : '' }}">
+                                {{ __('message.Arabic') }}
+                                @if(app()->getLocale() === 'ar')
+                                    <i class="fas fa-check ml-auto text-purple-600"></i>
                                 @endif
-                            </div>
-                            <div class="form-group position-relative">
-                                <div class="input-group input-group-alternative">
-                                    <input id="password"
-                                        class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}"
-                                        name="password" placeholder="{{ __('message.Password') }}" type="password"
-                                        required>
-                                    <i id="eye-icon" class="fa fa-eye position-absolute" onclick="togglePassword()"
-                                        style="right: 15px; top: 50%; transform: translateY(-50%); cursor: pointer;"></i>
-                                </div>
-                                @if ($errors->has('password'))
-                                    <span class="invalid-feedback" style="display: block;" role="alert">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-
-
-                            <div class="d-flex justify-content-end mt-6">
-                                <a href="{{ route('resetPassword') }}" class="btn btn-link"
-                                    style="color: #BD3628;">{{ __('message.Forget Password') }}</a>
-                            </div>
-                            <div class="text-center">
-                                <button type="submit" class="btn btn my-4"
-                                    style="background-color: #BD3628; color: white;">{{ __('message.Sign in') }}</button>
-                            </div>
-                        </form>
-                        <div class="text-center mt-3">
-                            <a href="{{ route('register.vendor') }}" class="btn btn-link"
-                                style="color: #BD3628;">{{ __('message.Register as Vendor') }}</a>
-                            <a href="{{ route('register.provider') }}" class="btn btn-link"
-                                style="color: #BD3628;">{{ __('message.Register in The Educational Section') }}</a>
+                            </a>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <!-- Logo and Title -->
+            <div class="text-center">
+                <div class="relative mx-auto h-20 w-20 mb-4">
+                    <div class="absolute inset-0 bg-purple-100 dark:bg-purple-900/30 rounded-full opacity-50 animate-pulse-slow"></div>
+                    <img class="relative mx-auto h-20 w-auto float-animation" src="{{ asset('assets/img/kaiadmin/app_logo.png') }}" alt="Logo">
+                </div>
+                <h2 class="mt-4 text-3xl font-extrabold text-gray-900 dark:text-white">
+                    {{ __('message.Sign in') }}
+                </h2>
+                <p class="mt-2 text-base text-gray-600 dark:text-gray-400">
+                    {{ __('message.Admin Panel') }}
+                </p>
+            </div>
+
+            <!-- Login Form Card -->
+            <div class="bg-white dark:bg-gray-800 py-8 px-4 shadow-xl sm:rounded-2xl sm:px-10 border border-gray-200 dark:border-gray-700">
+                <form class="space-y-6" method="POST" action="{{ route('loginStore') }}" id="loginForm">
+                    @csrf
+                    <!-- Email Input -->
+                    <div>
+                        <label for="email" class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
+                            <i class="fas fa-envelope mr-2 text-purple-600"></i>{{ __('message.Email') }}
+                            <span class="text-red-500">*</span>
+                        </label>
+                        <div class="mt-1 relative rounded-md shadow-sm">
+                            <input id="email" name="email" type="email" autocomplete="email" required 
+                                class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl shadow-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 {{ $errors->has('email') ? 'border-red-500 ring-2 ring-red-200' : '' }}"
+                                placeholder="{{ __('message.Enter email address') }}" value="{{ old('email') }}">
+                        </div>
+                        @if ($errors->has('email'))
+                            <div class="mt-2 flex items-center text-red-600 text-sm">
+                                <i class="fas fa-exclamation-circle mr-2"></i>
+                                {{ $errors->first('email') }}
+                            </div>
+                        @endif
+                    </div>
+
+                    <!-- Password Input -->
+                    <div>
+                        <label for="password" class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
+                            <i class="fas fa-lock mr-2 text-purple-600"></i>{{ __('message.Password') }}
+                            <span class="text-red-500">*</span>
+                        </label>
+                        <div class="relative">
+                            <input type="password" id="password" name="password" required
+                                class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl shadow-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 {{ $errors->has('password') ? 'border-red-500 ring-2 ring-red-200' : '' }}"
+                                placeholder="{{ __('message.Enter password') }}" autocomplete="current-password">
+                            <button type="button"
+                                class="absolute inset-y-0 {{ app()->getLocale() === 'ar' ? 'left-0 pl-3' : 'right-0 pr-3' }} flex items-center toggle-password password-toggle-btn"
+                                data-target="password" onclick="togglePassword()">
+                                <i id="eye-icon" class="fas fa-eye text-purple-500 hover:text-purple-700 transition-colors text-lg"></i>
+                            </button>
+                        </div>
+                        @if ($errors->has('password'))
+                            <div class="mt-2 flex items-center text-red-600 text-sm">
+                                <i class="fas fa-exclamation-circle mr-2"></i>
+                                {{ $errors->first('password') }}
+                            </div>
+                        @endif
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div>
+                        <button type="submit" class="btn btn-primary relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-xl text-white bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition duration-200">
+                            <span class="absolute left-0 inset-y-0 flex items-center pl-3">
+                                <i class="fas fa-sign-in-alt text-purple-300 group-hover:text-purple-200 transition duration-200"></i>
+                            </span>
+                            {{ __('message.Sign in') }}
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Footer -->
+            <div class="text-center">
+                <p class="text-sm text-gray-500 dark:text-gray-400">
+                    &copy; {{ date('Y') }} {{ config('app.name', 'Elnegma') }}. {{ __('message.All Right Reserved') }}
+                </p>
+            </div>
+
         </div>
     </div>
-</body>
-<script>
-    function togglePassword() {
-        let passwordInput = document.getElementById("password");
-        let eyeIcon = document.getElementById("eye-icon");
 
-        if (passwordInput.type === "password") {
-            passwordInput.type = "text";
-            eyeIcon.classList.remove("fa-eye");
-            eyeIcon.classList.add("fa-eye-slash");
-        } else {
-            passwordInput.type = "password";
-            eyeIcon.classList.remove("fa-eye-slash");
-            eyeIcon.classList.add("fa-eye");
+    <script>
+        function togglePassword() {
+            let passwordInput = document.getElementById("password");
+            let eyeIcon = document.getElementById("eye-icon");
+
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                eyeIcon.classList.remove("fa-eye");
+                eyeIcon.classList.add("fa-eye-slash");
+            } else {
+                passwordInput.type = "password";
+                eyeIcon.classList.remove("fa-eye-slash");
+                eyeIcon.classList.add("fa-eye");
+            }
         }
-    }
-</script>
 
+        // Form submission
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('loginForm');
+            if (form) {
+                form.addEventListener('submit', function(e) {
+                    const submitBtn = form.querySelector('button[type="submit"]');
+                    if (submitBtn) {
+                        // Prevent double submission
+                        if (submitBtn.classList.contains('btn-loading')) {
+                            e.preventDefault();
+                            return false;
+                        }
+                        
+                        // Add loading state
+                        submitBtn.classList.add('btn-loading');
+                        submitBtn.disabled = true;
+                        
+                        // Update button content with proper RTL support
+                        const isRTL = document.documentElement.dir === 'rtl';
+                        const loadingText = '{{ __("message.Signing in") }}';
+                        
+                        if (isRTL) {
+                            submitBtn.innerHTML = `
+                                <span class="flex items-center justify-center">
+                                    <i class="fas fa-spinner spinner ml-2"></i>
+                                    ${loadingText}...
+                                </span>
+                            `;
+                        } else {
+                            submitBtn.innerHTML = `
+                                <span class="flex items-center justify-center">
+                                    <i class="fas fa-spinner spinner mr-2"></i>
+                                    ${loadingText}...
+                                </span>
+                            `;
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</body>
 </html>
