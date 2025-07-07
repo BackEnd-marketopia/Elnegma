@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\DiscountController;
 use App\Http\Controllers\Api\EducationController;
 use App\Http\Controllers\Api\HomeController as ApiHomeController;
 use App\Http\Controllers\Api\NotificationController;
+use App\Http\Controllers\Api\WishlistController;
 use App\Http\Controllers\PaymobController;
 use Illuminate\Support\Facades\DB;
 
@@ -34,9 +35,8 @@ Route::group(['middleware' => 'lang'], function () {
     Route::get('/search', [ApiHomeController::class, 'search'])->name('search');
     Route::get('/discount/{id}', [DiscountController::class, 'index'])->name('discount');
     Route::group(['middleware' => 'auth:api'], function () {
-        Route::post('/player_form', [ApiHomeController::class, 'playerForm'])->name('playerForm');
         Route::post('/discountChecked/{discountId}', [DiscountController::class, 'discountChecked'])->name('discountChecked');
-        Route::get('/attachments/{lessonId}', [EducationController::class, 'attachments'])->name('attachments');
+        Route::resource('/wishlists', WishlistController::class)->only('index', 'store', 'destroy');
     });
     Route::group(['prefix' => 'notification'], function () {
         Route::get('/', [NotificationController::class, 'getNotifications'])->name('getNotifications');

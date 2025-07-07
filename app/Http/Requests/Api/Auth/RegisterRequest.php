@@ -18,6 +18,7 @@ use Illuminate\Http\UploadedFile;
  * @property string $password
  * @property UploadedFile $image
  * @property string $city_id
+ * @property UploadedFile $card_image
  *
  */
 class RegisterRequest extends FormRequest
@@ -51,13 +52,14 @@ class RegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'     => 'required | string | max:255',
-            'email'    => 'nullable | email | unique:users,email',
-            'phone'    => 'required | digits:11 | regex:/^01\d{9}$/ | unique:users,phone',
-            'code'     => 'nullable | numeric | digits:8',
-            'image'    => 'nullable | image | max:2048',
-            'password' => 'required | min:8 | regex:/[A-Za-z]/ | regex:/[0-9]/',
-            'city_id'  => 'required | exists:cities,id',
+            'name'       => 'required | string | max:255',
+            'email'      => 'nullable | email | unique:users,email',
+            'phone'      => 'required | digits:11 | regex:/^01\d{9}$/ | unique:users,phone',
+            'code'       => 'nullable | numeric | digits:8',
+            'image'      => 'nullable | image | max:2048',
+            'password'   => 'required | min:8 | regex:/[A-Za-z]/ | regex:/[0-9]/',
+            'city_id'    => 'required | exists:cities,id',
+            'card_image' => 'required| image',
         ];
     }
 

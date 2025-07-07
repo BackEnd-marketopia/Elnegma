@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CityController;
 use App\Http\Controllers\Admin\CodeController;
 use App\Http\Controllers\Admin\ConfigController;
+use App\Http\Controllers\Admin\DiscountController as AdminDiscountController;
 use App\Http\Controllers\Admin\FeedController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\NotificationController;
@@ -52,6 +53,14 @@ Route::group(['middleware' => 'WebLang'], function () {
             'ads'           => Advertisement::class,
             'notifications' => NotificationController::class,
         ]);
+        Route::group(['prefix' => 'discounts'], function () {
+            Route::get('/{vendorId}', [AdminDiscountController::class, 'index'])->name('discounts.index');
+            Route::get('/create/{vendorId}', [AdminDiscountController::class, 'create'])->name('discounts.create');
+            Route::post('/store/{vendorId}', [AdminDiscountController::class, 'store'])->name('discounts.store');
+            Route::get('/edit/{id}/{vendorId}', [AdminDiscountController::class, 'edit'])->name('discounts.edit');
+            Route::put('/update/{id}/{vendorId}', [AdminDiscountController::class, 'update'])->name('discounts.update');
+            Route::delete('/destroy/{id}/{vendorId}', [AdminDiscountController::class, 'destroy'])->name('discounts.destroy');
+        });
         Route::group(['prefix' => 'search'], function () {
             Route::get('/cities', [CityController::class, 'search'])->name('cities.search');
             Route::get('/categories', [CategoryController::class, 'search'])->name('categories.search');
@@ -70,7 +79,7 @@ Route::group(['middleware' => 'WebLang'], function () {
             Route::get('/', [PaymentController::class, 'index'])->name('payments.index');
         });
     });
- 
+
     Route::get('/', [AuthController::class, 'login'])->name('login');
     Route::post('/login', [AuthController::class, 'loginStore'])->name('loginStore');
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');

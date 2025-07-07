@@ -43,6 +43,7 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
             'city_id'  => $request->city_id,
             'fcm_token' => $request->fcmToken ?? null,
+            'card_image' => $request->card_image ? Helpers::addImage($request->card_image, 'user') : null,
         ]);
         $token = JWTAuth::fromUser($user);
         $user->load(['city']);

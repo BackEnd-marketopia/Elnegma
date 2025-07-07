@@ -97,17 +97,22 @@
                                 <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200">
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="flex items-center">
-                                            <div class="w-12 h-12 rounded-lg overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-600 shadow-lg ring-2 ring-gray-200 dark:ring-gray-600 mr-3 rtl:ml-3 rtl:mr-0">
-                                                @if($user->vendor?->logo)
-                                                    <img src="{{ asset($user->vendor->logo) }}" 
-                                                         alt="{{ $user->vendor?->name }}" 
-                                                         title="{{ __('message.Logo') }}"
-                                                         class="w-full h-full hover:scale-105 transition-transform duration-200">
-                                                @else
-                                                    <div class="w-full h-full flex items-center justify-center">
-                                                        <i class="fas fa-store text-2xl text-gray-400 dark:text-gray-500"></i>
-                                                    </div>
-                                                @endif
+                                            <div class="relative">
+                                                <div class="w-6 h-6 absolute -top-2 -start-3 z-50 bg-yellow-400 rounded-full flex justfy-center items-center text-center border-2 border-white">
+                                                    <span class="text-center w-full text-xs" title="{{ __('message.rate') }}">{{ $user->vendor->rate }}</span>
+                                                </div>
+                                                <div class="w-12 h-12 rounded-lg overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-600 shadow-lg ring-2 ring-gray-200 dark:ring-gray-600 mr-3 rtl:ml-3 rtl:mr-0">
+                                                    @if($user->vendor?->logo)
+                                                        <img src="{{ asset($user->vendor->logo) }}" 
+                                                            alt="{{ $user->vendor?->name }}" 
+                                                            title="{{ __('message.Logo') }}"
+                                                            class="w-full h-full hover:scale-105 transition-transform duration-200">
+                                                    @else
+                                                        <div class="w-full h-full flex items-center justify-center">
+                                                            <i class="fas fa-store text-2xl text-gray-400 dark:text-gray-500"></i>
+                                                        </div>
+                                                    @endif
+                                                </div>
                                             </div>
                                             <div>
                                                 <p class="text-lg font-bold text-gray-900 dark:text-white">
@@ -158,7 +163,13 @@
                                         @endif
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-center">
-                                        <div class="flex items-center justify-center space-x-3 rtl:space-x-reverse">
+                                        <div class="flex items-center justify-center space-x-2 rtl:space-x-reverse">
+                                            <a href="{{ route('admin.discounts.index', $user->vendor?->id) }}"
+                                               class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-green-600 border border-transparent rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transform hover:scale-105 transition-all duration-200 shadow-lg"
+                                               data-bs-toggle="tooltip" 
+                                               title="{{ __('message.View Discounts') }}">
+                                                <i class="fas fa-percent"></i>
+                                            </a>
                                             <a href="{{ route('admin.vendors.edit', $user->id) }}"
                                                class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-purple-600 border border-transparent rounded-lg hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transform hover:scale-105 transition-all duration-200 shadow-lg"
                                                data-bs-toggle="tooltip" 

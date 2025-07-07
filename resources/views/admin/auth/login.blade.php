@@ -215,7 +215,7 @@
             <div class="flex justify-end mb-4">
                 <div class="relative inline-block text-left" x-data="{ open: false }">
                     <button @click="open = !open" type="button" class="inline-flex justify-center items-center px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-xl shadow-sm hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-all duration-200">
-                        <i class="fas fa-globe mr-2 text-purple-600"></i>
+                        <i class="fas fa-globe mx-2 text-purple-600"></i>
                         {{ __('message.Language') }}
                         &nbsp;
                         <i class="fas fa-chevron-down ml-2 transition-transform duration-200" :class="{ 'rotate-180': open }"></i>
@@ -270,7 +270,7 @@
                     <!-- Email Input -->
                     <div>
                         <label for="email" class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
-                            <i class="fas fa-envelope mr-2 text-purple-600"></i>{{ __('message.Email') }}
+                            <i class="fas fa-envelope mx-2 text-purple-600"></i>{{ __('message.Email') }}
                             <span class="text-red-500">*</span>
                         </label>
                         <div class="mt-1 relative rounded-md shadow-sm">
@@ -289,7 +289,7 @@
                     <!-- Password Input -->
                     <div>
                         <label for="password" class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
-                            <i class="fas fa-lock mr-2 text-purple-600"></i>{{ __('message.Password') }}
+                            <i class="fas fa-lock mx-2 text-purple-600"></i>{{ __('message.Password') }}
                             <span class="text-red-500">*</span>
                         </label>
                         <div class="relative">

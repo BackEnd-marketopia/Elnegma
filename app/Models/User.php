@@ -85,4 +85,8 @@ class User extends Authenticatable implements JWTSubject
         return $this->belongsToMany(Discount::class, 'discount_checks', 'user_id', 'discount_id')
             ->withPivot('id');
     }
+    public function wishlists()
+    {
+        return $this->hasMany(Wishlist::class);
+    }
 }
