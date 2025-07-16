@@ -29,10 +29,8 @@ class AuthController extends Controller
 
     public function register(RegisterRequest $request)
     {
-        if ($request->image) {
+        if ($request->image)
             $image = Helpers::addImage($request->image, 'user');
-        }
-
 
         $user = User::create([
             'name'     => $request->name,
@@ -44,9 +42,13 @@ class AuthController extends Controller
             'city_id'  => $request->city_id,
             'fcm_token' => $request->fcmToken ?? null,
             'card_image' => $request->card_image ? Helpers::addImage($request->card_image, 'user') : null,
+            'status' => 'pending',
+            'user_type' => 'user',
         ]);
+
         $token = JWTAuth::fromUser($user);
         $user->load(['city']);
+
         // $otp = $this->otpService->generateAndSend($user->phone);
 
         // if (!$otp['success'])
@@ -72,6 +74,7 @@ class AuthController extends Controller
         $credentials = [
             'password' => $request->password,
         ];
+
         if ($request->email)
             $credentials['email'] = $request->email;
         elseif ($request->phone)
@@ -80,8 +83,11 @@ class AuthController extends Controller
         if (!$token = auth('api')->attempt($credentials))
             return Response::api(__('message.incorrect_password'), 400, false, 400);
 
-        if ($user->status != 'active')
+        if ($user->status == 'inactive')
             return Response::api(__('message.You Are Blocked Now'), 400, false, 400);
+        elseif ($user->status == 'pending')
+            return Response::api(__('message.You Are Pending Now, Wait Until Admin Accept You'), 400, false, 400);
+
         $user->update([
             'fcm_token' => $request->fcmToken ?? null,
         ]);

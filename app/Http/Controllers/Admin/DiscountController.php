@@ -9,9 +9,31 @@ use App\Http\Requests\Admin\Discount\UpdateDiscountRequest;
 use App\Models\Discount;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use \App\Models\DiscountCheck;
 
 class DiscountController extends Controller
 {
+    public function search(Request $request, int $vendorId)
+    {
+        $search = $request->input('search');
+
+        $discounts = Discount::where('vendor_id', $vendorId)
+            ->where(function ($query) use ($search) {
+                $query->where('title', 'LIKE', "%{$search}%")
+                    ->orWhere('description', 'LIKE', "%{$search}%")
+                    ->orWhere('start_date', 'LIKE', "%{$search}%")
+                    ->orWhere('end_date', 'LIKE', "%{$search}%");
+            })
+            ->paginate(10);
+
+        $discountIds = $discounts->pluck('id');
+        $pendingCount = DiscountCheck::whereIn('discount_id', $discountIds)
+            ->where('status', 'pending')->count();
+        $acceptedCount = DiscountCheck::whereIn('discount_id', $discountIds)
+            ->where('status', 'accepted')->count();
+
+        return view('admin.discount.index', compact('discounts', 'vendorId', 'pendingCount', 'acceptedCount'));
+    }
     /**
      * Display a listing of the resource.
      */
@@ -19,6 +41,8 @@ class DiscountController extends Controller
     {
         $discounts = Discount::where('vendor_id', $vendorId)
             ->paginate(10);
+
+        $discountIds = $discounts->pluck('id');
 
         return view('admin.discount.index', compact('discounts', 'vendorId'));
     }

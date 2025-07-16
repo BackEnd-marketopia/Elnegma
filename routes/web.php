@@ -24,6 +24,7 @@ use App\Http\Controllers\Provider\UnitController;
 use App\Http\Controllers\Vendor\DiscountController;
 use App\Http\Controllers\Vendor\HomeController as VendorHomeController;
 use App\Http\Controllers\Admin\PaymentController;
+use App\Http\Controllers\Admin\UserDiscountController;
 use App\Http\Controllers\ChangePhone;
 use App\Http\Controllers\Vendor\UserController as VendorUserController;
 use Illuminate\Support\Facades\Route;
@@ -60,6 +61,14 @@ Route::group(['middleware' => 'WebLang'], function () {
             Route::get('/edit/{id}/{vendorId}', [AdminDiscountController::class, 'edit'])->name('discounts.edit');
             Route::put('/update/{id}/{vendorId}', [AdminDiscountController::class, 'update'])->name('discounts.update');
             Route::delete('/destroy/{id}/{vendorId}', [AdminDiscountController::class, 'destroy'])->name('discounts.destroy');
+            Route::group(['prefix' => 'users'], function () {
+                Route::get('/{discountId}', [UserDiscountController::class, 'index'])->name('discounts.users.index');
+                Route::get('/create/{discountId}', [UserDiscountController::class, 'create'])->name('discounts.users.create');
+                Route::post('/store/{discountId}', [UserDiscountController::class, 'store'])->name('discounts.users.store');
+                Route::get('/edit/{id}/{discountId}', [UserDiscountController::class, 'edit'])->name('discounts.users.edit');
+                Route::put('/update/{id}/{discountId}', [UserDiscountController::class, 'update'])->name('discounts.users.update');
+                Route::delete('/destroy/{id}/{discountId}', [UserDiscountController::class, 'destroy'])->name('discounts.users.destroy');
+            });
         });
         Route::group(['prefix' => 'search'], function () {
             Route::get('/cities', [CityController::class, 'search'])->name('cities.search');
@@ -69,6 +78,8 @@ Route::group(['middleware' => 'WebLang'], function () {
             Route::get('/admins', [AdminController::class, 'search'])->name('admins.search');
             Route::get('/users', [UserController::class, 'search'])->name('users.search');
             Route::get('/vendors', [VendorController::class, 'search'])->name('vendors.search');
+            Route::get('/discounts/{vendorId}', [AdminDiscountController::class, 'search'])->name('discounts.search');
+            Route::get('/discounts/users/{discountId}', [UserDiscountController::class, 'search'])->name('discounts.users.search');
         });
 
         Route::group(['prefix' => 'config'], function () {

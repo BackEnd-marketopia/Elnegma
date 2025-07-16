@@ -36,6 +36,8 @@ Route::group(['middleware' => 'lang'], function () {
     Route::get('/discount/{id}', [DiscountController::class, 'index'])->name('discount');
     Route::group(['middleware' => 'auth:api'], function () {
         Route::post('/discountChecked/{discountId}', [DiscountController::class, 'discountChecked'])->name('discountChecked');
+        Route::get('/discount-details/{discountId}', [DiscountController::class, 'discountDetails'])->name('discounts.details');
+        Route::get('/discounts/user', [DiscountController::class, 'userDiscounts'])->name('discounts.user');
         Route::resource('/wishlists', WishlistController::class)->only('index', 'store', 'destroy');
     });
     Route::group(['prefix' => 'notification'], function () {

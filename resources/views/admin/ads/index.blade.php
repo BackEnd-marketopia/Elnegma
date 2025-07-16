@@ -151,7 +151,8 @@
                                 </a>
                                 <form action="{{ route('admin.ads.destroy', $ad->id) }}"
                                       method="POST" 
-                                      style="display:inline">
+                                      style="display:inline"
+                                      class="delete-form">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" 

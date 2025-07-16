@@ -9,16 +9,20 @@ class DiscountCheck extends Model
     protected $fillable = [
         'user_id',
         'discount_id',
+        'comment',
+        'price',
+        'status',
+        'final_price',
     ];
 
     public function discount()
     {
-        return $this->hasMany(Discount::class);
+        return $this->belongsTo(Discount::class);
     }
 
 
     public function user()
     {
-        return $this->hasMany(User::class);
+        return $this->belongsTo(User::class);
     }
 }

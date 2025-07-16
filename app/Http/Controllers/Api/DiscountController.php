@@ -40,8 +40,13 @@ class DiscountController extends Controller
         if (!$user)
             return Response::api(__('message.Login First'), 403, false, 403);
 
-        if (!$user->code)
-            return Response::api(__('message.You Are Not subscribed'), 403, false, 403);
+        // if (!$user->email_verified_at)
+        //     return Response::api(__('message.You must be Verified'), 403, false, 403);
+
+        if ($user->status == 'inactive')
+            return Response::api(__('message.You Are blocked Now'), 403, false, 403);
+        elseif ($user->status == 'pending')
+            return Response::api(__('message.You Are Pending Now, Wait Until Admin Accept You'), 403, false, 403);
 
         $discount_check = DiscountCheck::where('user_id', auth('api')->user()->id)
             ->where('discount_id', $discountId)
@@ -55,5 +60,47 @@ class DiscountController extends Controller
             'discount_id' => $discountId,
         ]);
         return Response::api(__('message.Success'), 200, true, null);
+    }
+    public function discountDetails(int $discountId)
+    {
+        $user = auth('api')->user();
+
+        // if (!$user->email_verified_at)
+        //     return Response::api(__('message.You must be Verified'), 403, false, 403);
+
+        if ($user->status == 'inactive')
+            return Response::api(__('message.You Are blocked Now'), 403, false, 403);
+        elseif ($user->status == 'pending')
+            return Response::api(__('message.You Are Pending Now, Wait Until Admin Accept You'), 403, false, 403);
+
+        $discount_check = DiscountCheck::where('user_id', auth('api')->user()->id)
+            ->where('discount_id', $discountId)
+            ->first();
+
+        if (!$discount_check)
+            return Response::api(__('message.You have not received the discount yet'), 403, false, 403);
+
+
+        return Response::api(__('message.Success'), 200, true, null, $discount_check);
+    }
+    public function userDiscounts()
+    {
+        $user = auth('api')->user();
+        if (!$user)
+            return Response::api(__('message.Login First'), 403, false, 403);
+
+        // if (!$user->email_verified_at)
+        //     return Response::api(__('message.You must be Verified'), 403, false, 403);
+
+        if ($user->status == 'inactive')
+            return Response::api(__('message.You Are blocked Now'), 403, false, 403);
+        elseif ($user->status == 'pending')
+            return Response::api(__('message.You Are Pending Now, Wait Until Admin Accept You'), 403, false, 403);
+
+        $discountChecks = DiscountCheck::where('user_id', $user->id)
+            ->with('discount.vendor')
+            ->get();
+
+        return Response::api(__('message.Success'), 200, true, null, $discountChecks);
     }
 }
