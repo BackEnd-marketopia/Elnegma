@@ -70,4 +70,30 @@ class HomeController extends Controller
             ->get();
         return Response::api(__('message.Success'), 200, true, null, ['categories' => $categories]);
     }
+    public function getDiscounts(Request $request)
+    {
+        $request->validate([
+            'per_page' => 'nullable|integer',
+        ]);
+
+        $perPage = $request->per_page ?? 10;
+
+        $user = auth('api')->user();
+
+        if ($user->user_type != 'vendor')
+            return Response::api(__('message.unauthorized'), 401, false, 401);
+
+        $discounts = Discount::where('vendor_id', auth('api')->user()->vendor->id)
+            ->withCount([
+                'discountChecks as pending_checks_count' => function ($query) {
+                    $query->where('status', 'pending');
+                },
+                'discountChecks as accepted_checks_count' => function ($query) {
+                    $query->where('status', 'accepted');
+                },
+            ])
+            ->paginate($perPage);
+
+        return Response::api(__('message.Success'), 200, true, null, ['discounts' => $discounts]);
+    }
 }

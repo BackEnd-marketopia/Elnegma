@@ -323,9 +323,13 @@
             </div>
 
             <!-- Footer -->
-            <div class="text-center">
+            <div class="text-center mt-6">
                 <p class="text-sm text-gray-500 dark:text-gray-400">
-                    &copy; {{ date('Y') }} {{ config('app.name', 'Elnegma') }}. {{ __('message.All Right Reserved') }}
+                    @if(app()->getLocale() == 'ar')
+                        {{ __('message.All Right Reserved') }} &copy; {{ date('Y') }} {{ "marketopiaTeam" }}
+                    @else
+                        &copy; {{ date('Y') }} {{ "marketopiaTeam" }}. {{ __('message.All Right Reserved') }}
+                    @endif
                 </p>
             </div>
 

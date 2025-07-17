@@ -26,6 +26,8 @@ Route::group(['middleware' => 'lang'], function () {
     });
     Route::get('/config', [ConfigController::class, 'config'])->name('config');
     Route::get('/home', [ConfigController::class, 'homePage'])->name('homePage');
+    Route::get('/home/vendors', [ConfigController::class, 'vendorHomePage'])->middleware('auth:api')->name('homeVendors');
+    Route::get('/vendors/discounts', [ApiHomeController::class, 'getDiscounts'])->middleware('auth:api')->name('getDiscounts');
     Route::get('/categories', [ApiHomeController::class, 'categories'])->name('categories');
     Route::get('/feeds', [ApiHomeController::class, 'feeds'])->name('feeds');
     Route::get('/feed/details/{id}', [ApiHomeController::class, 'feedDetails'])->name('feedDetails');
