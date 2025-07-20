@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('discount_checks', function (Blueprint $table) {
-            $table->id();
+            $table->id()->startingValue(1000);
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('discount_id')->constrained()->onDelete('cascade');
             $table->timestamps();

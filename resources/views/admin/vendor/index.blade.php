@@ -99,7 +99,7 @@
                                         <div class="flex items-center">
                                             <div class="relative">
                                                 <div class="w-6 h-6 absolute -top-2 -start-3 z-50 bg-yellow-400 rounded-full flex justfy-center items-center text-center border-2 border-white">
-                                                    <span class="text-center w-full text-xs" title="{{ __('message.rate') }}">{{ $user->vendor->rate }}</span>
+                                                    <span class="text-center w-full text-xs" title="{{ __('message.rate') }}">{{ number_format($user->vendor->rate, 1) }}</span>
                                                 </div>
                                                 <div class="w-12 h-12 rounded-lg overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-600 shadow-lg ring-2 ring-gray-200 dark:ring-gray-600 mr-3 rtl:ml-3 rtl:mr-0">
                                                     @if($user->vendor?->logo)

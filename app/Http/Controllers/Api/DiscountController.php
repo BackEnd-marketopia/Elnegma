@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\CheckDiscountRequest;
+use App\Http\Requests\Api\DiscountCheckRequest;
+use App\Http\Requests\Api\PriceCheckDiscountRequest;
 use App\Models\Discount;
 use App\Models\DiscountCheck;
 use Illuminate\Http\Request;
@@ -14,7 +16,7 @@ class DiscountController extends Controller
     public function index($id)
     {
         $user = auth('api')->user();
-        $discounts = Discount::where('start_date', '<=', now())
+        $discounts = Discount::with(['discountChecks'])->where('start_date', '<=', now())
             ->where('end_date', '>=', now())
             ->findOrFail($id);
 
@@ -28,6 +30,7 @@ class DiscountController extends Controller
             $discounts->is_checked = $discount_check ? true : false;
         } else
             $discounts->is_checked = false;
+
 
         return Response::api(__('message.Success'), 200, true, null, ['discounts' => $discounts]);
     }
@@ -102,5 +105,101 @@ class DiscountController extends Controller
             ->get();
 
         return Response::api(__('message.Success'), 200, true, null, $discountChecks);
+    }
+    public function vendorDiscountDetails(int $id)
+    {
+        $user = auth('api')->user();
+        if ($user->user_type != 'vendor')
+            return Response::api(__('message.You are not a vendor'), 403, false, 403);
+
+        if ($user->status == 'inactive')
+            return Response::api(__('message.You Are blocked Now'), 403, false, 403);
+        elseif ($user->status == 'pending')
+            return Response::api(__('message.You Are Pending Now, Wait Until Admin Accept You'), 403, false, 403);
+
+        $discountChecks = DiscountCheck::where('id', $id)
+            ->with('discount.vendor')
+            ->first();
+
+        if (!$discountChecks)
+            return Response::api(__('message.Discount not found'), 404, false, 404);
+
+
+        return Response::api(__('message.Success'), 200, true, null, $discountChecks);
+    }
+    public function vendorAcceptDiscount(int $id)
+    {
+        $user = auth('api')->user();
+
+        if ($user->user_type != 'vendor')
+            return Response::api(__('message.You are not a vendor'), 403, false, 403);
+
+        if ($user->status == 'inactive')
+            return Response::api(__('message.You Are blocked Now'), 403, false, 403);
+        elseif ($user->status == 'pending')
+            return Response::api(__('message.You Are Pending Now, Wait Until Admin Accept You'), 403, false, 403);
+
+        $discountCheck = DiscountCheck::findOrFail($id);
+
+        if ($user->vendor->id != $discountCheck->discount->vendor_id)
+            return Response::api(__('message.unauthorized'), 403, false, 403);
+
+        $discountCheck->update(['status' => 'accepted']);
+
+        return Response::api(__('message.Success'), 200, true, null);
+    }
+    public function vendorAddPriceToDiscountCheck(PriceCheckDiscountRequest $request, int $id)
+    {
+        $user = auth('api')->user();
+
+        if ($user->user_type != 'vendor')
+            return Response::api(__('message.You are not a vendor'), 403, false, 403);
+
+        if ($user->status == 'inactive')
+            return Response::api(__('message.You Are blocked Now'), 403, false, 403);
+        elseif ($user->status == 'pending')
+            return Response::api(__('message.You Are Pending Now, Wait Until Admin Accept You'), 403, false, 403);
+
+        $discountCheck = DiscountCheck::findOrFail($id);
+
+        if ($user->vendor->id != $discountCheck->discount->vendor_id)
+            return Response::api(__('message.unauthorized'), 403, false, 403);
+
+        if ($discountCheck->status != 'accepted')
+            return Response::api(__('message.Discount not Accepted up till now'), 403, false, 403);
+
+        $discountCheck->update([
+            'price' => $request->price,
+        ]);
+
+        return Response::api(__('message.Success'), 200, true, null);
+    }
+    public function userAcceptDiscountCheck(DiscountCheckRequest $request, int $id)
+    {
+        $user = auth('api')->user();
+
+        if ($user->user_type != 'user')
+            return Response::api(__('message.You are not a user'), 400, false, 400);
+
+        if ($user->status == 'inactive')
+            return Response::api(__('message.You Are blocked Now'), 400, false, 400);
+        elseif ($user->status == 'pending')
+            return Response::api(__('message.You Are Pending Now, Wait Until Admin Accept You'), 400, false, 400);
+
+        $discountCheck = DiscountCheck::findOrFail($id);
+
+        if ($discountCheck->user_id != $user->id)
+            return Response::api(__('message.unauthorized'), 403, false, 403);
+
+        if ($discountCheck->status == 'pending' || !$discountCheck->price)
+            return Response::api(__('message.Wait Until Vendor Accept Discount'), 400, false, 400);
+
+        $discountCheck->update([
+            'final_price' => $request->final_price ?? $discountCheck->price,
+            'comment' => $request->comment ?? null,
+            'status' => $request->status ?? 'accepted',
+        ]);
+
+        return Response::api(__('message.Success'), 200, true, null);
     }
 }

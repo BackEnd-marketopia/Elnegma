@@ -747,4 +747,11 @@ return [
     'New Users' => 'مستخدمون جدد',
     'New user joined the platform' => 'انضم مستخدم جديد للمنصة',
     'Requests' => 'الطلبات',
+    'You are not a vendor' => 'أنت لست تاجرًا',
+    'Wait Until Vendor Accept Discount' => 'انتظر حتى يقبل التاجر الخصم',
+    'You are not a user' => 'أنت لست مستخدمًا',
+    'Discount not found' => 'الخصم غير موجود',
+    'You Are blocked Now' => 'أنت محظور الآن',
+    'Discount not Accepted up till now' => 'الخصم لم يُقبل حتى الآن',
+    'Signing in' => 'جاري تسجيل الدخول',
 ];

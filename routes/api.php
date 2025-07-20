@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\DiscountController;
 use App\Http\Controllers\Api\EducationController;
 use App\Http\Controllers\Api\HomeController as ApiHomeController;
 use App\Http\Controllers\Api\NotificationController;
+use App\Http\Controllers\Api\RateController;
 use App\Http\Controllers\Api\WishlistController;
 use App\Http\Controllers\PaymobController;
 use Illuminate\Support\Facades\DB;
@@ -37,11 +38,20 @@ Route::group(['middleware' => 'lang'], function () {
     Route::get('/search', [ApiHomeController::class, 'search'])->name('search');
     Route::get('/discount/{id}', [DiscountController::class, 'index'])->name('discount');
     Route::group(['middleware' => 'auth:api'], function () {
+        Route::post('/rate', [RateController::class, 'store'])->name('rate.store');
         Route::post('/discountChecked/{discountId}', [DiscountController::class, 'discountChecked'])->name('discountChecked');
+        Route::post('/discountCheck/{id}', [DiscountController::class, 'userAcceptDiscountCheck'])->name('userAcceptDiscountCheck');
         Route::get('/discount-details/{discountId}', [DiscountController::class, 'discountDetails'])->name('discounts.details');
         Route::get('/discounts/user', [DiscountController::class, 'userDiscounts'])->name('discounts.user');
         Route::resource('/wishlists', WishlistController::class)->only('index', 'store', 'destroy');
     });
+
+    Route::group(['prefix' => 'vendors', 'middleware' => 'auth:api'], function () {
+        Route::get('/discount/details/{id}', [DiscountController::class, 'vendorDiscountDetails'])->name('vendor.discountDetails');
+        Route::post('/discount/accept/{id}', [DiscountController::class, 'vendorAcceptDiscount'])->name('vendor.acceptDiscount');
+        Route::post('/discount/price/{id}', [DiscountController::class, 'vendorAddPriceToDiscountCheck'])->name('vendor.addPriceToDiscountCheck');
+    });
+
     Route::group(['prefix' => 'notification'], function () {
         Route::get('/', [NotificationController::class, 'getNotifications'])->name('getNotifications');
     });

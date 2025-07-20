@@ -766,4 +766,11 @@ return [
     'New Users' => 'New Users',
     'New user joined the platform' => 'New user joined the platform',
     'Requests' => 'Requests',
+    'You are not a vendor' => 'You are not a vendor',
+    'Wait Until Vendor Accept Discount' => 'Wait Until Vendor Accept Discount',
+    'You are not a user' => 'You are not a user',
+    'Discount not found' => 'Discount not found',
+    'You Are blocked Now' => 'You Are blocked Now',
+    'Discount not Accepted up till now' => 'Discount not Accepted up till now',
+    'Signing in' => 'Signing in',
 ];
