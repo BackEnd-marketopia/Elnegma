@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\CheckDiscountRequest;
 use App\Http\Requests\Api\DiscountCheckRequest;
@@ -9,6 +10,7 @@ use App\Http\Requests\Api\PriceCheckDiscountRequest;
 use App\Models\Discount;
 use App\Models\DiscountCheck;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
 
 class DiscountController extends Controller
@@ -145,7 +147,18 @@ class DiscountController extends Controller
             return Response::api(__('message.unauthorized'), 403, false, 403);
 
         $discountCheck->update(['status' => 'accepted']);
-
+        if ($discountCheck->user->fcm_token) {
+            Helpers::sendNotification(
+                'Negma',
+                'تم قبول الخصم من قبل التاجر',
+                'token',
+                $discountCheck->user->fcm_token,
+                false,
+                $discountCheck->user_id,
+                null,
+                ["refresh" => '1']
+            );
+        }
         return Response::api(__('message.Success'), 200, true, null);
     }
     public function vendorAddPriceToDiscountCheck(PriceCheckDiscountRequest $request, int $id)
@@ -171,7 +184,18 @@ class DiscountController extends Controller
         $discountCheck->update([
             'price' => $request->price,
         ]);
-
+        if ($discountCheck->user->fcm_token) {
+            Helpers::sendNotification(
+                'Negma',
+                'تم اضافه السعر من قبل التاجر',
+                'token',
+                $discountCheck->user->fcm_token,
+                false,
+                $discountCheck->user_id,
+                null,
+                ["refresh" => '1']
+            );
+        }
         return Response::api(__('message.Success'), 200, true, null);
     }
     public function userAcceptDiscountCheck(DiscountCheckRequest $request, int $id)
@@ -199,7 +223,42 @@ class DiscountController extends Controller
             'comment' => $request->comment ?? null,
             'status' => $request->status ?? 'accepted',
         ]);
-
+        if ($discountCheck->discount->vendor->user->fcm_token) {
+            if ($request->final_price && !$request->status) {
+                Helpers::sendNotification(
+                    'Negma',
+                    'تم تعديل السعر من قبل المستخدم',
+                    'token',
+                    $discountCheck->discount->vendor->user->fcm_token,
+                    false,
+                    $discountCheck->user_id,
+                    null,
+                    ["refresh" => '1']
+                );
+            } elseif ($request->status)
+                Helpers::sendNotification(
+                    'Negma',
+                    'تم رفض الخصم من قبل المستخدم',
+                    'token',
+                    $discountCheck->discount->vendor->user->fcm_token,
+                    false,
+                    $discountCheck->discount->vendor_id,
+                    null,
+                    ["refresh" => '1']
+                );
+            else {
+                Helpers::sendNotification(
+                    'Negma',
+                    'تم قبول الخصم من قبل المستخدم',
+                    'token',
+                    $discountCheck->discount->vendor->user->fcm_token,
+                    false,
+                    $discountCheck->discount->vendor_id,
+                    null,
+                    ["refresh" => '1']
+                );
+            }
+        }
         return Response::api(__('message.Success'), 200, true, null);
     }
 }

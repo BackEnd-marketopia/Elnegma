@@ -50,7 +50,7 @@ class Helpers
         }
 
         $client = new HttpClient();
-        $url = "https://fcm.googleapis.com/v1/projects/four-p-b40ac/messages:send";
+        $url = "https://fcm.googleapis.com/v1/projects/elngma/messages:send";
 
         $topicOrToken = $type == 'topic' ? 'topic' : 'token';
         $payload = [

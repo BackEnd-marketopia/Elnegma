@@ -140,11 +140,11 @@
             <span class="font-medium">{{ __('message.Cities') }}</span>
         </a>
 
-        <a href="{{ route('admin.payments.index') }}" 
+        {{-- <a href="{{ route('admin.payments.index') }}" 
            class="flex items-center px-4 py-3 text-gray-700 dark:text-gray-200 rounded-xl hover:bg-primary-50 dark:hover:bg-primary-900/20 hover:text-primary-600 dark:hover:text-primary-400 transition-all duration-200 group {{ Route::currentRouteName() == 'admin.payments.index' ? 'bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 shadow-sm' : '' }}">
             <i class="fas fa-hand-holding-usd text-lg mr-3 rtl:ml-3 rtl:mr-0 group-hover:scale-110 transition-transform"></i>
             <span class="font-medium">{{ __('message.Payments') }}</span>
-        </a>
+        </a> --}}
 
         <a href="{{ route('admin.config') }}" 
            class="flex items-center px-4 py-3 text-gray-700 dark:text-gray-200 rounded-xl hover:bg-primary-50 dark:hover:bg-primary-900/20 hover:text-primary-600 dark:hover:text-primary-400 transition-all duration-200 group {{ Route::currentRouteName() == 'admin.config' ? 'bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 shadow-sm' : '' }}">

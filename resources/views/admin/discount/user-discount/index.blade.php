@@ -167,7 +167,7 @@
                                                 <i class="fas fa-check mr-1 rtl:ml-1 rtl:mr-0"></i>
                                                 {{ __('message.Accepted') }}
                                             </span>
-                                        @elseif($discountCheck->status == 'canceled')
+                                        @elseif($discountCheck->status == 'cancelled')
                                             <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300">
                                                 <i class="fas fa-times mr-1 rtl:ml-1 rtl:mr-0"></i>
                                                 {{ __('message.Canceled') }}

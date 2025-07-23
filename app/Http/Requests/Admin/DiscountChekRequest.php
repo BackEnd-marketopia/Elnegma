@@ -26,7 +26,7 @@ class DiscountChekRequest extends FormRequest
             'discount_id' => 'required|exists:discounts,id',
             'comment' => 'nullable|string|max:255',
             'price' => 'nullable|numeric|min:0',
-            'status' => 'required|in:pending,accepted,canceled',
+            'status' => 'required|in:pending,accepted,cancelled',
             'final_price' => 'nullable|numeric|min:0',
         ];
     }

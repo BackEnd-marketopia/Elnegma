@@ -113,7 +113,7 @@
                                 <option value="accepted" {{ (old('status') ?? $discountCheck->status) == 'accepted' ? 'selected' : '' }}>
                                     {{ __('message.Accepted') }}
                                 </option>
-                                <option value="canceled" {{ (old('status') ?? $discountCheck->status) == 'canceled' ? 'selected' : '' }}>
+                                <option value="cancelled" {{ (old('status') ?? $discountCheck->status) == 'cancelled' ? 'selected' : '' }}>
                                     {{ __('message.Canceled') }}
                                 </option>
                             </select>

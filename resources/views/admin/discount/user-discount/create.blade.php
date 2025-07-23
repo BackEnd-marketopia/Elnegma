@@ -108,7 +108,7 @@
                             <option value="accepted" {{ old('status') == 'accepted' ? 'selected' : '' }}>
                                 {{ __('message.Accepted') }}
                             </option>
-                            <option value="canceled" {{ old('status') == 'canceled' ? 'selected' : '' }}>
+                            <option value="cancelled" {{ old('status') == 'cancelled' ? 'selected' : '' }}>
                                 {{ __('message.Canceled') }}
                             </option>
                         </select>
