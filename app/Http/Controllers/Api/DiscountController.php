@@ -26,7 +26,7 @@ class DiscountController extends Controller
         $discounts->save();
 
         if ($user) {
-            $discount_check = DiscountCheck::where('user_id', auth('api')->user()->id)
+            $discount_check = DiscountCheck::where('user_id', $user->id)
                 ->where('discount_id', $id)
                 ->first();
             $discounts->is_checked = $discount_check ? true : false;
@@ -53,12 +53,12 @@ class DiscountController extends Controller
         elseif ($user->status == 'pending')
             return Response::api(__('message.You Are Pending Now, Wait Until Admin Accept You'), 403, false, 403);
 
-        $discount_check = DiscountCheck::where('user_id', auth('api')->user()->id)
-            ->where('discount_id', $discountId)
-            ->first();
+        // $discount_check = DiscountCheck::where('user_id', auth('api')->user()->id)
+        //     ->where('discount_id', $discountId)
+        //     ->first();
 
-        if ($discount_check)
-            return Response::api(__('message.Already Checked'), 403, false, 403);
+        // if ($discount_check)
+        //     return Response::api(__('message.Already Checked'), 403, false, 403);
 
         DiscountCheck::create([
             'user_id' => auth('api')->user()->id,
@@ -78,9 +78,9 @@ class DiscountController extends Controller
         elseif ($user->status == 'pending')
             return Response::api(__('message.You Are Pending Now, Wait Until Admin Accept You'), 403, false, 403);
 
-        $discount_check = DiscountCheck::where('user_id', auth('api')->user()->id)
+        $discount_check = DiscountCheck::where('user_id', $user->id)
             ->where('discount_id', $discountId)
-            ->first();
+            ->latest()->first();
 
         if (!$discount_check)
             return Response::api(__('message.You have not received the discount yet'), 403, false, 403);
@@ -183,6 +183,7 @@ class DiscountController extends Controller
 
         $discountCheck->update([
             'price' => $request->price,
+            'discount_value' => $request->discount_value,
         ]);
         if ($discountCheck->user->fcm_token) {
             Helpers::sendNotification(

@@ -8,6 +8,7 @@ use App\Models\Banner;
 use App\Models\Category;
 use App\Models\City;
 use App\Models\Config;
+use App\Models\DiscountCheck;
 use App\Models\Feed;
 use App\Models\Vendor;
 use Carbon\Carbon;
@@ -63,6 +64,7 @@ class ConfigController extends Controller
     }
     public function homePage()
     {
+        $user = auth('api')->user();
         $banners = Banner::select('id', app()->getLocale() == 'ar' ? 'name_arabic as name' : 'name_english as name', 'image')
             ->get();
 
@@ -82,8 +84,27 @@ class ConfigController extends Controller
             ->take(20)
             ->get();
 
+        if ($user) {
+            $discount_checks = DiscountCheck::where('user_id', $user->id)
+                ->where('status', 'accepted')
+                ->where('final_price', '!=', null)
+                ->get();
 
-        return Response::api(__('message.Success'), 200, true, null, ['banners' => $banners, 'categories' => $categories, 'vendors' => $vendors]);
+            $total_price = $discount_checks->sum('final_price') + $discount_checks->sum('discount_value');
+            $total_price_after_discount = $discount_checks->sum('final_price');
+            $total_discounts = $discount_checks->sum('discount_value');
+            $total_discount_checks = $discount_checks->count();
+        }
+
+        return Response::api(__('message.Success'), 200, true, null, [
+            'banners' => $banners,
+            'categories' => $categories,
+            'vendors' => $vendors,
+            'total_price' => $user ? $total_price : null,
+            'total_price_after_discount' => $user ? $total_price_after_discount : null,
+            'total_discounts' => $user ? $total_discounts : null,
+            'total_discount_checks' => $user ? $total_discount_checks : null,
+        ]);
     }
 
     public function clickedAds($id)

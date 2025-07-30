@@ -792,4 +792,5 @@ return [
     'You Are blocked Now' => 'You Are blocked Now',
     'Discount not Accepted up till now' => 'Discount not Accepted up till now',
     'Signing in' => 'Signing in',
+    'Export Excel' => 'Export Excel',
 ];

@@ -68,6 +68,7 @@ Route::group(['middleware' => 'WebLang'], function () {
                 Route::get('/edit/{id}/{discountId}', [UserDiscountController::class, 'edit'])->name('discounts.users.edit');
                 Route::put('/update/{id}/{discountId}', [UserDiscountController::class, 'update'])->name('discounts.users.update');
                 Route::delete('/destroy/{id}/{discountId}', [UserDiscountController::class, 'destroy'])->name('discounts.users.destroy');
+                Route::get('/export/{discountId}', [UserDiscountController::class, 'exportExcel'])->name('discounts.users.export');
             });
         });
         Route::group(['prefix' => 'search'], function () {

@@ -38,6 +38,7 @@ class PriceCheckDiscountRequest extends FormRequest
     {
         return [
             'price' => 'required|numeric|min:1',
+            'discount_value' => 'required|numeric|min:0',
         ];
     }
 }

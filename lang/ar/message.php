@@ -773,4 +773,5 @@ return [
     'You Are blocked Now' => 'أنت محظور الآن',
     'Discount not Accepted up till now' => 'الخصم لم يُقبل حتى الآن',
     'Signing in' => 'جاري تسجيل الدخول',
+    'Export Excel' => 'تصدير إلى إكسل',
 ];

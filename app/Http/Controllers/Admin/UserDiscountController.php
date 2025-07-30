@@ -7,6 +7,8 @@ use App\Http\Requests\Admin\DiscountChekRequest;
 use App\Models\DiscountCheck;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Exports\DiscountChecksExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class UserDiscountController extends Controller
 {
@@ -112,5 +114,10 @@ class UserDiscountController extends Controller
 
         return redirect()->route('admin.discounts.users.index', ['discountId' => $discountId])
             ->with('success', __('message.User discount deleted successfully.'));
+    }
+
+    public function exportExcel(int $discountId)
+    {
+        return Excel::download(new DiscountChecksExport(), 'user_discounts.xlsx');
     }
 }

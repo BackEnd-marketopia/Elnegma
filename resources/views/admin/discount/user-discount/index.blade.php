@@ -60,6 +60,11 @@
                                     <i class="fas fa-search mr-2 rtl:ml-2 rtl:mr-0"></i>
                                     {{ __('message.Search') }}
                                 </button>
+                                <a href="{{ route('admin.discounts.users.export', $discountId) }}"
+                                    class="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg shadow-lg transition-all duration-200 transform hover:scale-105">
+                                    <i class="fas fa-file-excel mr-2 rtl:ml-2 rtl:mr-0"></i>
+                                    {{ __('message.Export Excel') }}
+                                </a>
                             </div>
                         </div>
                     </form>

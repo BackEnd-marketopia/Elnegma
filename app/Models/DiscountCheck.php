@@ -13,6 +13,7 @@ class DiscountCheck extends Model
         'price',
         'status',
         'final_price',
+        'discount_value',
     ];
 
     public function discount()
