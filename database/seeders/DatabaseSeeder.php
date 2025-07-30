@@ -14,10 +14,9 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            // UserTableSeeder::class,
-            // ConfigTableSeeder::class,
-            // CategoryTableSeeder::class,
-            // EducationDepartmentTable::class,
+            UserTableSeeder::class,
+            ConfigTableSeeder::class,
+            CategoryTableSeeder::class,
         ]);
     }
 }
