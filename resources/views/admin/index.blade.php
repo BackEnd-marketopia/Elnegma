@@ -423,10 +423,6 @@
             </div>
         </div>
     </div>
-          </div>
-        </div>
-        </div>
-      </div>
     <!-- Chart.js for enhanced charts -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
