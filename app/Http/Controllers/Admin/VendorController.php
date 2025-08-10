@@ -87,7 +87,8 @@ class VendorController extends Controller
         $cities = json_encode($request->city_ids);
 
         Vendor::create([
-            'name' => $request->name_of_brand,
+            'name_ar' => $request->name_of_brand_ar,
+            'name_en' => $request->name_of_brand_en,
             'logo' => $logo,
             'cover' => $cover,
             'description' => $request->description,
@@ -150,7 +151,8 @@ class VendorController extends Controller
         $cities = json_encode($request->city_ids);
 
         $user->vendor->update([
-            'name' => $request->name_of_brand,
+            'name_ar' => $request->name_of_brand_ar,
+            'name_en' => $request->name_of_brand_en,
             'logo' => $logo,
             'cover' => $cover,
             'description' => $request->description,

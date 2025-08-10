@@ -9,7 +9,8 @@ class Vendor extends Model
 {
     protected $fillable =
     [
-        'name',
+        'name_ar',
+        'name_en',
         'logo',
         'cover',
         'description',
@@ -24,6 +25,12 @@ class Vendor extends Model
         'status',
     ];
     protected $appends = ['is_wished', 'rate'];
+
+    public function getNameAttribute()
+    {
+        return app()->getLocale() == 'ar' ? $this->name_ar : $this->name_en;
+    }
+
     public function getIsWishedAttribute()
     {
         $user = auth('api')->user();

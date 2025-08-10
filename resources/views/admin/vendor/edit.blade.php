@@ -188,29 +188,45 @@
 
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                         <!-- Brand Name -->
-                        <div class="form-group {{ $errors->has('name_of_brand') ? 'has-error' : '' }}">
-                            <label for="name_of_brand" class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
+                        <div class="form-group {{ $errors->has('name_of_brand_ar') ? 'has-error' : '' }}">
+                            <label for="name_of_brand_ar" class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
                                 <i class="fas fa-tag mr-2 text-purple-600"></i>
-                                {{ __('message.Name Of Brand') }}
+                                {{ __('message.Name Of Brand')  . ' ' . __('message.Arabic') }}
                                 <span class="text-red-500">*</span>
                             </label>
                             <input type="text" 
-                                   id="name_of_brand" 
-                                   name="name_of_brand" 
-                                   class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 {{ $errors->has('name_of_brand') ? 'border-red-500 ring-2 ring-red-200' : '' }}"
-                                   value="{{ old('name_of_brand', $user->vendor->name) }}" 
+                                   id="name_of_brand_ar" 
+                                   name="name_of_brand_ar" 
+                                   class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 {{ $errors->has('name_of_brand_ar') ? 'border-red-500 ring-2 ring-red-200' : '' }}"
+                                   value="{{ old('name_of_brand_ar', $user->vendor->name_ar) }}" 
                                    required
-                                   placeholder="{{ __('message.Enter brand name') }}">
-                            @if ($errors->has('name_of_brand'))
+                                   placeholder="{{ __('message.Enter brand name') . ' ' . __('message.Arabic') }}">
+                            @if ($errors->has('name_of_brand_ar'))
                                 <div class="mt-2 flex items-center text-red-600 text-sm">
                                     <i class="fas fa-exclamation-circle mr-2"></i>
-                                    {{ $errors->first('name_of_brand') }}
+                                    {{ $errors->first('name_of_brand_ar') }}
                                 </div>
                             @endif
                         </div>
-
+                        <div class="form-group {{ $errors->has('name_of_brand_en') ? 'has-error' : '' }}">
+                            <label for="name_of_brand_en" class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
+                                <i class="fas fa-tag mr-2 text-purple-600"></i>
+                                {{ __('message.Name Of Brand') . ' ' . __('message.English') }}
+                                <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text" id="name_of_brand_en" name="name_of_brand_en"
+                                class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 {{ $errors->has('name_of_brand_en') ? 'border-red-500 ring-2 ring-red-200' : '' }}"
+                                value="{{ old('name_of_brand_en', $user->vendor->name_en) }}" required
+                                placeholder="{{ __('message.Enter brand name') . ' ' . __('message.English') }}">
+                            @if ($errors->has('name_of_brand_en'))
+                                <div class="mt-2 flex items-center text-red-600 text-sm">
+                                    <i class="fas fa-exclamation-circle mr-2"></i>
+                                    {{ $errors->first('name_of_brand_en') }}
+                                </div>
+                            @endif
+                        </div>
                         <!-- Category -->
-                        <div class="form-group {{ $errors->has('category_id') ? 'has-error' : '' }}">
+                        <div class="form-group {{ $errors->has('category_id') ? 'has-error' : '' }} lg:col-span-2">
                             <label for="category_id" class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
                                 <i class="fas fa-th-large mr-2 text-purple-600"></i>
                                 {{ __('message.Category') }}
