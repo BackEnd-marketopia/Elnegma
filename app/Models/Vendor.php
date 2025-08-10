@@ -24,8 +24,7 @@ class Vendor extends Model
         'user_id',
         'status',
     ];
-    protected $appends = ['is_wished', 'rate'];
-
+    protected $appends = ['is_wished', 'rate', 'name'];
     public function getNameAttribute()
     {
         return app()->getLocale() == 'ar' ? $this->name_ar : $this->name_en;
