@@ -28,7 +28,8 @@ class VendorController extends Controller
                     ->orWhere('phone', 'LIKE', "%{$search}%");
             })
             ->orWhereRelation('vendor', function ($query) use ($search) {
-                $query->where('name', 'LIKE', "%{$search}%")
+                $query->where('name_ar', 'LIKE', "%{$search}%")
+                    ->orWhere('name_en', 'LIKE', "%{$search}%")
                     ->orWhere('description', 'LIKE', "%{$search}%")
                     ->orWhere('whatsapp', 'LIKE', "%{$search}%")
                     ->orWhere('facebook', 'LIKE', "%{$search}%")

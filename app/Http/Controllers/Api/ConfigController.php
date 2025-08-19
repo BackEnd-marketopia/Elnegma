@@ -79,10 +79,15 @@ class ConfigController extends Controller
                 app()->getLocale() == 'ar' ? 'name_arabic as name' : 'name_english as name'
             );
         }])
+            ->select('id', 'name_ar', 'name_en', 'logo', 'description', 'category_id', 'status', 'created_at')
             ->where('status', 'accepted')
             ->orderBy('created_at', 'desc')
             ->take(20)
-            ->get();
+            ->get()
+            ->map(function ($vendor) {
+                $vendor->name = app()->getLocale() == 'ar' ? $vendor->name_ar : $vendor->name_en;
+                return $vendor;
+            });
 
         if ($user) {
             $discount_checks = DiscountCheck::where('user_id', $user->id)

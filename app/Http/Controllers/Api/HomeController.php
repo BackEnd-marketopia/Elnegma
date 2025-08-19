@@ -18,18 +18,24 @@ class HomeController extends Controller
             $user = auth('api')->user();
             $vendors = $user ? Vendor::where('status', 'accepted')
                 ->whereJsonContains('citys_id', (string)$user->city_id)
-                ->where('name', 'like',  '%' . $request->search . '%')
+                ->where(function($query) use ($request) {
+                    $query->where('name_ar', 'like',  '%' . $request->search . '%')
+                          ->orWhere('name_en', 'like',  '%' . $request->search . '%');
+                })
                 ->when($request->catId, function ($query) use ($request) {
                     return $query->where('category_id', $request->catId);
                 })
-                ->get(['id', 'name', 'logo', 'description']) :
+                ->get(['id', 'name_ar', 'name_en', 'logo', 'description']) :
                 Vendor::where('status', 'accepted')
-                ->where('name', 'like',  '%' . $request->search . '%')
+                ->where(function($query) use ($request) {
+                    $query->where('name_ar', 'like',  '%' . $request->search . '%')
+                          ->orWhere('name_en', 'like',  '%' . $request->search . '%');
+                })
                 ->when($request->catId, function ($query) use ($request) {
                     return $query->where('category_id', $request->catId);
                 })
                 ->orderByDesc('created_at')
-                ->take(40)->get(['id', 'name', 'logo', 'description']);
+                ->take(40)->get(['id', 'name_ar', 'name_en', 'logo', 'description']);
             return Response::api(__('message.Success'), 200, true, null, ['vendors' => $vendors]);
         } elseif ($request->type == 'discount') {
             $discount = Discount::where('start_date', '<=', now())
@@ -47,11 +53,11 @@ class HomeController extends Controller
         $vendors = $user ? Vendor::where('category_id', $category_id)
             ->where('status', 'accepted')
             ->whereJsonContains('citys_id', (string)$user->city_id)
-            ->get(['id', 'name', 'logo', 'description']) :
+            ->get(['id', 'name_ar', 'name_en', 'logo', 'description']) :
             Vendor::where('category_id', $category_id)
             ->where('status', 'accepted')
             ->orderByDesc('created_at')
-            ->take(40)->get(['id', 'name', 'logo', 'description']);
+            ->take(40)->get(['id', 'name_ar', 'name_en', 'logo', 'description']);
 
         return Response::api(__('message.Success'), 200, true, null, ['vendors' => $vendors]);
     }
