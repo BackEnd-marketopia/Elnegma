@@ -103,6 +103,10 @@ class VendorController extends Controller
             'category_id' => $request->category_id,
             'user_id' => $user->id,
         ]);
+
+        
+
+
         return redirect()->route('admin.vendors.index')->with('success', __('message.Vendor Added Successfully'));
     }
 

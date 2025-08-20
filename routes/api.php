@@ -43,6 +43,7 @@ Route::group(['middleware' => 'lang'], function () {
         Route::post('/discountCheck/{id}', [DiscountController::class, 'userAcceptDiscountCheck'])->name('userAcceptDiscountCheck');
         Route::get('/discount-details/{discountId}', [DiscountController::class, 'discountDetails'])->name('discounts.details');
         Route::get('/discounts/user', [DiscountController::class, 'userDiscounts'])->name('discounts.user');
+        Route::get('/discounts/active-check', [DiscountController::class, 'checkActiveUserDiscount'])->name('discounts.activeCheck');
         Route::resource('/wishlists', WishlistController::class)->only('index', 'store', 'destroy');
     });
 

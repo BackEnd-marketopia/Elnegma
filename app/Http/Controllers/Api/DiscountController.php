@@ -199,6 +199,8 @@ class DiscountController extends Controller
         }
         return Response::api(__('message.Success'), 200, true, null);
     }
+
+    
     public function userAcceptDiscountCheck(DiscountCheckRequest $request, int $id)
     {
         $user = auth('api')->user();
@@ -261,5 +263,52 @@ class DiscountController extends Controller
             }
         }
         return Response::api(__('message.Success'), 200, true, null);
+    }
+
+    public function checkActiveUserDiscount()
+    {
+        $user = auth('api')->user();
+
+        if (!$user)
+            return Response::api(__('message.Login First'), 403, false, 403);
+
+        if ($user->status == 'inactive')
+            return Response::api(__('message.You Are blocked Now'), 403, false, 403);
+        elseif ($user->status == 'pending')
+            return Response::api(__('message.You Are Pending Now, Wait Until Admin Accept You'), 403, false, 403);
+
+        $activeDiscountCheck = DiscountCheck::where('user_id', $user->id)
+            ->whereHas('discount', function ($query) {
+                $query->where('start_date', '<=', now())
+                      ->where('end_date', '>=', now());
+            })
+            ->where(function ($query) {
+                $query->where('status', 'pending')
+                      ->orWhere(function ($subQuery) {
+                          $subQuery->where('status', 'accepted')
+                                   ->whereNull('price');
+                      })
+                      ->orWhere(function ($subQuery) {
+                          $subQuery->where('status', 'accepted')
+                                   ->whereNotNull('price')
+                                   ->whereNull('final_price')
+                                   ->whereNull('comment');
+                      });
+            })
+            ->with(['discount.vendor'])
+            ->latest()
+            ->first();
+
+        if (!$activeDiscountCheck) {
+            return Response::api(__('message.No active discount found'), 200, true, null, [
+                'has_active_discount' => false,
+                'discount_data' => null
+            ]);
+        }
+
+        return Response::api(__('message.Success'), 200, true, null, [
+            'has_active_discount' => true,
+            'discount_data' => $activeDiscountCheck
+        ]);
     }
 }
