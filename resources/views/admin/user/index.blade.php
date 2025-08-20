@@ -157,6 +157,12 @@
                                     @endif
                                 <td class="px-6 py-4 whitespace-nowrap text-center">
                                     <div class="flex items-center justify-center space-x-3 rtl:space-x-reverse">
+                                        <a href="{{ route('admin.users.discounts', $user->id) }}"
+                                           class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-green-600 border border-transparent rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transform hover:scale-105 transition-all duration-200 shadow-lg"
+                                           data-bs-toggle="tooltip" 
+                                           title="{{ __('message.User Discounts') }}">
+                                            <i class="fas fa-percent"></i>
+                                        </a>
                                         <a href="{{ route('admin.users.edit', $user->id) }}"
                                            class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-purple-600 border border-transparent rounded-lg hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transform hover:scale-105 transition-all duration-200 shadow-lg"
                                            data-bs-toggle="tooltip" 

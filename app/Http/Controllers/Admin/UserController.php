@@ -9,9 +9,12 @@ use App\Http\Requests\Admin\User\UpdateUserRequest;
 use App\Models\City;
 use App\Models\Code;
 use App\Models\User;
+use App\Models\DiscountCheck;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\UserDiscountsExport;
 
 class UserController extends Controller
 {
@@ -108,17 +111,126 @@ class UserController extends Controller
         return redirect()->route('admin.users.index')->with('success', __('message.User Edit Successfully'));
     }
 
-    /**
+        /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
         $user = User::findOrFail($id);
-
-        if (File::exists($user->image))
-            File::delete($user->image);
-
         $user->delete();
         return redirect()->route('admin.users.index')->with('success', __('message.User Deleted Successfully'));
+    }
+
+    /**
+     * Display user discounts.
+     */
+    public function userDiscounts(string $userId)
+    {
+        $user = User::findOrFail($userId);
+        $discountChecks = DiscountCheck::with(['discount.vendor.user', 'discount'])
+            ->where('user_id', $userId)
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+
+        return view('admin.user.discounts', compact('user', 'discountChecks'));
+    }
+
+    /**
+     * Search user discounts.
+     */
+    public function userDiscountsSearch(Request $request, string $userId)
+    {
+        $user = User::findOrFail($userId);
+        $search = $request->input('search');
+
+        $discountChecks = DiscountCheck::with(['discount.vendor.user', 'discount'])
+            ->where('user_id', $userId)
+            ->when($search, function ($query, $search) {
+                return $query->where(function ($q) use ($search) {
+                    $q->where('comment', 'LIKE', "%{$search}%")
+                      ->orWhere('price', 'LIKE', "%{$search}%")
+                      ->orWhere('final_price', 'LIKE', "%{$search}%")
+                      ->orWhere('discount_value', 'LIKE', "%{$search}%")
+                      ->orWhere('status', 'LIKE', "%{$search}%")
+                      ->orWhereHas('discount', function ($dq) use ($search) {
+                          $dq->where('title', 'LIKE', "%{$search}%")
+                             ->orWhere('description', 'LIKE', "%{$search}%");
+                      })
+                      ->orWhereHas('discount.vendor', function ($vq) use ($search) {
+                          $vq->where('name_ar', 'LIKE', "%{$search}%")
+                             ->orWhere('name_en', 'LIKE', "%{$search}%");
+                      });
+                });
+            })
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+
+        return view('admin.user.discounts', compact('user', 'discountChecks'));
+    }
+
+    /**
+     * Export user discounts to Excel.
+     */
+    public function userDiscountsExport(string $userId)
+    {
+        $user = User::findOrFail($userId);
+        $fileName = 'user-' . $user->id . '-discounts-' . date('Y-m-d') . '.xlsx';
+        
+        return Excel::download(new UserDiscountsExport($userId), $fileName);
+    }
+
+    /**
+     * Show the form for editing a user discount.
+     */
+    public function userDiscountEdit(string $userId, string $discountCheckId)
+    {
+        $user = User::findOrFail($userId);
+        $discountCheck = DiscountCheck::with(['discount.vendor', 'discount'])
+            ->where('user_id', $userId)
+            ->findOrFail($discountCheckId);
+
+        return view('admin.user.discount-edit', compact('user', 'discountCheck'));
+    }
+
+    /**
+     * Update a user discount.
+     */
+    public function userDiscountUpdate(Request $request, string $userId, string $discountCheckId)
+    {
+        $user = User::findOrFail($userId);
+        $discountCheck = DiscountCheck::where('user_id', $userId)->findOrFail($discountCheckId);
+
+        $request->validate([
+            'comment' => 'nullable|string|max:500',
+            'price' => 'nullable|numeric|min:0',
+            'final_price' => 'nullable|numeric|min:0',
+            'discount_value' => 'nullable|numeric|min:0',
+            'status' => 'required|in:pending,accepted,cancelled',
+        ]);
+
+        $discountCheck->update([
+            'comment' => $request->comment,
+            'price' => $request->price,
+            'final_price' => $request->final_price,
+            'discount_value' => $request->discount_value,
+            'status' => $request->status,
+        ]);
+
+        return redirect()->route('admin.users.discounts', $userId)
+            ->with('success', __('message.User Discount Updated Successfully'));
+    }
+
+    /**
+     * Delete a user discount.
+     */
+    public function userDiscountDestroy(string $userId, string $discountCheckId)
+    {
+        $user = User::findOrFail($userId);
+        $discountCheck = DiscountCheck::where('user_id', $userId)->findOrFail($discountCheckId);
+        
+        $discountCheck->delete();
+
+        return redirect()->route('admin.users.discounts', $userId)
+            ->with('success', __('message.User Discount Deleted Successfully'));
     }
 }

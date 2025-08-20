@@ -54,6 +54,12 @@ Route::group(['middleware' => 'WebLang'], function () {
             'ads'           => Advertisement::class,
             'notifications' => NotificationController::class,
         ]);
+        Route::get('/users/{userId}/discounts', [UserController::class, 'userDiscounts'])->name('users.discounts');
+        Route::get('/users/{userId}/discounts/search', [UserController::class, 'userDiscountsSearch'])->name('users.discounts.search');
+        Route::get('/users/{userId}/discounts/export', [UserController::class, 'userDiscountsExport'])->name('users.discounts.export');
+        Route::get('/users/{userId}/discounts/{discountCheckId}/edit', [UserController::class, 'userDiscountEdit'])->name('users.discounts.edit');
+        Route::put('/users/{userId}/discounts/{discountCheckId}', [UserController::class, 'userDiscountUpdate'])->name('users.discounts.update');
+        Route::delete('/users/{userId}/discounts/{discountCheckId}', [UserController::class, 'userDiscountDestroy'])->name('users.discounts.destroy');
         Route::group(['prefix' => 'discounts'], function () {
             Route::get('/{vendorId}', [AdminDiscountController::class, 'index'])->name('discounts.index');
             Route::get('/create/{vendorId}', [AdminDiscountController::class, 'create'])->name('discounts.create');
