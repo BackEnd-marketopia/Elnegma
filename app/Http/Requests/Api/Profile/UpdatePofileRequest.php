@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Response;
  * @property string $name
  * @property string $email
  * @property string $phone
+ * @property string $registration_id
  * @property string $password
  * @property UploadedFile $image
  * @property string $city_id
@@ -48,10 +49,11 @@ class UpdatePofileRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'     => 'required | string | max:255',
-            'email'    => 'nullable | email | unique:users,email,' . auth('api')->user()->id,
-            'password' => 'nullable | min:8 | regex:/[A-Za-z]/ | regex:/[0-9]/ | confirmed',
-            'image'    => 'nullable',
+            'name'            => 'required | string | max:255',
+            'email'           => 'nullable | email | unique:users,email,' . auth('api')->user()->id,
+            'registration_id' => 'nullable | string | max:255',
+            'password'        => 'nullable | min:8 | regex:/[A-Za-z]/ | regex:/[0-9]/ | confirmed',
+            'image'           => 'nullable',
         ];
     }
     public function messages(): array

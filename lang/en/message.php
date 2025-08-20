@@ -14,6 +14,8 @@ return [
     'email_not_found' => 'Email Not Found',
     'The phone number must start with 01 and contain exactly 11 digits'    => 'The phone number must start with 01 and contain exactly 11 digits.',
     'The password must contain at least one letter and at least one number' => 'The password must contain at least one letter and at least one number.',
+    'Either registration ID or card image is required' => 'Either registration ID or card image is required.',
+    'Either card image or registration ID is required' => 'Either card image or registration ID is required.',
     'Hi' => 'Hi',
     'Dashboard' => 'Dashboard',
     'Copyright 2025' => 'Copyright 2025',

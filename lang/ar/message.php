@@ -14,6 +14,8 @@ return [
     'email_not_found' => 'البريد الإلكتروني غير موجود',
     'The phone number must start with 01 and contain exactly 11 digits'    => 'يجب أن يبدأ رقم الهاتف بـ 01 وأن يحتوي على 11 رقمًا بالضبط.',
     'The password must contain at least one letter and at least one number' => 'يجب أن تحتوي كلمة المرور على حرف واحد على الأقل ورقم واحد على الأقل.',
+    'Either registration ID or card image is required' => 'مطلوب إما رقم التسجيل أو صورة البطاقة.',
+    'Either card image or registration ID is required' => 'مطلوب إما صورة البطاقة أو رقم التسجيل.',
     'Hi' => 'مرحباً',
     'Dashboard' => 'لوحة التحكم',
     'Copyright 2025' => 'حقوق النشر 2025',

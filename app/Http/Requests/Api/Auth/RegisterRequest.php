@@ -15,6 +15,7 @@ use Illuminate\Http\UploadedFile;
  * @property string $name
  * @property string $email
  * @property string $phone
+ * @property string $registration_id
  * @property string $password
  * @property UploadedFile $image
  * @property string $city_id
@@ -52,22 +53,24 @@ class RegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'       => 'required | string | max:255',
-            'email'      => 'nullable | email | unique:users,email',
-            'phone'      => 'required | digits:11 | regex:/^01\d{9}$/ | unique:users,phone',
-            'code'       => 'nullable | numeric | digits:8',
-            'image'      => 'nullable | image | max:2048',
-            'password'   => 'required | min:8 | regex:/[A-Za-z]/ | regex:/[0-9]/',
-            'city_id'    => 'required | exists:cities,id',
-            'card_image' => 'required| image',
+            'name'            => 'required | string | max:255',
+            'email'           => 'nullable | email | unique:users,email',
+            'phone'           => 'required | digits:11 | regex:/^01\d{9}$/ | unique:users,phone',
+            'registration_id' => 'nullable | string | max:255 | required_without:card_image',
+            'image'           => 'nullable | image | max:2048',
+            'password'        => 'required | min:8 | regex:/[A-Za-z]/ | regex:/[0-9]/',
+            'city_id'         => 'required | exists:cities,id',
+            'card_image'      => 'nullable | image | required_without:registration_id',
         ];
     }
 
     public function messages(): array
     {
         return [
-            'phone.regex'    => __('message.The phone number must start with 01 and contain exactly 11 digits'),
-            'password.regex' => __('message.The password must contain at least one letter and at least one number'),
+            'phone.regex'                    => __('message.The phone number must start with 01 and contain exactly 11 digits'),
+            'password.regex'                 => __('message.The password must contain at least one letter and at least one number'),
+            'registration_id.required_without' => __('message.Either registration ID or card image is required'),
+            'card_image.required_without'    => __('message.Either card image or registration ID is required'),
         ];
     }
 }

@@ -33,17 +33,17 @@ class AuthController extends Controller
             $image = Helpers::addImage($request->image, 'user');
 
         $user = User::create([
-            'name'     => $request->name,
-            'email'    => $request->email ?? null,
-            'phone'    => $request->phone,
-            'code'     => $request->code ?? null,
-            'image'    => $image ?? null,
-            'password' => Hash::make($request->password),
-            'city_id'  => $request->city_id,
-            'fcm_token' => $request->fcmToken ?? null,
-            'card_image' => $request->card_image ? Helpers::addImage($request->card_image, 'user') : null,
-            'status' => 'pending',
-            'user_type' => 'user',
+            'name'          => $request->name,
+            'email'         => $request->email ?? null,
+            'phone'         => $request->phone,
+            'registration_id' => $request->registration_id ?? null,
+            'image'         => $image ?? null,
+            'password'      => Hash::make($request->password),
+            'city_id'       => $request->city_id,
+            'fcm_token'     => $request->fcmToken ?? null,
+            'card_image'    => $request->card_image ? Helpers::addImage($request->card_image, 'user') : null,
+            'status'        => 'pending',
+            'user_type'     => 'user',
         ]);
 
         $token = JWTAuth::fromUser($user);
@@ -138,11 +138,12 @@ class AuthController extends Controller
             return Response::api(__('message.city_not_found'), 404, false, 404);
 
         $user->update([
-            'name'     => $request->name,
-            'email'    => $request->email,
-            'password' => $password,
-            'image'    => $image,
-            'city_id'  => $request->city_id,
+            'name'            => $request->name,
+            'email'           => $request->email,
+            'registration_id' => $request->registration_id,
+            'password'        => $password,
+            'image'           => $image,
+            'city_id'         => $request->city_id,
         ]);
 
         $user->load(['city' => function ($query) {
