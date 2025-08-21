@@ -31,10 +31,12 @@ class UserDiscountController extends Controller
      */
     public function index(int $discountId)
     {
-        $users = User::whereRelation('discountChecks', 'discount_id', $discountId)
+        // جلب كل استخدامات الخصم لهذا الخصم مع بيانات المستخدم
+        $discountChecks = DiscountCheck::with('user')
+            ->where('discount_id', $discountId)
             ->paginate(10);
 
-        return view('admin.discount.user-discount.index', compact('users', 'discountId'));
+        return view('admin.discount.user-discount.index', compact('discountChecks', 'discountId'));
     }
 
     /**

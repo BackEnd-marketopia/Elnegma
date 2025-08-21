@@ -110,15 +110,15 @@
                         </tr>
                     </thead>
                     <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                        @forelse ($users as $user)
+                        @forelse ($discountChecks as $discountCheck)
                             @php
-    $discountCheck = $user->discountChecks()->where('discount_id', $discountId)->first();
+                                $user = $discountCheck->user;
                             @endphp
                             <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200">
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="flex items-center">
                                         <div class="w-12 h-12 rounded-full overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-600 shadow-lg ring-2 ring-gray-200 dark:ring-gray-600 mr-3 rtl:ml-3 rtl:mr-0">
-                                            @if($user->image)
+                                            @if($user && $user->image)
                                                 <img src="{{ asset($user->image) }}" 
                                                      alt="{{ $user->name }}" 
                                                      class="w-full h-full object-cover hover:scale-105 transition-transform duration-200">
@@ -130,19 +130,19 @@
                                         </div>
                                         <div>
                                             <div class="text-sm font-medium text-gray-900 dark:text-white">
-                                                {{ $user->name }}
+                                                {{ $user ? $user->name : '-' }}
                                             </div>
                                         </div>
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-center">
                                     <div class="text-sm text-gray-900 dark:text-white">
-                                        {{ $user->email ?? '-' }}
+                                        {{ $user ? $user->email : '-' }}
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-center">
                                     <div class="text-sm text-gray-900 dark:text-white">
-                                        {{ $user->phone ?? '-' }}
+                                        {{ $user ? $user->phone : '-' }}
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 text-center">
@@ -152,61 +152,55 @@
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-center">
                                     <div class="text-sm text-gray-900 dark:text-white">
-                                        {{ $discountCheck && $discountCheck->price ? number_format($discountCheck->price, 2) : '-' }}
+                                        {{ $discountCheck->price ? number_format($discountCheck->price, 2) : '-' }}
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-center">
                                     <div class="text-sm text-gray-900 dark:text-white">
-                                        {{ $discountCheck && $discountCheck->final_price ? number_format($discountCheck->final_price, 2) : '-' }}
+                                        {{ $discountCheck->final_price ? number_format($discountCheck->final_price, 2) : '-' }}
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-center">
-                                    @if($discountCheck)
-                                        @if($discountCheck->status == 'pending')
-                                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300">
-                                                <i class="fas fa-clock mr-1 rtl:ml-1 rtl:mr-0"></i>
-                                                {{ __('message.Pending') }}
-                                            </span>
-                                        @elseif($discountCheck->status == 'accepted')
-                                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300">
-                                                <i class="fas fa-check mr-1 rtl:ml-1 rtl:mr-0"></i>
-                                                {{ __('message.Accepted') }}
-                                            </span>
-                                        @elseif($discountCheck->status == 'cancelled')
-                                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300">
-                                                <i class="fas fa-times mr-1 rtl:ml-1 rtl:mr-0"></i>
-                                                {{ __('message.Canceled') }}
-                                            </span>
-                                        @endif
+                                    @if($discountCheck->status == 'pending')
+                                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300">
+                                            <i class="fas fa-clock mr-1 rtl:ml-1 rtl:mr-0"></i>
+                                            {{ __('message.Pending') }}
+                                        </span>
+                                    @elseif($discountCheck->status == 'accepted')
+                                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300">
+                                            <i class="fas fa-check mr-1 rtl:ml-1 rtl:mr-0"></i>
+                                            {{ __('message.Accepted') }}
+                                        </span>
+                                    @elseif($discountCheck->status == 'cancelled')
+                                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300">
+                                            <i class="fas fa-times mr-1 rtl:ml-1 rtl:mr-0"></i>
+                                            {{ __('message.Canceled') }}
+                                        </span>
                                     @else
                                         <span class="text-gray-400">-</span>
                                     @endif
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-center">
-                                    @if($discountCheck)
-                                        <div class="flex items-center justify-center space-x-2 rtl:space-x-reverse">
-                                            <a href="{{ route('admin.discounts.users.edit', [$discountCheck->id, $discountId]) }}"
-                                               class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-purple-600 border border-transparent rounded-lg hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transform hover:scale-105 transition-all duration-200 shadow-lg"
-                                               data-bs-toggle="tooltip" 
-                                               title="{{ __('message.Edit User Discount') }}">
-                                                <i class="fas fa-edit"></i>
-                                            </a>
-                                            <form action="{{ route('admin.discounts.users.destroy', [$discountCheck->id, $discountId]) }}"
-                                                  method="POST" 
-                                                  style="display:inline">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" 
-                                                        class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-red-600 border border-transparent rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 delete-btn transform hover:scale-105 transition-all duration-200 shadow-lg"
-                                                        data-bs-toggle="tooltip" 
-                                                        title="{{ __('message.Delete User Discount') }}">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                            </form>
-                                        </div>
-                                    @else
-                                        <span class="text-gray-400">-</span>
-                                    @endif
+                                    <div class="flex items-center justify-center space-x-2 rtl:space-x-reverse">
+                                        <a href="{{ route('admin.discounts.users.edit', [$discountCheck->id, $discountId]) }}"
+                                           class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-purple-600 border border-transparent rounded-lg hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transform hover:scale-105 transition-all duration-200 shadow-lg"
+                                           data-bs-toggle="tooltip" 
+                                           title="{{ __('message.Edit User Discount') }}">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <form action="{{ route('admin.discounts.users.destroy', [$discountCheck->id, $discountId]) }}"
+                                              method="POST" 
+                                              style="display:inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" 
+                                                    class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-red-600 border border-transparent rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 delete-btn transform hover:scale-105 transition-all duration-200 shadow-lg"
+                                                    data-bs-toggle="tooltip" 
+                                                    title="{{ __('message.Delete User Discount') }}">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </div>
                                 </td>
                             </tr>
                         @empty
@@ -226,12 +220,12 @@
                 <div class="p-6 border-t border-gray-200 dark:border-gray-700">
                     <div class="flex items-center justify-between">
                         <div class="text-sm text-gray-600 dark:text-gray-400">
-                            {{ __('message.Page') }}: {{ $users->currentPage() }} {{ __('message.of') }} {{ $users->lastPage() }}
+                            {{ __('message.Page') }}: {{ $discountChecks->currentPage() }} {{ __('message.of') }} {{ $discountChecks->lastPage() }}
                             <span class="mx-2">•</span>
-                            {{ __('message.Total') }}: {{ $users->total() }} {{ __('message.users') }}
+                            {{ __('message.Total') }}: {{ $discountChecks->total() }} {{ __('message.users') }}
                         </div>
                         <div>
-                            {{ $users->links() }}
+                            {{ $discountChecks->links() }}
                         </div>
                     </div>
                 </div>
