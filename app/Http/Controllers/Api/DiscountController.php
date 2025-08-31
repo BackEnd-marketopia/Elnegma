@@ -103,9 +103,12 @@ class DiscountController extends Controller
             return Response::api(__('message.You Are Pending Now, Wait Until Admin Accept You'), 403, false, 403);
 
         $discountChecks = DiscountCheck::where('user_id', $user->id)
+            ->whereHas('discount', function ($query) {
+            $query->where('end_date', '>', now());
+            })
             ->with('discount.vendor')
             ->get();
-
+            
         return Response::api(__('message.Success'), 200, true, null, $discountChecks);
     }
     public function vendorDiscountDetails(int $id)
