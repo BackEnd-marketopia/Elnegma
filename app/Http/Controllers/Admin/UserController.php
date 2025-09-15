@@ -153,8 +153,10 @@ class UserController extends Controller
                       ->orWhere('discount_value', 'LIKE', "%{$search}%")
                       ->orWhere('status', 'LIKE', "%{$search}%")
                       ->orWhereHas('discount', function ($dq) use ($search) {
-                          $dq->where('title', 'LIKE', "%{$search}%")
-                             ->orWhere('description', 'LIKE', "%{$search}%");
+                          $dq->where('title_en', 'LIKE', "%{$search}%")
+                             ->orWhere('title_ar', 'LIKE', "%{$search}%")
+                             ->orWhere('description_en', 'LIKE', "%{$search}%")
+                             ->orWhere('description_ar', 'LIKE', "%{$search}%");
                       })
                       ->orWhereHas('discount.vendor', function ($vq) use ($search) {
                           $vq->where('name_ar', 'LIKE', "%{$search}%")

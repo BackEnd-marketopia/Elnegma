@@ -79,13 +79,14 @@ class ConfigController extends Controller
                 app()->getLocale() == 'ar' ? 'name_arabic as name' : 'name_english as name'
             );
         }])
-            ->select('id', 'name_ar', 'name_en', 'logo', 'description', 'category_id', 'status', 'created_at')
+            ->select('id', 'name_ar', 'name_en', 'logo', 'description_ar', 'description_en', 'category_id', 'status', 'created_at')
             ->where('status', 'accepted')
             ->orderBy('created_at', 'desc')
             ->take(20)
             ->get()
             ->map(function ($vendor) {
                 $vendor->name = app()->getLocale() == 'ar' ? $vendor->name_ar : $vendor->name_en;
+                $vendor->description = app()->getLocale() == 'ar' ? $vendor->description_ar : $vendor->description_en;
                 return $vendor;
             });
 
