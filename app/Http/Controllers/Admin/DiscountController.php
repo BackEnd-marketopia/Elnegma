@@ -19,8 +19,10 @@ class DiscountController extends Controller
 
         $discounts = Discount::where('vendor_id', $vendorId)
             ->where(function ($query) use ($search) {
-                $query->where('title', 'LIKE', "%{$search}%")
-                    ->orWhere('description', 'LIKE', "%{$search}%")
+                $query->where('title_en', 'LIKE', "%{$search}%")
+                    ->orWhere('title_ar', 'LIKE', "%{$search}%")
+                    ->orWhere('description_en', 'LIKE', "%{$search}%")
+                    ->orWhere('description_ar', 'LIKE', "%{$search}%")
                     ->orWhere('start_date', 'LIKE', "%{$search}%")
                     ->orWhere('end_date', 'LIKE', "%{$search}%");
             })
@@ -62,8 +64,10 @@ class DiscountController extends Controller
     {
         $image = Helpers::addImage($request->image, 'discount');
         Discount::create([
-            'title' => $request->title,
-            'description' => $request->description,
+            'title_en' => $request->title,
+            'title_ar' => $request->title_ar ?? null,
+            'description_en' => $request->description,
+            'description_ar' => $request->description_ar ?? null,
             'image' => $image,
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
@@ -106,8 +110,10 @@ class DiscountController extends Controller
             $image = Helpers::addImage($request->image, 'discount');
         }
         $discount->update([
-            'title' => $request->title,
-            'description' => $request->description,
+            'title_en' => $request->title,
+            'title_ar' => $request->title_ar ?? null,
+            'description_en' => $request->description,
+            'description_ar' => $request->description_ar ?? null,
             'image' => $image,
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,

@@ -60,24 +60,44 @@
                 @method('PUT')
 
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <!-- Title -->
-                    <div class="form-group {{ $errors->has('title') ? 'has-error' : '' }} lg:col-span-2">
+                    <!-- Title English -->
+                    <div class="form-group {{ $errors->has('title') ? 'has-error' : '' }}">
                         <label for="title" class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
                             <i class="fas fa-heading mr-2 text-purple-600"></i>
-                            {{ __('message.Title') }} 
+                            {{ __('message.Title') }} {{ __('message.English') }}
                             <span class="text-red-500">*</span>
                         </label>
                         <input type="text" 
                                id="title" 
                                name="title" 
-                               value="{{ old('title', $discount->title) }}"
+                               value="{{ old('title', $discount->title_en ?? $discount->title) }}"
                                class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 {{ $errors->has('title') ? 'border-red-500 ring-2 ring-red-200' : '' }}"
-                               placeholder="{{ __('message.Enter discount title') }}"
+                               placeholder="{{ __('message.Enter discount title') .' '. __('message.English') }}"
                                required>
                         @if ($errors->has('title'))
                             <div class="mt-2 flex items-center text-red-600 text-sm">
                                 <i class="fas fa-exclamation-circle mr-2"></i>
                                 {{ $errors->first('title') }}
+                            </div>
+                        @endif
+                    </div>
+
+                    <!-- Title Arabic -->
+                    <div class="form-group {{ $errors->has('title_ar') ? 'has-error' : '' }}">
+                        <label for="title_ar" class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
+                            <i class="fas fa-heading mr-2 text-purple-600"></i>
+                            {{ __('message.Title') }} {{ __('message.Arabic') }}
+                        </label>
+                        <input type="text" 
+                               id="title_ar" 
+                               name="title_ar" 
+                               value="{{ old('title_ar', $discount->title_ar) }}"
+                               class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 {{ $errors->has('title_ar') ? 'border-red-500 ring-2 ring-red-200' : '' }}"
+                               placeholder="{{ __('message.Enter discount title') .' '. __('message.Arabic') }}">
+                        @if ($errors->has('title_ar'))
+                            <div class="mt-2 flex items-center text-red-600 text-sm">
+                                <i class="fas fa-exclamation-circle mr-2"></i>
+                                {{ $errors->first('title_ar') }}
                             </div>
                         @endif
                     </div>
@@ -173,23 +193,42 @@
                         @endif
                     </div>
 
-                    <!-- Description - spans both columns -->
-                    <div class="lg:col-span-2 form-group {{ $errors->has('description') ? 'has-error' : '' }}">
+                    <!-- Description English -->
+                    <div class="form-group {{ $errors->has('description') ? 'has-error' : '' }}">
                         <label for="description" class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
                             <i class="fas fa-align-left mr-2 text-purple-600"></i>
-                            {{ __('message.Description') }}
+                            {{ __('message.Description') }} {{ __('message.English') }}
                             <span class="text-red-500">*</span>
                         </label>
                         <textarea id="description" 
                                   name="description" 
                                   rows="4"
                                   class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 resize-none {{ $errors->has('description') ? 'border-red-500 ring-2 ring-red-200' : '' }}"
-                                  placeholder="{{ __('message.Enter discount description') }}"
-                                  required>{{ old('description', $discount->description) }}</textarea>
+                                  placeholder="{{ __('message.Enter discount description') .' '. __('message.English') }}"
+                                  required>{{ old('description', $discount->description_en ?? $discount->description) }}</textarea>
                         @if ($errors->has('description'))
                             <div class="mt-2 flex items-center text-red-600 text-sm">
                                 <i class="fas fa-exclamation-circle mr-2"></i>
                                 {{ $errors->first('description') }}
+                            </div>
+                        @endif
+                    </div>
+
+                    <!-- Description Arabic -->
+                    <div class="form-group {{ $errors->has('description_ar') ? 'has-error' : '' }}">
+                        <label for="description_ar" class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
+                            <i class="fas fa-align-left mr-2 text-purple-600"></i>
+                            {{ __('message.Description') }} {{ __('message.Arabic') }}
+                        </label>
+                        <textarea id="description_ar" 
+                                  name="description_ar" 
+                                  rows="4"
+                                  class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 resize-none {{ $errors->has('description_ar') ? 'border-red-500 ring-2 ring-red-200' : '' }}"
+                                  placeholder="{{ __('message.Enter discount description') .' '. __('message.Arabic') }}">{{ old('description_ar', $discount->description_ar) }}</textarea>
+                        @if ($errors->has('description_ar'))
+                            <div class="mt-2 flex items-center text-red-600 text-sm">
+                                <i class="fas fa-exclamation-circle mr-2"></i>
+                                {{ $errors->first('description_ar') }}
                             </div>
                         @endif
                     </div>

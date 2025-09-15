@@ -40,8 +40,12 @@ class HomeController extends Controller
         } elseif ($request->type == 'discount') {
             $discount = Discount::where('start_date', '<=', now())
                 ->where('end_date', '>=', now())
-                ->where('title', 'like',  '%' . $request->search . '%')
-                ->orWhere('description', 'like',  '%' . $request->search . '%')
+                ->where(function($query) use ($request) {
+                    $query->where('title_en', 'like',  '%' . $request->search . '%')
+                          ->orWhere('title_ar', 'like',  '%' . $request->search . '%')
+                          ->orWhere('description_en', 'like',  '%' . $request->search . '%')
+                          ->orWhere('description_ar', 'like',  '%' . $request->search . '%');
+                })
                 ->get();
             return Response::api(__('message.Success'), 200, true, null, ['discounts' => $discount]);
         }
@@ -65,7 +69,12 @@ class HomeController extends Controller
     public function vendorDetails($id)
     {
         $vendor = Vendor::findOrFail($id);
-        $discounts = $vendor->discounts()->where('start_date', '<=', now())->where('end_date', '>=', now())->get();
+        $discounts = $vendor->discounts()
+            ->where('start_date', '<=', now())
+            ->where('end_date', '>=', now())
+            ->get()
+            ->makeHidden(['title_en', 'title_ar', 'description_en', 'description_ar'])
+            ->makeVisible(['title', 'description']);
         return Response::api(__('message.Success'), 200, true, null, ['vendor' => $vendor, 'discounts' => $discounts]);
     }
 
@@ -98,8 +107,18 @@ class HomeController extends Controller
                     $query->where('status', 'accepted');
                 },
             ])
-            ->paginate($perPage);
+            ->get()
+            ->makeHidden(['title_en', 'title_ar', 'description_en', 'description_ar'])
+            ->makeVisible(['title', 'description']);
 
-        return Response::api(__('message.Success'), 200, true, null, ['discounts' => $discounts]);
+        $paginatedDiscounts = new \Illuminate\Pagination\LengthAwarePaginator(
+            $discounts->forPage(1, $perPage),
+            $discounts->count(),
+            $perPage,
+            1,
+            ['path' => request()->url()]
+        );
+
+        return Response::api(__('message.Success'), 200, true, null, ['discounts' => $paginatedDiscounts]);
     }
 }

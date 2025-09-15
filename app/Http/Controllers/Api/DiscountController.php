@@ -33,6 +33,8 @@ class DiscountController extends Controller
         } else
             $discounts->is_checked = false;
 
+        $discounts->makeHidden(['title_en', 'title_ar', 'description_en', 'description_ar'])
+                  ->makeVisible(['title', 'description']);
 
         return Response::api(__('message.Success'), 200, true, null, ['discounts' => $discounts]);
     }
@@ -106,7 +108,9 @@ class DiscountController extends Controller
             ->whereHas('discount', function ($query) {
             $query->where('end_date', '>', now());
             })
-            ->with('discount.vendor')
+            ->with(['discount' => function($query) {
+                $query->select('*')->makeHidden(['title_en', 'title_ar', 'description_en', 'description_ar']);
+            }, 'discount.vendor'])
             ->get();
             
         return Response::api(__('message.Success'), 200, true, null, $discountChecks);
@@ -123,7 +127,9 @@ class DiscountController extends Controller
             return Response::api(__('message.You Are Pending Now, Wait Until Admin Accept You'), 403, false, 403);
 
         $discountChecks = DiscountCheck::where('id', $id)
-            ->with('discount.vendor')
+            ->with(['discount' => function($query) {
+                $query->select('*')->makeHidden(['title_en', 'title_ar', 'description_en', 'description_ar']);
+            }, 'discount.vendor'])
             ->first();
 
         if (!$discountChecks)
@@ -298,7 +304,9 @@ class DiscountController extends Controller
                                    ->whereNull('comment');
                       });
             })
-            ->with(['discount.vendor'])
+            ->with(['discount' => function($query) {
+                $query->select('*')->makeHidden(['title_en', 'title_ar', 'description_en', 'description_ar']);
+            }, 'discount.vendor'])
             ->latest()
             ->first();
 
