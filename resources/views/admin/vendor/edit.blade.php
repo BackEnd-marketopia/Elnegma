@@ -288,11 +288,11 @@
                             @endif
                         </div>
 
-                        <!-- Description -->
-                        <div class="form-group col-span-1 lg:col-span-2 {{ $errors->has('description') ? 'has-error' : '' }}">
+                        <!-- Description in English -->
+                        <div class="form-group {{ $errors->has('description') ? 'has-error' : '' }}">
                             <label for="description" class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
                                 <i class="fas fa-align-left mr-2 text-purple-600"></i>
-                                {{ __('message.Description') }}
+                                {{ __('message.Description') }} {{ __('message.English') }}
                                 <span class="text-red-500">*</span>
                             </label>
                             <textarea id="description" 
@@ -300,11 +300,30 @@
                                     rows="4" 
                                     class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 {{ $errors->has('description') ? 'border-red-500 ring-2 ring-red-200' : '' }}"
                                     required
-                                    placeholder="{{ __('message.Enter brand description') }}">{{ old('description', $user->vendor->description) }}</textarea>
+                                    placeholder="{{ __('message.Enter brand description') .' '. __('message.English') }}">{{ old('description', $user->vendor->description_en) }}</textarea>
                             @if ($errors->has('description'))
                                 <div class="mt-2 flex items-center text-red-600 text-sm">
                                     <i class="fas fa-exclamation-circle mr-2"></i>
                                     {{ $errors->first('description') }}
+                                </div>
+                            @endif
+                        </div>
+
+                        <!-- Description in Arabic -->
+                        <div class="form-group {{ $errors->has('description_ar') ? 'has-error' : '' }}">
+                            <label for="description_ar" class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
+                                <i class="fas fa-align-left mr-2 text-purple-600"></i>
+                                {{ __('message.Description') }} {{ __('message.Arabic') }}
+                            </label>
+                            <textarea id="description_ar" 
+                                    name="description_ar" 
+                                    rows="4" 
+                                    class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 {{ $errors->has('description_ar') ? 'border-red-500 ring-2 ring-red-200' : '' }}"
+                                    placeholder="{{ __('message.Enter brand description') .' '. __('message.Arabic') }}">{{ old('description_ar', $user->vendor->description_ar) }}</textarea>
+                            @if ($errors->has('description_ar'))
+                                <div class="mt-2 flex items-center text-red-600 text-sm">
+                                    <i class="fas fa-exclamation-circle mr-2"></i>
+                                    {{ $errors->first('description_ar') }}
                                 </div>
                             @endif
                         </div>

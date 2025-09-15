@@ -32,6 +32,7 @@ class StoreVendorRequest extends FormRequest
             'logo' => 'required',
             'cover' => 'required',
             'description' => 'required',
+            'description_ar' => 'nullable',
             'whatsapp' => 'nullable',
             'facebook' => 'nullable',
             'instagram' => 'nullable',

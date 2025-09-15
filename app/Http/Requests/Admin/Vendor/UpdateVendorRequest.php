@@ -33,6 +33,7 @@ class UpdateVendorRequest extends FormRequest
             'logo' => 'nullable',
             'cover' => 'nullable',
             'description' => 'required',
+            'description_ar' => 'nullable',
             'whatsapp' => 'nullable',
             'facebook' => 'nullable',
             'instagram' => 'nullable',

@@ -188,7 +188,7 @@
                                                     {{ $check->discount->vendor->name }}
                                                 </div>
                                                 <div class="text-xs text-gray-500 dark:text-gray-400">
-                                                    {{ $check->discount->vendor->description ? Str::limit($check->discount->vendor->description, 30) : '-' }}
+                                                    {{ $check->discount->vendor->description_en ? Str::limit($check->discount->vendor->description_en, 30) : ($check->discount->vendor->description_ar ? Str::limit($check->discount->vendor->description_ar, 30) : '-') }}
                                                 </div>
                                             </div>
                                         @else

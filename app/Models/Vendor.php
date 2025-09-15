@@ -13,7 +13,8 @@ class Vendor extends Model
         'name_en',
         'logo',
         'cover',
-        'description',
+        'description_en',
+        'description_ar',
         'whatsapp',
         'facebook',
         'instagram',
@@ -24,10 +25,15 @@ class Vendor extends Model
         'user_id',
         'status',
     ];
-    protected $appends = ['is_wished', 'rate', 'name'];
+    protected $appends = ['is_wished', 'rate', 'name', 'description'];
     public function getNameAttribute()
     {
         return app()->getLocale() == 'ar' ? $this->name_ar : $this->name_en;
+    }
+
+    public function getDescriptionAttribute()
+    {
+        return app()->getLocale() == 'ar' ? $this->description_ar : $this->description_en;
     }
 
     public function getIsWishedAttribute()

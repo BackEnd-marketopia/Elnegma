@@ -30,7 +30,8 @@ class VendorController extends Controller
             ->orWhereRelation('vendor', function ($query) use ($search) {
                 $query->where('name_ar', 'LIKE', "%{$search}%")
                     ->orWhere('name_en', 'LIKE', "%{$search}%")
-                    ->orWhere('description', 'LIKE', "%{$search}%")
+                    ->orWhere('description_en', 'LIKE', "%{$search}%")
+                    ->orWhere('description_ar', 'LIKE', "%{$search}%")
                     ->orWhere('whatsapp', 'LIKE', "%{$search}%")
                     ->orWhere('facebook', 'LIKE', "%{$search}%")
                     ->orWhere('instagram', 'LIKE', "%{$search}%")
@@ -92,7 +93,8 @@ class VendorController extends Controller
             'name_en' => $request->name_of_brand_en,
             'logo' => $logo,
             'cover' => $cover,
-            'description' => $request->description,
+            'description_en' => $request->description,
+            'description_ar' => $request->description_ar ?? null,
             'whatsapp' => $request->whatsapp ?? null,
             'facebook' => $request->facebook ?? null,
             'instagram' => $request->instagram ?? null,
@@ -160,7 +162,8 @@ class VendorController extends Controller
             'name_en' => $request->name_of_brand_en,
             'logo' => $logo,
             'cover' => $cover,
-            'description' => $request->description,
+            'description_en' => $request->description,
+            'description_ar' => $request->description_ar ?? null,
             'whatsapp' => $request->whatsapp ?? null,
             'facebook' => $request->facebook ?? null,
             'instagram' => $request->instagram ?? null,
